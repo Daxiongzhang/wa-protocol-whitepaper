@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid #4CAF50;
+        }
+        .error {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WA Protocol 白皮书部署测试</h1>
+        
+        <div class="status success">
+            <h3>✅ GitHub Pages 部署成功</h3>
+            <p>此页面已成功部署到 GitHub Pages</p>
+        </div>
+        
+        <div class="status">
+            <h3>📊 资源文件检查</h3>
+            <p>正在检查 JavaScript 和 CSS 文件...</p>
+        </div>
+        
+        <div class="status">
+            <h3>🔧 React 应用检查</h3>
+            <p>React 应用可能需要额外的配置...</p>
+        </div>
+        
+        <div class="status">
+            <h3>🌐 访问信息</h3>
+            <p><strong>当前URL:</strong> <script>document.write(window.location.href)</script></p>
+            <p><strong>Base路径:</strong> <script>document.write(document.querySelector('base')?.href || '未设置')</script></p>
+        </div>
+        
+        <div class="status">
+            <h3>📱 设备信息</h3>
+            <p><strong>浏览器:</strong> <script>document.write(navigator.userAgent)</script></p>
+        </div>
+    </div>
+    
+    <script>
+        // 检查资源文件
+        fetch('/wa-protocol-whitepaper/assets/index-Cnipc6hg.js')
+            .then(response => {
+                const statusDiv = document.querySelectorAll('.status')[1];
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '<h3>✅ JavaScript 文件正常</h3><p>文件大小: ' + (response.headers.get('content-length') / 1024).toFixed(2) + ' KB</p>';
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '<h3>❌ JavaScript 文件加载失败</h3><p>状态码: ' + response.status + '</p>';
+                }
+            })
+            .catch(error => {
+                const statusDiv = document.querySelectorAll('.status')[1];
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<h3>❌ JavaScript 文件加载失败</h3><p>错误: ' + error.message + '</p>';
+            });
+            
+        // 检查CSS文件
+        fetch('/wa-protocol-whitepaper/assets/index-B1CLL2it.css')
+            .then(response => {
+                if (response.ok) {
+                    console.log('CSS文件加载正常');
+                } else {
+                    console.error('CSS文件加载失败:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('CSS文件加载错误:', error);
+            });
+    </script>
+</body>
+</html>
