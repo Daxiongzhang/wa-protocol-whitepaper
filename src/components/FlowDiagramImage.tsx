@@ -7,7 +7,7 @@ const FlowDiagramImage = () => {
         {/* 直接显示流程图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/v3/flow-diagram.png" 
+            src="/wa-protocol-whitepaper/flow-diagram.png" 
             alt="WA Protocol 流程结构图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}

@@ -20,7 +20,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
           {/* For image with gradient overlay */}
           <div className="absolute inset-0">
             <img
-              src="/v3/assets/bankground.png?version=4"
+              src="/wa-protocol-whitepaper/assets/bankground.png?version=4"
               alt="Background"
               className="w-full h-full object-cover"
             />

@@ -7,7 +7,7 @@ const BusinessLoopImage = () => {
         {/* 直接显示商业闭环总图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/v3/business-loop-diagram.png" 
+            src="/wa-protocol-whitepaper/business-loop-diagram.png" 
             alt="WA Protocol 商业闭环总图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}

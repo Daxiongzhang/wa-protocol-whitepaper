@@ -7,7 +7,7 @@ const IncentiveStructureImage = () => {
         {/* 直接显示激励体系结构图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/v3/incentive-structure-diagram.png" 
+            src="/wa-protocol-whitepaper/incentive-structure-diagram.png" 
             alt="WA Protocol 激励体系结构图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}

@@ -7,7 +7,7 @@ const OptimizedArchitectureImage = () => {
         {/* 直接显示图片 - 去掉边框和背景 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/v3/architecture-diagram.png" 
+            src="/wa-protocol-whitepaper/architecture-diagram.png" 
             alt="WA Protocol 架构总览图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}
