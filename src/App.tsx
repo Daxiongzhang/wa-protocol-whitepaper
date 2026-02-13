@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Suspense, lazy } from 'react';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // 使用优化后的类型定义
 type Language = 'en' | 'zh' | 'id' | 'th' | 'vi' | 'ko' | 'ja';
@@ -134,7 +135,7 @@ export default function App() {
           
           {/* 主内容区域 */}
           <main className="flex-1">
-            <Suspense fallback={null}>
+            <Suspense fallback={<LoadingSpinner />}>
               {currentPageComponent}
             </Suspense>
           </main>
