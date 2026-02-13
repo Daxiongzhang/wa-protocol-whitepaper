@@ -11,6 +11,8 @@ const BusinessLoopImage = () => {
             alt="WA Protocol 商业闭环总图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               // 图片加载失败时显示提示
               const target = e.target as HTMLImageElement;

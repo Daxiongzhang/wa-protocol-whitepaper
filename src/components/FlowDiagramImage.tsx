@@ -11,6 +11,8 @@ const FlowDiagramImage = () => {
             alt="WA Protocol 流程结构图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               // 图片加载失败时显示提示
               const target = e.target as HTMLImageElement;
