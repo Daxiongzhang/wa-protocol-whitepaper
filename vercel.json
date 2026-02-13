@@ -1,0 +1,1 @@
+{"version": 2, "name": "wa-protocol-whitepaper", "builds": [{"src": "package.json", "use": "@vercel/static-build", "config": {"distDir": "build"}}], "routes": [{"src": "/(.*)", "dest": "/build/$1"}], "outputDirectory": "build"}
