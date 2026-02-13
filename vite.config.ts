@@ -4,7 +4,7 @@
   import path from 'path';
 
   export default defineConfig({
-    base: '/wa-protocol-whitepaper/',
+    base: '/v3/',
     plugins: [react()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
