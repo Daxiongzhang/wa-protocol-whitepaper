@@ -46,16 +46,6 @@ const LazyPages = {
   )
 } as const;
 
-// 高质量加载组件
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="text-center">
-      <div className="w-12 h-12 border-4 border-lime-400/20 border-t-lime-400 rounded-full animate-spin mx-auto mb-4"></div>
-      <p className="text-white/60 text-sm animate-pulse">页面加载中...</p>
-    </div>
-  </div>
-);
-
 /**
  * 主应用组件 - 工业级架构
  * 
@@ -144,7 +134,7 @@ export default function App() {
           
           {/* 主内容区域 */}
           <main className="flex-1">
-            <Suspense fallback={<PageLoader />}>
+            <Suspense fallback={null}>
               {currentPageComponent}
             </Suspense>
           </main>

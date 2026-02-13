@@ -23,6 +23,8 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
               src="/wa-protocol-whitepaper/assets/bankground.png?version=4"
               alt="Background"
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a] opacity-100" style={{backgroundImage: 'linear-gradient(to bottom, transparent 60%, rgba(10,10,10,0.5) 80%, rgba(10,10,10,1) 100%)'}}></div>
           </div>
