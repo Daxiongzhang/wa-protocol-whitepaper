@@ -1,10 +1,12 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
 
-  import { defineConfig } from 'vite';
-  import react from '@vitejs/plugin-react-swc';
-  import path from 'path';
+export default defineConfig(({ mode }) => {
+  const base = mode === 'v4' ? '/v3/v4/' : '/v3/';
 
-  export default defineConfig({
-    base: '/',
+  return {
+    base,
     plugins: [react()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
@@ -56,6 +58,7 @@
     },
     server: {
       port: 3000,
-      open: true,
+      open: base,
     },
-  });
+  };
+});

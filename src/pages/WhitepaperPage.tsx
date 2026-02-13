@@ -1,9 +1,12 @@
 import { useState, useEffect, memo } from 'react';
+import type { ReactNode } from 'react';
 import { Sparkles, Star } from 'lucide-react';
 import type { Language, Page } from '../App';
 import { whitepaperTranslations, whitepaperContent } from '../data/whitepaper-content';
 import DemoTable from '../components/demo-component';
 import { ChartManager, ChartRenderer, useChartInitialization } from '../components/ChartManager';
+import OptimizedArchitectureImage from '../components/OptimizedArchitectureImage';
+import FlowDiagramImage from '../components/FlowDiagramImage';
 
 interface WhitepaperPageProps {
   language: Language;
@@ -54,9 +57,9 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
     setExpandedSection(expandedSection === sectionId ? null : sectionId);
   };
 
-  const renderContent = (content: string) => {
+  const renderContent = (content: string): ReactNode => {
     const lines = content.split('\n');
-    const elements = [];
+    const elements: ReactNode[] = [];
     let i = 0;
     
     while (i < lines.length) {
@@ -261,10 +264,14 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
                 <span dangerouslySetInnerHTML={{
                   __html: item.substring(1).trim()
                     .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-medium">$1</strong>')
-                    .replace(/#YouTube#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-lg border border-red-500/30">YouTube</span>')
-                    .replace(/#Facebook#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30">Facebook</span>')
-                    .replace(/#微博#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium bg-orange-500/20 text-orange-400 rounded-lg border border-orange-500/30">微博</span>')
-                    .replace(/#([^#]+)#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium bg-emerald-500/20 text-emerald-400 rounded-lg border border-emerald-500/30">$1</span>')
+                    .replace(/#YouTube#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(220 38 38); border-color: rgb(220 38 38); color: rgb(255 255 255);">YouTube</span>')
+                    .replace(/#Facebook#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(37 99 235); border-color: rgb(37 99 235); color: rgb(255 255 255);">Facebook</span>')
+                    .replace(/#微博#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(225 29 72); border-color: rgb(225 29 72); color: rgb(255 255 255);">微博</span>')
+                    .replace(/#Weibo#/gi, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(225 29 72); border-color: rgb(225 29 72); color: rgb(255 255 255);">Weibo</span>')
+                    .replace(/#门户网站#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">门户网站</span>')
+                    .replace(/#BBS#/gi, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(5 150 105); border-color: rgb(5 150 105); color: rgb(255 255 255);">BBS</span>')
+                    .replace(/#早期博客#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">早期博客</span>')
+                    .replace(/#([^#]+)#/g, '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium bg-lime-500/10 text-lime-300 rounded-lg border border-lime-500/25">$1</span>')
                 }} />
               </li>
             ))}
@@ -303,10 +310,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         }
         
         // 渲染图表
-        const chartElement = ChartRenderer({ text, index: i });
-        if (chartElement) {
-          elements.push(chartElement);
-        }
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
         
         i++;
       }
@@ -338,10 +342,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         }
         
         // 渲染图表
-        const chartElement = ChartRenderer({ text, index: i });
-        if (chartElement) {
-          elements.push(chartElement);
-        }
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
         
         i++;
       }
@@ -355,10 +356,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         );
         
         // 渲染图表
-        const chartElement = ChartRenderer({ text, index: i });
-        if (chartElement) {
-          elements.push(chartElement);
-        }
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
         
         i++;
       }
@@ -409,7 +407,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
       }
     }
     
-    return elements;
+    return <>{elements}</>;
   };
 
   return (

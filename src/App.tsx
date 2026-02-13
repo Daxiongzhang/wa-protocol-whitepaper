@@ -25,7 +25,7 @@ const PAGE_CONFIG = {
 // 懒加载页面组件 - 工业级代码分割
 const LazyPages = {
   [PAGE_CONFIG.home]: lazy(() => 
-    import('./pages/HomePage').then(mod => ({ default: mod.HomePage }))
+    import('./pages/HomePage').then(mod => ({ default: (mod as any).default }))
   ),
   [PAGE_CONFIG.resources]: lazy(() => 
     import('./pages/ResourcesPage').then(mod => ({ default: mod.ResourcesPage }))
@@ -114,7 +114,7 @@ export default function App() {
 
   // 动态样式计算
   const appStyles = useMemo(() => ({
-    className: `min-h-screen bg-[#0a0a0a] relative overflow-hidden lang-${language}`
+    className: `min-h-screen relative overflow-hidden lang-${language}`
   }), [language]);
 
   return (

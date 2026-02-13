@@ -59,7 +59,13 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build",
-            "deploy": "npm run build && gh-pages -d build -m 'Deploy to GitHub Pages'"
+            "build": "vite build -m v3",
+            "build:v3": "vite build -m v3",
+            "build:v4": "vite build -m v4",
+            "deploy": "npm run deploy:v3",
+            "deploy:v3": "npm run build:v3 && git fetch origin gh-pages:gh-pages && git worktree add -f .gh-pages-tmp gh-pages && find .gh-pages-tmp -mindepth 1 -maxdepth 1 ! -name v4 -exec rm -rf {} + && cp -R build/. .gh-pages-tmp/ && git -C .gh-pages-tmp add -A && (git -C .gh-pages-tmp diff --cached --quiet || git -C .gh-pages-tmp commit -m 'Deploy v3 to GitHub Pages') && git -C .gh-pages-tmp push origin gh-pages && git worktree remove -f .gh-pages-tmp",
+            "deploy:v4": "npm run build:v4 && gh-pages -d build --dest v4 --add -m 'Deploy v4 to GitHub Pages'",
+            "remove:v4": "git fetch origin gh-pages:gh-pages && git worktree add -f .gh-pages-tmp gh-pages && rm -rf .gh-pages-tmp/v4 && git -C .gh-pages-tmp add -A && (git -C .gh-pages-tmp diff --cached --quiet || git -C .gh-pages-tmp commit -m 'Remove v4 from GitHub Pages') && git -C .gh-pages-tmp push origin gh-pages && git worktree remove -f .gh-pages-tmp",
+            "reset:v4": "npm run deploy:v4"
       }
 }

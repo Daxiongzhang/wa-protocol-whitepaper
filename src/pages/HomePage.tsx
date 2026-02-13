@@ -9,40 +9,21 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-        {/* Background Media Layer */}
-        <div className="absolute inset-0 z-0">
-          {/* How to use your own media: */}
-          {/* 1. Upload your image/video to the 'public/assets' directory */}
-          {/* 2. Update the src attribute below to match your file name */}
+      <div
+        className="relative"
+        style={{
+          backgroundImage: 'url(/bankground-smaller.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'top center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+      <section 
+        className="relative min-h-screen flex items-center overflow-hidden pt-16"
+      >
 
-          {/* For image with gradient overlay */}
-          <div className="absolute inset-0">
-            <img
-              src="/wa-protocol-whitepaper/assets/bankground.png?version=4"
-              alt="Background"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a] opacity-100" style={{backgroundImage: 'linear-gradient(to bottom, transparent 60%, rgba(10,10,10,0.5) 80%, rgba(10,10,10,1) 100%)'}}></div>
-          </div>
-
-          {/* For video: */}
-          {/* <video src="/assets/your-background-video.mp4" autoPlay loop muted className="w-full h-full object-cover" /> */}
-
-          {/* For GIF: */}
-          {/* <img src="/assets/your-background-gif.gif" alt="Background" className="w-full h-full object-cover" /> */}
-        </div>
-
-        {/* Animated background effect */}
-        <div className="absolute inset-0 overflow-hidden z-[-1] opacity-60">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] bg-gradient-to-br from-lime-500/20 via-emerald-500/10 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-tr from-blue-500/20 via-indigo-500/10 to-purple-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-          <div className="absolute bottom-1/3 right-1/3 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[700px] bg-gradient-to-bl from-amber-500/20 via-orange-500/10 to-red-500/20 rounded-full blur-3xl animate-pulse delay-1400"></div>
-        </div>
-
-        {/* Content Layer - Topmost */}
-        <div className="container mx-auto px-6 relative z-20">
+        {/* Content Layer */}
+        <div className="container mx-auto px-6 relative" style={{ zIndex: 2 }}>
           {/* Subtle decorative elements */}
           <Star className="absolute top-28 right-[15%] text-lime-400/40" size={16} />
           <Star className="absolute top-48 left-[20%] text-lime-300/30" size={12} />
@@ -93,12 +74,31 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
             </div>
           </div>
         </div>
+
+        {/* 底部渐变遮罩 - 红框区域 */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+          style={{
+            zIndex: 999,
+            background: 'linear-gradient(to top, var(--page-bg) 0%, rgb(var(--page-bg-rgb) / 0.35) 55%, transparent 100%)'
+          }}
+        />
       </section>
 
       {/* Stats */}
-      <section className="border-y border-zinc-800/30 bg-[#0a0a0a]">
-        <div className="container mx-auto px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+      <section className="relative">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to bottom, transparent 0%, rgb(var(--page-bg-rgb) / 0.25) 45%, rgb(var(--page-bg-rgb) / 0.65) 100%)'
+          }}
+        />
+        <div className="container mx-auto px-6 pt-16 pb-20 relative z-10">
+          <div
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto"
+            style={{ transform: 'translateY(12px)' }}
+          >
             {['100K+', '30%', '50+', '24/7'].map((value, index) => (
               <div key={index} className="text-center group cursor-default">
                 <div className="text-white text-3xl md:text-4xl mb-2 tracking-tight group-hover:text-lime-400 transition-colors font-bold" style={{ fontFamily: 'HarmonyOS Sans Bold, HarmonyOS Sans, sans-serif' }}>
@@ -113,8 +113,19 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
         </div>
       </section>
 
+      <div
+        className="absolute bottom-0 left-0 right-0 h-96 pointer-events-none"
+        style={{
+          zIndex: 5,
+          background:
+            'linear-gradient(to top, var(--page-bg) 0%, rgb(var(--page-bg-rgb) / 0.82) 18%, rgb(var(--page-bg-rgb) / 0.55) 42%, rgb(var(--page-bg-rgb) / 0.28) 68%, rgb(var(--page-bg-rgb) / 0.12) 82%, transparent 100%)'
+        }}
+      />
+
+      </div>
+
       {/* Vision Cards */}
-      <section className="container mx-auto px-6 py-24">
+      <section className="container mx-auto px-6 py-20">
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {t.visionCards.map((card, index) => (
             <div
@@ -150,7 +161,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
       <CarouselSection language={language} setCurrentPage={setCurrentPage} />
 
       {/* Core Resources */}
-      <section className="container mx-auto px-6 py-24">
+      <section className="container mx-auto px-6 py-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-white font-medium text-5xl mb-3 tracking-tight" style={{ fontFamily: 'Array, sans-serif' }}>
@@ -213,4 +224,4 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
   );
 }
 
-export const HomePage = memo(HomePageComponent);
+export default memo(HomePageComponent);
