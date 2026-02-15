@@ -81,13 +81,8 @@ function HeaderComponent({ language, setLanguage, currentPage, setCurrentPage }:
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-2 pb-1`}
     >
       {/* Background with glassmorphism */}
-      <div className={`absolute inset-0 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-[#0a0a0a]/95 backdrop-blur-xl' 
-          : 'bg-transparent'
-      }`}>
-        {/* Subtle border bottom */}
-        <div className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-800/50 to-transparent transition-opacity duration-300 ${
+      <div className={`ui-topbar ${isScrolled ? 'ui-topbar--scrolled' : 'ui-topbar--top'}`}>
+        <div className={`ui-divider absolute bottom-0 left-0 right-0 transition-opacity duration-300 ${
           isScrolled ? 'opacity-100' : 'opacity-0'
         }`} />
       </div>
@@ -169,7 +164,7 @@ function HeaderComponent({ language, setLanguage, currentPage, setCurrentPage }:
                     className="fixed inset-0 z-40" 
                     onClick={() => setIsLangMenuOpen(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-52 bg-[#0a0a0a]/98 backdrop-blur-xl border border-zinc-800/70 rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                  <div className="absolute right-0 top-full mt-2 w-52 ui-popover overflow-hidden z-50 animate-in fade-in slide-in-from-top-1 duration-200">
                     <div className="p-1.5">
                       {languageOrder.map((lang) => (
                         <button
@@ -210,7 +205,7 @@ function HeaderComponent({ language, setLanguage, currentPage, setCurrentPage }:
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4 bg-[#0a0a0a]/98 backdrop-blur-xl border border-zinc-800/70 rounded-xl shadow-2xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4 ui-popover overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           <nav className="p-2">
             {/* Navigation Links */}
             {(['home', 'resources', 'tools', 'community'] as const).map((page) => (

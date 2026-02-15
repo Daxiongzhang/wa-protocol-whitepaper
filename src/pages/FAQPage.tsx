@@ -1,7 +1,15 @@
 import { useState, memo } from 'react';
 import { ArrowLeft, HelpCircle, ChevronDown, Search, AlertTriangle } from 'lucide-react';
 import type { Language, Page } from '../App';
-import { zhFAQContent, enFAQContent, idFAQContent } from '../data/faq-content';
+import {
+  zhFAQContent,
+  enFAQContent,
+  idFAQContent,
+  thFAQContent,
+  viFAQContent,
+  koFAQContent,
+  jaFAQContent
+} from '../data/faq-content';
 import type { CategoryKey } from '../types/content.types';
 
 interface FAQPageProps {
@@ -12,7 +20,11 @@ interface FAQPageProps {
 const translations = {
   zh: zhFAQContent,
   en: enFAQContent,
-  id: idFAQContent
+  id: idFAQContent,
+  th: thFAQContent,
+  vi: viFAQContent,
+  ko: koFAQContent,
+  ja: jaFAQContent
 };
 
 function FAQPageComponent({ language, setCurrentPage }: FAQPageProps) {
@@ -118,7 +130,7 @@ function FAQPageComponent({ language, setCurrentPage }: FAQPageProps) {
               placeholder={t.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 bg-zinc-900/50 border border-zinc-800/50 rounded-lg text-white placeholder:text-zinc-500 focus:outline-none focus:border-lime-500/50 transition-colors duration-200"
+              className="ui-input pl-12 pr-4 py-3.5"
             />
           </div>
         </div>
@@ -154,14 +166,14 @@ function FAQPageComponent({ language, setCurrentPage }: FAQPageProps) {
             filteredFAQs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl overflow-hidden hover:border-lime-500/30 transition-all duration-200"
+                className="ui-list-item overflow-hidden"
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
                   className="w-full p-5 flex items-start justify-between gap-4 text-left"
                 >
                   <div className="flex-1 flex items-start gap-3">
-                    <span className="text-xs font-mono text-lime-400 bg-lime-500/10 px-2 py-1 rounded flex-shrink-0">
+                    <span className="ui-badge ui-badge-lime ui-badge-mono flex-shrink-0">
                       Q{faq.number}
                     </span>
                     <h3 className="text-base font-medium text-white">
@@ -183,7 +195,8 @@ function FAQPageComponent({ language, setCurrentPage }: FAQPageProps) {
                 >
                   <div className="px-5 pb-5 pt-0">
                     <div className="pl-11">
-                      <p className="text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-4">
+                      <p className="text-sm text-zinc-400 leading-relaxed pt-4">
+                        <span className="ui-divider-soft block mb-4" />
                         {faq.a}
                       </p>
                     </div>

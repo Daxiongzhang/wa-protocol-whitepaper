@@ -1,12 +1,10 @@
 import { useState, useEffect, memo } from 'react';
 import type { ReactNode } from 'react';
-import { Sparkles, Star } from 'lucide-react';
+import { Sparkles, Star, ArrowLeft } from 'lucide-react';
 import type { Language, Page } from '../App';
 import { whitepaperTranslations, whitepaperContent } from '../data/whitepaper-content';
 import DemoTable from '../components/demo-component';
 import { ChartManager, ChartRenderer, useChartInitialization } from '../components/ChartManager';
-import OptimizedArchitectureImage from '../components/OptimizedArchitectureImage';
-import FlowDiagramImage from '../components/FlowDiagramImage';
 
 interface WhitepaperPageProps {
   language: Language;
@@ -47,10 +45,25 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
 
   const scrollToSection = (sectionId: number) => {
     setExpandedSection(sectionId);
-    const element = document.getElementById(`section-${sectionId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const doScroll = () => {
+      const element = document.getElementById(`section-${sectionId}`);
+      if (!element) return;
+      const topbar = document.querySelector('.ui-topbar');
+      const headerEl = (topbar instanceof HTMLElement ? topbar.closest('header') : null) || document.querySelector('header');
+      const headerHeight = headerEl instanceof HTMLElement ? headerEl.getBoundingClientRect().height : 0;
+      const extraGap = 12;
+      const y = element.getBoundingClientRect().top + window.scrollY - headerHeight - extraGap;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        doScroll();
+        requestAnimationFrame(() => {
+          doScroll();
+        });
+      });
+    });
   };
 
   const toggleSection = (sectionId: number) => {
@@ -99,24 +112,40 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
             });
           });
 
-          // 不需要换行的表格：字体更小 + 不换行（超出用横向滚动解决）
-          const preferNoWrap = !hasLongContent && maxCellLen <= 14;
-          const headerTextSizeClass = 'text-sm'; // 表头用 text-sm 比表体大
-          const bodyTextSizeClass = 'text-sm'; // 表体也用 text-sm，更清晰
+          // 不需要换行的表格：列数少时尽量不换行，只有内容真的变长才换行
+          const longContentThreshold = columnCount <= 3 ? 22 : 14;
+          const preferNoWrap = !hasLongContent && maxCellLen <= longContentThreshold;
+          const headerTextSizeClass = 'text-[13px]';
+          const bodyTextSizeClass = 'text-[12px]';
           const cellWhitespaceClass = preferNoWrap ? 'whitespace-nowrap' : 'whitespace-normal';
           const headerWhitespaceClass = preferNoWrap ? 'whitespace-nowrap' : 'whitespace-normal';
 
           // 列宽策略：用 style.width，避免 Tailwind 动态 class 不生效
           const getColumnWidthPct = (idx: number) => {
             if (columnCount === 2) {
-              // 2列表格：减少整体宽度，更紧凑
-              return 50; // 两列各占50%
+              const leftLen = colMaxLens[0] || 0;
+              const rightLen = colMaxLens[1] || 0;
+              const denom = Math.max(1, leftLen + rightLen);
+              const bias = (leftLen - rightLen) / denom;
+              const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+              const leftPct = clamp(42 + bias * 12, 38, 46);
+              if (idx === 0) return leftPct;
+              return 100 - leftPct;
             }
 
             if (columnCount === 3) {
-              if (idx === 0) return 16;
-              if (idx === 1) return 28;
-              return 56;
+              const col2Len = colMaxLens[1] || 0;
+              const col3Len = colMaxLens[2] || 0;
+              const balanced = Math.abs(col2Len - col3Len) <= 10;
+
+              if (balanced) {
+                if (idx === 0) return 22;
+                return 39;
+              }
+
+              if (idx === 0) return 22;
+              if (idx === 1) return 48;
+              return 30;
             }
 
             if (columnCount === 4) {
@@ -162,11 +191,29 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
           const isTwoCol = columnCount === 2;
           const verticalAlignClass = hasLongContent ? 'align-top' : 'align-middle';
 
+          const numericLike = (value: string) => {
+            const v = value.trim();
+            if (!v) return false;
+            const normalized = v.replace(/,/g, '');
+            return /^[-+]?\d+(?:\.\d+)?%?$/.test(normalized);
+          };
+
+          const colIsNumeric = Array(Math.max(1, columnCount)).fill(false);
+          for (let c = 0; c < columnCount; c++) {
+            const values = rows.slice(2).map(r => (r.split('|').slice(1, -1)[c] ?? '').trim()).filter(Boolean);
+            if (values.length === 0) {
+              colIsNumeric[c] = false;
+              continue;
+            }
+            const numericCount = values.filter(numericLike).length;
+            colIsNumeric[c] = numericCount / values.length >= 0.7;
+          }
+
           const getBodyAlignClass = (idx: number) => {
-            if (isTwoCol) return idx === 0 ? 'text-left' : 'text-center';
-            if (columnCount === 3) return 'text-left';
-            if (columnCount === 4) return idx === 0 ? 'text-left' : 'text-left';
-            if (columnCount >= 5) return 'text-left'; // 5+列统一左对齐，更紧凑
+            if (idx === 0) return 'text-left';
+            if (colIsNumeric[idx]) return 'text-right tabular-nums';
+            if (isTwoCol) return 'text-left';
+            if (columnCount >= 3) return 'text-left';
             if (idx === 0) return 'text-left';
             return (colMaxLens[idx] || 0) <= 8 ? 'text-center' : 'text-left';
           };
@@ -174,26 +221,26 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
           const getPaddingClass = (idx: number) => {
             if (columnCount === 2) {
               // 2列表格：优化排版，减少难受感
-              if (idx === 0) return 'px-8';
-              return 'px-8';
+              if (idx === 0) return 'pl-10 pr-7';
+              return 'pl-7 pr-10';
             }
 
             if (columnCount === 3) {
-              if (idx === 0) return 'px-6';
-              if (idx === 1) return 'px-4 border-x border-white/10';
-              return 'px-6';
+              if (idx === 0) return 'pl-9 pr-7';
+              if (idx === 1) return 'px-7';
+              return 'pl-7 pr-9';
             }
 
             if (columnCount === 4) {
               if (idx === 0) return 'px-6';
-              if (idx === 1) return 'px-3 border-r border-white/10';
-              if (idx === 2) return 'px-3 border-r border-white/10';
+              if (idx === 1) return 'px-4';
+              if (idx === 2) return 'px-4';
               return 'px-6';
             }
 
             if (columnCount >= 5) {
               if (idx === 0 || idx === columnCount - 1) return 'px-4';
-              return 'px-3 border-r border-white/10';
+              return 'px-3';
             }
 
             return 'px-4';
@@ -202,45 +249,48 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
           // 其他表格的正常渲染
           elements.push(
           <div key={i} className="my-8">
-            <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
+            <div className="ui-panel-soft overflow-hidden">
               <div className="overflow-x-auto">
-                <table className={`table-fixed ${isTwoCol ? 'mx-auto w-auto max-w-[500px]' : 'w-full min-w-[520px]'} border-0 border-separate`}
-                       style={{ border: 'none', borderCollapse: 'separate', borderSpacing: '0' }}>
-                  <thead>
-                    <tr className="bg-white/5 border-b border-white/10">
-                      {headerCells.map((cell, idx) => (
-                        <th
-                          key={idx}
-                          style={{ width: `${getColumnWidthPct(idx)}%` }}
-                          className={`${getPaddingClass(idx)} ${isTwoCol ? 'py-4' : 'py-3'} font-semibold text-slate-100 align-middle ${
-                            isTwoCol ? (idx === 0 ? 'text-left' : 'text-center') : 
-                            (columnCount === 3 ? 'text-left' : 
-                            (columnCount === 4 ? 'text-left' : 
-                            (columnCount >= 5 ? 'text-left' : 'text-left')))
-                          } ${(!isTwoCol && columnCount === 3 && idx === 0) ? 'whitespace-nowrap' : headerWhitespaceClass} ${(!isTwoCol && columnCount === 3 && idx === 1) ? 'whitespace-nowrap' : ''}`}
-                        >
-                          <span className={`inline-block ${headerTextSizeClass}`}>{cell}</span>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rows.slice(2).map((row, rIdx) => (
-                      <tr key={rIdx} className="hover:bg-white/5 transition-colors border-0"
-                          style={{ border: 'none' }}>
-                        {row.split('|').slice(1, -1).map((cell, cIdx) => (
-                          <td
-                            key={cIdx}
-                            style={{ width: `${getColumnWidthPct(cIdx)}%`, border: 'none' }}
-                            className={`${getPaddingClass(cIdx)} ${isTwoCol ? 'py-4' : 'py-3'} text-slate-300 ${(!isTwoCol && columnCount === 3 && cIdx === 1) ? '' : 'break-words'} ${verticalAlignClass} ${getBodyAlignClass(cIdx)} ${(!isTwoCol && columnCount === 3 && cIdx === 0) ? 'whitespace-nowrap' : cellWhitespaceClass} ${(!isTwoCol && columnCount === 3 && cIdx === 1) ? 'whitespace-nowrap' : ''} border-0`}
+                <div className="px-4 sm:px-5 py-2">
+                  <table className={`table-auto ${
+                    isTwoCol
+                      ? 'mx-auto w-full max-w-[560px]'
+                      : (columnCount === 3 ? 'mx-auto w-full max-w-[720px] min-w-[620px]' : 'w-full min-w-[720px]')
+                  } border-0 border-separate`}
+                         style={{ border: 'none', borderCollapse: 'separate', borderSpacing: '0' }}>
+                    <thead>
+                      <tr className="bg-white/[0.06] border-b border-white/10">
+                        {headerCells.map((cell, idx) => (
+                          <th
+                            key={idx}
+                            style={{ width: `${getColumnWidthPct(idx)}%` }}
+                            className={`${getPaddingClass(idx)} ${isTwoCol ? 'py-4' : 'py-3.5'} font-semibold text-slate-50 align-middle ${
+                              idx === 0 ? 'text-left' : (colIsNumeric[idx] ? 'text-right tabular-nums' : 'text-left')
+                            } ${idx < columnCount - 1 ? 'border-r border-white/10' : ''} ${(!isTwoCol && columnCount === 3 && idx === 0) ? 'whitespace-nowrap' : headerWhitespaceClass} ${(!isTwoCol && columnCount === 3 && idx === 1) ? 'whitespace-nowrap' : ''}`}
                           >
-                            <span className={`inline-block ${bodyTextSizeClass} leading-normal`}>{cell}</span>
-                          </td>
+                            <span className={`block ${headerTextSizeClass} leading-5 tracking-wide text-slate-50/90`}>{cell}</span>
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {rows.slice(2).map((row, rIdx) => (
+                        <tr key={rIdx} className="border-0 odd:bg-white/[0.015] hover:bg-white/[0.035] transition-colors"
+                            style={{ border: 'none' }}>
+                          {row.split('|').slice(1, -1).map((cell, cIdx) => (
+                            <td
+                              key={cIdx}
+                              style={{ width: `${getColumnWidthPct(cIdx)}%`, border: 'none' }}
+                              className={`${getPaddingClass(cIdx)} ${isTwoCol ? 'py-4' : 'py-3.5'} text-slate-300 ${verticalAlignClass} ${getBodyAlignClass(cIdx)} ${(!isTwoCol && columnCount === 3 && cIdx === 0) ? 'whitespace-nowrap' : cellWhitespaceClass} ${(!isTwoCol && columnCount === 3 && cIdx === 1) ? 'whitespace-nowrap' : ''} border-0`}
+                            >
+                              <span className={`block ${bodyTextSizeClass} leading-[22px] tracking-[0.01em] break-words ${cIdx === 0 ? 'text-slate-100/90 font-medium' : 'text-slate-300/80'}`}>{cell}</span>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -310,39 +360,24 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         }
         
         // 渲染图表
-        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} language={language} />);
         
         i++;
       }
       // 处理###标题
       else if (line.startsWith('###')) {
-        const text = line.replace('###', '').trim();
+        const rawText = line.replace('###', '').trim();
+        const text = rawText.startsWith('**') && rawText.endsWith('**')
+          ? rawText.slice(2, -2)
+          : rawText;
         elements.push(
           <h3 key={i} className="text-xl font-light text-lime-400 mt-8 mb-6">
             {text}
           </h3>
         );
-        
-        // 如果是"架构总览图（逻辑结构）"标题，在其后添加架构图
-        if (text === '**架构总览图（逻辑结构）**') {
-          elements.push(
-            <div key={`architecture-${i}`} className="my-8">
-              <OptimizedArchitectureImage />
-            </div>
-          );
-        }
-        
-        // 如果是"流程结构图（逻辑结构）"标题，在其后添加流程图
-        if (text === '**流程结构图（逻辑结构）**') {
-          elements.push(
-            <div key={`flow-${i}`} className="my-8">
-              <FlowDiagramImage />
-            </div>
-          );
-        }
-        
+
         // 渲染图表
-        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} language={language} />);
         
         i++;
       }
@@ -356,7 +391,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         );
         
         // 渲染图表
-        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} />);
+        elements.push(<ChartRenderer key={`chart-${i}`} text={text} index={i} language={language} />);
         
         i++;
       }
@@ -444,8 +479,8 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         </header>
 
         {/* Table of Contents */}
-        <nav className="mb-24">
-          <div className="p-8 border border-white/10 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 bg-white/5 backdrop-blur-sm">
+      <nav className="mb-24">
+          <div className="ui-panel-soft ui-panel-hover p-8 hover:border-emerald-500/50 transition-all duration-300">
             <h2 className="text-xl font-light text-white mb-8 flex items-center gap-3">
               <span className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
               {t.tableOfContents}
@@ -499,7 +534,7 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
             <article
               key={section.id}
               id={`section-${section.id}`}
-              className="group border border-white/10 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 bg-white/5 backdrop-blur-sm overflow-hidden"
+              className="ui-panel-soft ui-panel-hover group hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               <button
                 onClick={() => toggleSection(section.id)}
@@ -552,10 +587,10 @@ function WhitepaperPageComponent({ language, setCurrentPage }: WhitepaperPagePro
         <div className="mt-24 text-center">
           <button
             onClick={() => setCurrentPage('home')}
-            className="group px-8 py-4 text-sm font-medium text-white bg-lime-600 hover:bg-lime-500 rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-lime-500/25 flex items-center justify-center mx-auto gap-3 hover:-translate-y-1"
+            className="group flex items-center justify-center gap-2 text-zinc-400 hover:text-white transition-colors duration-200 mx-auto"
           >
-            <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
-            {t.backToHome}
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform duration-200" />
+            <span className="text-sm">{t.backToHome}</span>
           </button>
         </div>
       </div>

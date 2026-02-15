@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FileText, Globe, MessageCircle, Layers, Users } from 'lucide-react';
 import type { Language, Page } from '../App';
 
@@ -299,14 +299,123 @@ interface CarouselSectionProps {
 
 export function CarouselSection({ language, setCurrentPage }: CarouselSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(2);
+  const [pendingEnterIndex, setPendingEnterIndex] = useState<number | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const SWIPE_THRESHOLD_PX = 24;
+  const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
+  const WHEEL_THRESHOLD_PX = isMac ? 14 : 18;
+  const WHEEL_IMMEDIATE_TRIGGER_PX = isMac ? 8 : 12;
+  const WHEEL_GESTURE_IDLE_MS = isMac ? 160 : 200;
+  const WHEEL_LOCK_MS = isMac ? 1400 : 360;
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
+  const pointerStartX = useRef<number | null>(null);
+  const pointerEndX = useRef<number | null>(null);
+  const pointerStartY = useRef<number | null>(null);
+  const pointerEndY = useRef<number | null>(null);
+  const isPointerDown = useRef(false);
+  const wheelLockUntilTs = useRef(0);
+  const wheelAccX = useRef(0);
+  const wheelAccY = useRef(0);
+  const wheelLastTs = useRef(0);
+  const wheelSurfaceRef = useRef<HTMLDivElement | null>(null);
+  const scrollCenterLeft = useRef(0);
+  const scrollLastLeft = useRef(0);
+  const scrollProgressRaf = useRef<number | null>(null);
+  const scrollProgressPending = useRef(0);
   
   const t = translations[language] || translations.en;
   const totalCards = t.cards.length;
 
+  const pickCardIndexAtPoint = (clientX: number, clientY: number) => {
+    const elements = document.elementsFromPoint(clientX, clientY) as HTMLElement[];
+    const roots = new Map<number, HTMLElement>();
+
+    for (const node of elements) {
+      if (node.closest('button, a')) continue;
+      const root = node.closest('[data-card-index]') as HTMLElement | null;
+      if (!root) continue;
+
+      const idxAttr = root.getAttribute('data-card-index');
+      const idx = idxAttr ? Number(idxAttr) : NaN;
+      if (Number.isNaN(idx)) continue;
+
+      const cs = window.getComputedStyle(root);
+      if (cs.pointerEvents === 'none' || cs.opacity === '0') continue;
+
+      if (!roots.has(idx)) roots.set(idx, root);
+    }
+
+    if (roots.size === 0) return null;
+
+    let bestIdx: number | null = null;
+    let bestDist = Number.POSITIVE_INFINITY;
+
+    for (const [idx, root] of roots.entries()) {
+      const rect = root.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = clientX - cx;
+      const dy = clientY - cy;
+      const dist = dx * dx + dy * dy;
+
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = idx;
+      }
+    }
+
+    return bestIdx;
+  };
+
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + totalCards) % totalCards);
+  };
+
+  useEffect(() => {
+    const el = wheelSurfaceRef.current;
+    if (!el) return;
+    // 让横向手势先变成“元素滚动”，从根上避免触发浏览器历史后退/前进
+    const setCenter = () => {
+      const max = Math.max(0, el.scrollWidth - el.clientWidth);
+      const center = Math.floor(max / 2);
+      scrollCenterLeft.current = center;
+      el.scrollLeft = center;
+      scrollLastLeft.current = center;
+    };
+
+    requestAnimationFrame(setCenter);
+    window.addEventListener('resize', setCenter);
+    return () => window.removeEventListener('resize', setCenter);
+  }, []);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const now = performance.now();
+
+    const progressRaw = (el.scrollLeft - scrollCenterLeft.current) / 120;
+    const progress = Math.max(-1, Math.min(1, progressRaw));
+    scrollProgressPending.current = progress;
+    if (scrollProgressRaf.current === null) {
+      scrollProgressRaf.current = window.requestAnimationFrame(() => {
+        scrollProgressRaf.current = null;
+        setScrollProgress(scrollProgressPending.current);
+      });
+    }
+
+    if (now < wheelLockUntilTs.current) {
+      el.scrollLeft = scrollCenterLeft.current;
+      scrollLastLeft.current = scrollCenterLeft.current;
+      scrollProgressPending.current = 0;
+      setScrollProgress(0);
+      return;
+    }
+
+    // 这里不再根据 scroll 来触发翻页（避免与 wheel 处理重复触发导致一次手势翻两张）。
+    // scroll 仅用于视觉跟手（scrollProgress）以及锁定期复位。
+    scrollLastLeft.current = el.scrollLeft;
   };
 
   const goToNext = () => {
@@ -317,32 +426,107 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     setCurrentIndex(index);
   };
 
+  useEffect(() => {
+    const el = wheelSurfaceRef.current;
+    if (!el) return;
+
+    const handler = (e: WheelEvent) => {
+      const now = performance.now();
+      if (now < wheelLockUntilTs.current) return;
+
+      // 不抢按钮/链接区域（例如“了解更多”）
+      const topEl = (document.elementsFromPoint(e.clientX, e.clientY)[0] || null) as HTMLElement | null;
+      if (topEl?.closest('[data-learn-more-index], button, a')) return;
+
+      if (now - wheelLastTs.current > WHEEL_GESTURE_IDLE_MS) {
+        wheelAccX.current = 0;
+        wheelAccY.current = 0;
+      }
+
+      const scale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      const rawX = e.shiftKey ? e.deltaY : e.deltaX;
+      const rawY = e.shiftKey ? 0 : e.deltaY;
+      const dx = rawX * scale;
+      const dy = rawY * scale;
+
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+      const horizontalIntent = absDx >= 0.5 && absDx > absDy * 0.35;
+      if (!horizontalIntent) {
+        wheelLastTs.current = now;
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      wheelAccX.current += dx;
+      wheelAccY.current += dy;
+      wheelLastTs.current = now;
+
+      const progressRaw = wheelAccX.current / 120;
+      scrollProgressPending.current = Math.max(-1, Math.min(1, progressRaw));
+      if (scrollProgressRaf.current === null) {
+        scrollProgressRaf.current = window.requestAnimationFrame(() => {
+          scrollProgressRaf.current = null;
+          setScrollProgress(scrollProgressPending.current);
+        });
+      }
+
+      const absAccX = Math.abs(wheelAccX.current);
+      const shouldTrigger = absDx >= WHEEL_IMMEDIATE_TRIGGER_PX || absAccX >= WHEEL_THRESHOLD_PX;
+      if (!shouldTrigger) return;
+
+      if (wheelAccX.current > 0) goToNext();
+      else goToPrevious();
+
+      wheelAccX.current = 0;
+      wheelAccY.current = 0;
+      scrollProgressPending.current = 0;
+      setScrollProgress(0);
+      wheelLockUntilTs.current = now + WHEEL_LOCK_MS;
+
+      // 保持滚动面回到中心，避免累积滚偏
+      el.scrollLeft = scrollCenterLeft.current;
+      scrollLastLeft.current = scrollCenterLeft.current;
+    };
+
+    el.addEventListener('wheel', handler, { passive: false, capture: true });
+    return () => el.removeEventListener('wheel', handler as EventListener, true);
+  }, [language, totalCards]);
+
   // 处理触摸开始
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
-    console.log('Touch start:', touchStartX.current);
+    touchStartY.current = e.touches[0].clientY;
   };
 
   // 处理触摸移动
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
   };
 
   // 处理触摸结束
-  const handleTouchEnd = () => {
-    if (touchStartX.current !== null && touchEndX.current !== null) {
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    // 有些触控设备/浏览器 touchmove 可能不稳定，这里用 touchend 的 changedTouches 兜底
+    const end = e.changedTouches?.[0];
+    if (end) {
+      touchEndX.current = end.clientX;
+      touchEndY.current = end.clientY;
+    }
+
+    if (touchStartX.current !== null && touchEndX.current !== null && touchStartY.current !== null && touchEndY.current !== null) {
       const deltaX = touchEndX.current - touchStartX.current;
-      console.log('Touch end:', touchEndX.current, 'Delta X:', deltaX);
+      const deltaY = touchEndY.current - touchStartY.current;
       
-      // 滑动距离超过30px才触发切换
-      if (Math.abs(deltaX) > 30) {
+      // 横向滑动距离超过阈值且横向为主才触发切换
+      if (Math.abs(deltaX) > SWIPE_THRESHOLD_PX && Math.abs(deltaX) > Math.abs(deltaY)) {
         if (deltaX > 0) {
           // 向右滑动，切换到上一张
-          console.log('Swiping right, going to previous');
           goToPrevious();
         } else {
           // 向左滑动，切换到下一张
-          console.log('Swiping left, going to next');
           goToNext();
         }
       }
@@ -350,7 +534,113 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
       // 重置
       touchStartX.current = null;
       touchEndX.current = null;
+      touchStartY.current = null;
+      touchEndY.current = null;
     }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+    // 避免触屏时浏览器把手势当成页面滚动/选择
+    if (e.pointerType !== 'mouse') e.preventDefault();
+
+    // 如果起手点在按钮/链接（例如“了解更多”），不要启动容器的手势逻辑
+    const downEls = document.elementsFromPoint(e.clientX, e.clientY) as HTMLElement[];
+    if (downEls.some((node) => !!node.closest('[data-learn-more-index]'))) return;
+    if (downEls.some((node) => !!node.closest('button, a'))) return;
+
+    isPointerDown.current = true;
+    pointerStartX.current = e.clientX;
+    pointerEndX.current = null;
+    pointerStartY.current = e.clientY;
+    pointerEndY.current = null;
+
+    // 触控/手写笔：捕获指针，保证滑动过程中 pointermove/pointerup 不丢失
+    if (e.pointerType !== 'mouse') {
+      try {
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isPointerDown.current) return;
+    pointerEndX.current = e.clientX;
+    pointerEndY.current = e.clientY;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isPointerDown.current) return;
+    isPointerDown.current = false;
+
+    if (e.pointerType !== 'mouse') {
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+    }
+
+    // 防止点到按钮/链接时触发容器级别的“点击切换”（3D transform 下用坐标命中更稳）
+    const upEls = document.elementsFromPoint(e.clientX, e.clientY) as HTMLElement[];
+    if (upEls.some((node) => !!node.closest('[data-learn-more-index]'))) {
+      pointerStartX.current = null;
+      pointerEndX.current = null;
+      return;
+    }
+    if (upEls.some((node) => !!node.closest('button, a'))) {
+      pointerStartX.current = null;
+      pointerEndX.current = null;
+      return;
+    }
+
+    if (pointerEndX.current === null) pointerEndX.current = e.clientX;
+    if (pointerEndY.current === null) pointerEndY.current = e.clientY;
+
+    if (pointerStartX.current !== null && pointerEndX.current !== null && pointerStartY.current !== null && pointerEndY.current !== null) {
+      const deltaX = pointerEndX.current - pointerStartX.current;
+      const deltaY = pointerEndY.current - pointerStartY.current;
+
+      if (Math.abs(deltaX) > SWIPE_THRESHOLD_PX && Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+          goToPrevious();
+        } else {
+          goToNext();
+        }
+      } else {
+        // 视作“点击”：用坐标命中到卡片（3D transform 下 event.target 可能会落到父容器）
+        const idx = pickCardIndexAtPoint(e.clientX, e.clientY);
+        if (idx !== null) handleCardClick(idx);
+      }
+    }
+
+    pointerStartX.current = null;
+    pointerEndX.current = null;
+    pointerStartY.current = null;
+    pointerEndY.current = null;
+  };
+
+  const handleCarouselClickCapture = (e: React.MouseEvent) => {
+    const elements = document.elementsFromPoint(e.clientX, e.clientY) as HTMLElement[];
+
+    // 优先处理“了解更多”：即使命中目标落在卡片 div 上，也能通过坐标命中到热区
+    const moreHit = elements.find((node) => !!node.closest('[data-learn-more-index]'));
+    const moreAttr = moreHit?.closest('[data-learn-more-index]')?.getAttribute('data-learn-more-index');
+    const moreIdx = moreAttr ? Number(moreAttr) : NaN;
+    if (!Number.isNaN(moreIdx)) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleLearnMoreClick(moreIdx);
+      return;
+    }
+
+    // 如果点到按钮/链接（例如“了解更多”），不要在捕获阶段抢事件
+    if (elements.some((node) => !!node.closest('button, a'))) return;
+    const idx = pickCardIndexAtPoint(e.clientX, e.clientY);
+    if (idx !== null) handleCardClick(idx);
   };
 
   // 卡片到页面的映射
@@ -363,25 +653,44 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   };
 
   // 处理卡片点击
-  const handleCardClick = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    console.log('Card clicked:', index, 'Current index:', currentIndex);
-    
-    // 检查是否点击了当前中间卡片
-    if (index === currentIndex) {
-      // 点击中间卡片，跳转到对应页面
-      const targetPage = cardToPageMap[index];
-      console.log('Clicking center card, target page:', targetPage);
-      if (targetPage) {
-        setCurrentPage(targetPage);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    } else {
-      // 点击其他卡片，切换到该卡片
-      console.log('Clicking non-center card, switching to:', index);
+  const handleCardClick = (index: number) => {
+    // 点击卡片仅用于切换，不直接进入二级页
+    if (index !== currentIndex) {
       setCurrentIndex(index);
     }
   };
+
+  const enterPage = (index: number) => {
+    const targetPage = cardToPageMap[index];
+    if (targetPage) {
+      setCurrentPage(targetPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleLearnMoreClick = (index: number) => {
+    // 点击“了解更多”需要进入二级页：若不是中间卡，先切到中间并在动画结束后自动进入
+    if (index !== currentIndex) {
+      setPendingEnterIndex(index);
+      setCurrentIndex(index);
+      return;
+    }
+
+    enterPage(index);
+  };
+
+  useEffect(() => {
+    if (pendingEnterIndex === null) return;
+    if (pendingEnterIndex !== currentIndex) return;
+
+    // 等待切换动画完成后再进入（与卡片 transition duration 对齐）
+    const id = window.setTimeout(() => {
+      enterPage(pendingEnterIndex);
+      setPendingEnterIndex(null);
+    }, 720);
+
+    return () => window.clearTimeout(id);
+  }, [currentIndex, pendingEnterIndex]);
 
   const getCardStyle = (index: number) => {
     const position = index - currentIndex;
@@ -429,16 +738,16 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     }
 
     return {
-      transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      transform: `translateX(${translateX - scrollProgress * 80}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
       opacity,
       zIndex,
-      pointerEvents: (opacity > 0 ? 'auto' : 'none') as const, // 只有可见的卡片才能点击
+      pointerEvents: (opacity > 0 ? 'auto' : 'none') as React.CSSProperties['pointerEvents'], // 只有可见的卡片才能点击
       transformStyle: 'preserve-3d' as const
     };
   };
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-20 relative overflow-hidden z-20 pointer-events-auto" style={{ isolation: 'isolate' }}>
       {/* Header */}
       <div className="container mx-auto px-6 mb-16 text-center">
         <div className="text-lime-500 text-sm font-medium tracking-widest mb-4">
@@ -454,7 +763,7 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
 
       {/* Carousel Container */}
       <div 
-        className="relative h-[400px] w-full max-w-6xl mx-auto px-6"
+        className="relative h-[400px] w-full max-w-6xl mx-auto px-6 pointer-events-auto"
         style={{ 
           perspective: '1200px',
           perspectiveOrigin: 'center center'
@@ -462,11 +771,19 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
       >
         <div 
           className="absolute inset-0 flex items-center justify-center" 
-          style={{ transformStyle: 'preserve-3d' }}
+          ref={wheelSurfaceRef}
+          style={{ transformStyle: 'preserve-3d', touchAction: 'none', userSelect: 'none', overscrollBehaviorX: 'contain', overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none' }}
+          onClickCapture={handleCarouselClickCapture}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onScroll={handleScroll}
         >
+          <div className="pointer-events-none" style={{ width: '200%', height: 1 }} />
           {t.cards.map((card, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
@@ -476,8 +793,9 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
             return (
               <div
                 key={index}
-                className={`absolute transition-all duration-700 ease-out`}
+                className={`absolute transition-all duration-700 ease-out cursor-pointer`}
                 style={style as React.CSSProperties}
+                data-card-index={index}
               >
                 <div 
                   className={`w-[260px] h-[360px] rounded-2xl p-6 transition-all duration-700 border cursor-pointer ${
@@ -485,7 +803,8 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
                       ? 'bg-[rgba(26,26,26,1)] border-emerald-500/40 shadow-[0_10px_15px_rgba(0,0,0,0.3)]' 
                       : 'bg-[rgba(26,26,26,0.8)] border-zinc-800/50 hover:border-zinc-700/70'
                   }`}
-                  onClick={(e) => handleCardClick(index, e)}
+                  data-card-index={index}
+                  onClick={() => handleCardClick(index)}
                 >
                   {/* Icon */}
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 border transition-all duration-700 ${
@@ -513,17 +832,24 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
                   </p>
 
                   {/* Learn More Link */}
-                  <div className="absolute bottom-6 left-6">
+                  <div className="absolute bottom-6 left-6 z-20 pointer-events-auto" data-learn-more-index={index}>
                     <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCardClick(index, e as any);
-                      }}
-                      className={`inline-flex items-center gap-2 text-sm font-normal transition-all duration-300 group ${
+                      type="button"
+                      className={`relative z-20 pointer-events-auto inline-flex items-center gap-2 text-sm font-normal transition-all duration-300 group ${
                         isCenter 
                           ? 'text-lime-500 hover:text-lime-400' 
                           : 'text-zinc-700'
                       }`}
+                      onPointerUp={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleLearnMoreClick(index);
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleLearnMoreClick(index);
+                      }}
                     >
                       {t.learnMore}
                       <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -541,7 +867,9 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
         {t.cards.map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
+            onClick={() => {
+              goToSlide(index);
+            }}
             className={`transition-all duration-300 rounded-full ${
               index === currentIndex
                 ? 'w-6 h-2 bg-lime-500'

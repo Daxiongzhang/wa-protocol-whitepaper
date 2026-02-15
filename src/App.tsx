@@ -121,7 +121,7 @@ export default function App() {
     <ErrorBoundary>
       <div {...appStyles}>
         {/* 背景效果 - 分离关注点 */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent" />
         
         {/* 主布局 */}
         <div className="relative z-10 flex flex-col min-h-screen">

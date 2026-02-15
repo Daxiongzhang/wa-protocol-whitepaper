@@ -1,21 +1,35 @@
 import React from 'react';
+import type { Language } from '../App';
 
-const BusinessLoopImage = () => {
+const BusinessLoopImage: React.FC<{ language?: Language }> = ({ language }) => {
+  const baseUrl = ((import.meta as any).env?.BASE_URL as string | undefined) ?? '/';
+
+  void language;
+
+  const primarySrc = `${baseUrl}business-loop-diagram-anchors.zh.svg`;
+  const fallbackSrc = `${baseUrl}business-loop-diagram-anchors.svg`;
+
   return (
     <div className="my-8 flex justify-center">
       <div className="relative max-w-4xl w-full">
         {/* 直接显示商业闭环总图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/wa-protocol-whitepaper/business-loop-diagram.png" 
+            src={primarySrc}
             alt="WA Protocol 商业闭环总图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              // 图片加载失败时显示提示
               const target = e.target as HTMLImageElement;
+              const currentSrc = target.getAttribute('src') || '';
+
+              if (currentSrc !== fallbackSrc) {
+                target.src = fallbackSrc;
+                return;
+              }
+
               target.style.display = 'none';
               const placeholder = target.parentElement?.querySelector('.placeholder') as HTMLElement;
               if (placeholder) placeholder.style.display = 'flex';
@@ -29,7 +43,7 @@ const BusinessLoopImage = () => {
             </svg>
             <p className="text-slate-400 text-sm text-center">
               商业闭环总图已上传：<br/>
-              <code className="text-lime-400">/public/business-loop-diagram.png</code>
+              <code className="text-lime-400">/public/business-loop-diagram-anchors.*.svg</code>
             </p>
           </div>
         </div>

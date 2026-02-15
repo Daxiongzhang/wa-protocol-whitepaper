@@ -403,11 +403,6 @@ WA 作为链上操作系统，必须实现以下三项能力：
 
 ### **架构总览图（逻辑结构）**
 
-WA Protocol 操作系统架构
-权限最小化执行内核 - 合约不可改、去中心
-Scroll Engine  Power Engine Layer  MiniApp System
-通证系统 WANT / XANT
-
 **模块说明**
 
 | 模块 | 功能说明 | 特点 |

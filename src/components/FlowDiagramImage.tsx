@@ -1,13 +1,15 @@
 import React from 'react';
 
 const FlowDiagramImage = () => {
+  const baseUrl = ((import.meta as any).env?.BASE_URL as string | undefined) ?? '/';
+
   return (
     <div className="my-8 flex justify-center">
       <div className="relative max-w-4xl w-full">
         {/* 直接显示流程图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/wa-protocol-whitepaper/flow-diagram.png" 
+            src={`${baseUrl}flow-diagram.png`}
             alt="WA Protocol 流程结构图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}

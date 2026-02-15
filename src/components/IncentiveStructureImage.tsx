@@ -1,13 +1,15 @@
 import React from 'react';
 
 const IncentiveStructureImage = () => {
+  const baseUrl = ((import.meta as any).env?.BASE_URL as string | undefined) ?? '/';
+
   return (
     <div className="my-8 flex justify-center">
       <div className="relative max-w-4xl w-full">
         {/* 直接显示激励体系结构图 */}
         <div className="w-full flex justify-center">
           <img 
-            src="/wa-protocol-whitepaper/incentive-structure-diagram.png" 
+            src={`${baseUrl}incentive-structure-diagram.png`}
             alt="WA Protocol 激励体系结构图"
             className="max-w-full h-auto rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain' }}

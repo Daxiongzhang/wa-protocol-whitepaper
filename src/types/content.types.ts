@@ -7,19 +7,21 @@ import type { SupportedLanguage } from './common.types';
 
 // FAQ相关类型
 export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: CategoryKey;
+  q: string;
+  a: string;
+  id?: string;
+  question?: string;
+  answer?: string;
+  category?: CategoryKey;
   tags?: string[];
   lastUpdated?: number;
 }
 
 export interface RiskItem {
-  id: string;
+  id?: string;
   label: string;
   text: string;
-  severity: 'low' | 'medium' | 'high';
+  severity?: 'low' | 'medium' | 'high';
 }
 
 export interface FAQCategory {

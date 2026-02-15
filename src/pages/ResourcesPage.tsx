@@ -38,7 +38,7 @@ function ResourcesPageComponent({ language }: { language: Language }) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={t.searchPlaceholder}
-              className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all text-white placeholder:text-slate-500"
+              className="ui-input pl-12 pr-4 py-4"
             />
           </div>
         </div>
@@ -65,10 +65,10 @@ function ResourcesPageComponent({ language }: { language: Language }) {
           {filteredResources.map((resource, index) => (
             <div
               key={index}
-              className="group p-6 border border-white/10 hover:border-lime-500/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-lime-500/10 hover:-translate-y-1 bg-white/5 backdrop-blur-sm"
+              className="ui-panel-soft ui-panel-hover group p-6 hover:border-lime-500/50 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="mb-4">
-                <span className="inline-block px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium rounded mb-3">
+                <span className="ui-badge ui-badge-emerald mb-3">
                   {resource.category}
                 </span>
                 <h3 className="text-white font-medium text-lg mb-2">
@@ -79,22 +79,22 @@ function ResourcesPageComponent({ language }: { language: Language }) {
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 text-slate-500 text-xs mb-4">
-                <span className="flex items-center gap-1">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="ui-meta">
                   <Eye size={14} />
                   {resource.views} {t.viewsLabel}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="ui-meta">
                   <Download size={14} />
                   {resource.downloads} {t.downloadsLabel}
                 </span>
               </div>
 
               <div className="flex gap-2">
-                <button className="flex-1 px-3 py-2 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors">
+                <button className="ui-btn ui-btn-secondary flex-1 px-3 py-2 text-sm">
                   {t.viewBtn}
                 </button>
-                <button className="flex-1 px-3 py-2 text-sm font-medium text-white bg-lime-600 hover:bg-lime-500 rounded-lg transition-colors flex items-center justify-center gap-1">
+                <button className="ui-btn ui-btn-primary flex-1 px-3 py-2 text-sm">
                   <Download size={14} />
                   {t.downloadBtn}
                 </button>

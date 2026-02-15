@@ -22,7 +22,7 @@ function CommunityPageComponent({ language }: { language: Language }) {
         {/* Stats */}
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {t.stats.map((stat, index) => (
-            <div key={index} className="text-center p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
+            <div key={index} className="ui-panel-soft text-center p-8">
               <div className="text-4xl font-medium text-white mb-2">
                 {stat.value}
               </div>
@@ -38,7 +38,7 @@ function CommunityPageComponent({ language }: { language: Language }) {
           {t.channels.map((channel, index) => (
             <div
               key={index}
-              className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 hover:border-lime-500/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-lime-500/10 hover:-translate-y-1"
+              className="ui-panel-soft ui-panel-hover group p-6 hover:border-lime-500/50 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -59,7 +59,7 @@ function CommunityPageComponent({ language }: { language: Language }) {
                 href={channel.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-lime-600 hover:bg-lime-500 rounded-lg transition-colors"
+                className="ui-btn ui-btn-primary px-4 py-2 text-sm"
               >
                 {t.joinBtn}
                 <ExternalLink size={14} />
@@ -77,12 +77,12 @@ function CommunityPageComponent({ language }: { language: Language }) {
             {t.events.map((event, index) => (
               <div
                 key={index}
-                className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-lime-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-lime-500/10"
+                className="ui-panel-soft ui-panel-hover p-6 hover:border-lime-500/50 transition-all duration-300"
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium rounded">
+                      <span className="ui-badge ui-badge-emerald">
                         {event.type}
                       </span>
                     </div>
@@ -97,7 +97,7 @@ function CommunityPageComponent({ language }: { language: Language }) {
                       <span>{event.time}</span>
                     </div>
                   </div>
-                  <button className="px-6 py-2.5 text-sm font-medium text-white bg-lime-600 hover:bg-lime-500 rounded-lg transition-colors whitespace-nowrap">
+                  <button className="ui-btn ui-btn-primary px-6 py-2.5 text-sm whitespace-nowrap">
                     {t.registerBtn}
                   </button>
                 </div>

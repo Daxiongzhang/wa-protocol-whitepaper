@@ -55,7 +55,7 @@ function ToolsPageComponent({ language }: { language: Language }) {
                   className={`w-full p-4 rounded-xl text-left transition-all duration-200 flex items-start gap-3 ${
                     selectedTool === index
                       ? 'bg-lime-600 text-white shadow-lg shadow-lime-500/30'
-                      : 'bg-white/5 border border-white/10 hover:border-lime-500/50 text-slate-400 hover:text-white'
+                      : 'ui-panel-soft ui-panel-hover hover:border-lime-500/50 text-slate-400 hover:text-white'
                   }`}
                 >
                   <Icon size={24} className={selectedTool === index ? 'text-white' : 'text-lime-400'} />
@@ -72,7 +72,7 @@ function ToolsPageComponent({ language }: { language: Language }) {
 
           {/* Tool Content */}
           <div className="lg:col-span-2">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+            <div className="ui-panel-soft p-8">
               {selectedTool === 0 && (
                 <div>
                   <h2 className="text-2xl font-medium text-white mb-6">
@@ -88,7 +88,7 @@ function ToolsPageComponent({ language }: { language: Language }) {
                         type="number"
                         value={investment}
                         onChange={(e) => setInvestment(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-white"
+                        className="ui-input px-4 py-3"
                       />
                     </div>
 
@@ -100,7 +100,7 @@ function ToolsPageComponent({ language }: { language: Language }) {
                         type="number"
                         value={period}
                         onChange={(e) => setPeriod(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-white"
+                        className="ui-input px-4 py-3"
                       />
                     </div>
 
@@ -112,13 +112,13 @@ function ToolsPageComponent({ language }: { language: Language }) {
                         type="number"
                         value={rate}
                         onChange={(e) => setRate(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-white"
+                        className="ui-input px-4 py-3"
                       />
                     </div>
 
                     <button
                       onClick={handleCalculate}
-                      className="w-full px-6 py-3 text-sm font-medium text-white bg-lime-600 hover:bg-lime-500 rounded-lg transition-all duration-200 hover:shadow-lg shadow-lime-500/30"
+                      className="ui-btn ui-btn-primary w-full px-6 py-3 text-sm"
                     >
                       {t.calculateBtn}
                     </button>
@@ -127,13 +127,13 @@ function ToolsPageComponent({ language }: { language: Language }) {
                       <div className="mt-6 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                         <div className="space-y-3">
                           <div className="flex justify-between items-center">
-                            <span className="text-slate-300">{t.resultLabel}:</span>
+                            <span className="ui-meta text-slate-300">{t.resultLabel}:</span>
                             <span className="text-2xl font-medium text-green-400">
                               ${result.return.toFixed(2)}
                             </span>
                           </div>
                           <div className="flex justify-between items-center pt-3 border-t border-white/10">
-                            <span className="text-white font-medium">{t.totalLabel}:</span>
+                            <span className="ui-meta text-white">{t.totalLabel}:</span>
                             <span className="text-3xl font-bold text-white">
                               ${result.total.toFixed(2)}
                             </span>

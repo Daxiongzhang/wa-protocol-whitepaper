@@ -3151,3 +3151,235 @@ html {
     transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
   }
 }
+
+ :root {
+   --ui-bg: #0a0a0a;
+   --ui-panel: rgba(255, 255, 255, 0.045);
+   --ui-panel-strong: rgba(255, 255, 255, 0.065);
+   --ui-border: rgba(255, 255, 255, 0.10);
+   --ui-border-soft: rgba(255, 255, 255, 0.06);
+   --ui-highlight: rgba(255, 255, 255, 0.075);
+   --ui-ring: rgba(255, 255, 255, 0.05);
+   --ui-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+   --ui-shadow-soft: 0 10px 35px rgba(0, 0, 0, 0.45);
+ }
+
+ .ui-divider {
+   height: 1px;
+   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.08), transparent);
+ }
+
+ .ui-panel {
+   background: var(--ui-panel);
+   border: 1px solid var(--ui-border);
+   border-radius: 1rem;
+   box-shadow: var(--ui-shadow);
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+ }
+
+ .ui-panel-soft {
+   background: rgba(255, 255, 255, 0.03);
+   border: 1px solid var(--ui-border-soft);
+   border-radius: 1rem;
+   box-shadow: var(--ui-shadow-soft);
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+ }
+
+ .ui-panel-hover {
+   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+ }
+
+ .ui-panel-hover:hover {
+   background: var(--ui-panel-strong);
+   border-color: rgba(255, 255, 255, 0.14);
+   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.62);
+ }
+
+ .ui-topbar {
+   position: absolute;
+   inset: 0;
+   transition: background 400ms ease, backdrop-filter 400ms ease;
+ }
+
+ .ui-topbar--top {
+   background: transparent;
+   backdrop-filter: none;
+   -webkit-backdrop-filter: none;
+ }
+
+ .ui-topbar--scrolled {
+   background: linear-gradient(
+     to bottom,
+     rgba(10, 10, 10, 0.48),
+     rgba(10, 10, 10, 0.30)
+   );
+   backdrop-filter: blur(18px) saturate(150%);
+   -webkit-backdrop-filter: blur(18px) saturate(150%);
+   box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.055);
+ }
+
+ .ui-popover {
+   background: rgba(10, 10, 10, 0.92);
+   border: 1px solid rgba(255, 255, 255, 0.10);
+   border-radius: 0.95rem;
+   box-shadow: 0 26px 90px rgba(0, 0, 0, 0.75);
+   backdrop-filter: blur(18px) saturate(150%);
+   -webkit-backdrop-filter: blur(18px) saturate(150%);
+ }
+
+ .ui-input {
+   width: 100%;
+   color: rgba(255, 255, 255, 0.92);
+   background: rgba(255, 255, 255, 0.04);
+   border: 1px solid rgba(255, 255, 255, 0.10);
+   border-radius: 0.85rem;
+   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+ }
+
+ .ui-input::placeholder {
+   color: rgba(148, 163, 184, 0.65);
+ }
+
+ .ui-input:focus {
+   outline: none;
+   border-color: rgba(132, 204, 22, 0.45);
+   box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.14), 0 18px 60px rgba(0, 0, 0, 0.45);
+ }
+
+ .ui-btn {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   border-radius: 0.85rem;
+   font-weight: 600;
+   transition: transform 150ms ease, background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+   user-select: none;
+ }
+
+ .ui-btn:active {
+   transform: translateY(1px);
+ }
+
+ .ui-btn:focus {
+   outline: none;
+   box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.14);
+ }
+
+ .ui-btn-primary {
+   background: rgb(101 163 13);
+   color: white;
+   box-shadow: 0 14px 40px rgba(132, 204, 22, 0.12);
+ }
+
+ .ui-btn-primary:hover {
+   background: rgb(132 204 22);
+   box-shadow: 0 18px 56px rgba(132, 204, 22, 0.18);
+ }
+
+ .ui-btn-secondary {
+   background: rgba(255, 255, 255, 0.06);
+   border: 1px solid rgba(255, 255, 255, 0.10);
+   color: rgba(255, 255, 255, 0.90);
+   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.30);
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+ }
+
+ .ui-btn-secondary:hover {
+   background: rgba(255, 255, 255, 0.085);
+   border-color: rgba(255, 255, 255, 0.14);
+ }
+
+ .ui-btn-ghost {
+   background: transparent;
+   border: 1px solid rgba(255, 255, 255, 0.10);
+   color: rgba(148, 163, 184, 0.95);
+ }
+
+ .ui-btn-ghost:hover {
+   background: rgba(255, 255, 255, 0.05);
+   color: rgba(255, 255, 255, 0.92);
+   border-color: rgba(255, 255, 255, 0.14);
+ }
+
+ .ui-badge {
+   display: inline-flex;
+   align-items: center;
+   gap: 0.375rem;
+   padding: 0.22rem 0.6rem;
+   border-radius: 0.7rem;
+   border: 1px solid rgba(255, 255, 255, 0.10);
+   background: rgba(255, 255, 255, 0.05);
+   color: rgba(226, 232, 240, 0.92);
+   font-size: 12px;
+   font-weight: 600;
+   letter-spacing: 0.01em;
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+ }
+
+ .ui-badge-lime {
+   background: rgba(132, 204, 22, 0.12);
+   border-color: rgba(132, 204, 22, 0.22);
+   color: rgba(190, 242, 100, 0.95);
+ }
+
+ .ui-badge-emerald {
+   background: rgba(16, 185, 129, 0.12);
+   border-color: rgba(16, 185, 129, 0.22);
+   color: rgba(110, 231, 183, 0.95);
+ }
+
+ .ui-badge-amber {
+   background: rgba(245, 158, 11, 0.14);
+   border-color: rgba(245, 158, 11, 0.26);
+   color: rgba(252, 211, 77, 0.95);
+ }
+
+ .ui-badge-red {
+   background: rgba(239, 68, 68, 0.14);
+   border-color: rgba(239, 68, 68, 0.26);
+   color: rgba(252, 165, 165, 0.95);
+ }
+
+ .ui-badge-mono {
+   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+   font-weight: 700;
+   border-radius: 0.65rem;
+   padding: 0.22rem 0.52rem;
+ }
+
+ .ui-divider-soft {
+   height: 1px;
+   background: rgba(255, 255, 255, 0.07);
+ }
+
+ .ui-meta {
+   display: inline-flex;
+   align-items: center;
+   gap: 0.4rem;
+   color: rgba(148, 163, 184, 0.72);
+   font-size: 12px;
+ }
+
+ .ui-list-item {
+   border-radius: 1rem;
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   background: rgba(255, 255, 255, 0.02);
+   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+   backdrop-filter: blur(14px) saturate(140%);
+   -webkit-backdrop-filter: blur(14px) saturate(140%);
+   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+ }
+
+ .ui-list-item:hover {
+   background: rgba(255, 255, 255, 0.04);
+   border-color: rgba(132, 204, 22, 0.22);
+   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.48);
+ }

@@ -12,7 +12,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
       <div
         className="relative"
         style={{
-          backgroundImage: 'url(/bankground-smaller.png)',
+          backgroundImage: `url(${import.meta.env.BASE_URL}bankground-compressed.png)`,
           backgroundSize: 'cover',
           backgroundPosition: 'top center',
           backgroundRepeat: 'no-repeat'
@@ -57,7 +57,10 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
               </div>
             </h1>
 
-            <p className="text-slate-400 text-lg mb-14 max-w-2xl mx-auto font-light leading-relaxed">
+            <p
+              className="text-lg mb-14 max-w-2xl mx-auto font-light leading-relaxed"
+              style={{ color: 'rgb(226 232 240)', textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}
+            >
               "{t.hero.quote}"
             </p>
 
@@ -68,7 +71,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
               >
                 {t.buttons.primary}
               </button>
-              <button className="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-slate-300 hover:text-white border border-white/10 hover:border-white/20 rounded-lg transition-all duration-200 hover:bg-white/5">
+              <button className="ui-btn ui-btn-secondary w-full sm:w-auto px-8 py-3.5 text-sm">
         {t.buttons.secondary}
       </button>
             </div>
@@ -130,7 +133,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
           {t.visionCards.map((card, index) => (
             <div
               key={index}
-              className="group p-6 border border-white/10 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 bg-white/5 backdrop-blur-sm cursor-pointer flex flex-col h-auto min-h-[300px]"
+              className="ui-panel-soft ui-panel-hover group p-6 hover:border-emerald-500/50 cursor-pointer flex flex-col h-auto min-h-[300px] transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-3xl mb-4 transform transition-transform duration-300 group-hover:scale-110 inline-block">
                 {['✨', '📈', '🎯'][index]}
@@ -182,7 +185,7 @@ function HomePageComponent({ language, setCurrentPage }: { language: Language; s
                     setCurrentPage(pages[index]);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="group relative p-8 bg-white/5 backdrop-blur-sm border border-white/10 hover:border-lime-500/50 rounded-2xl transition-all duration-500 hover:shadow-xl hover:shadow-lime-500/20 hover:-translate-y-2 text-left w-full overflow-hidden"
+                  className="ui-panel-soft ui-panel-hover group relative p-8 hover:border-lime-500/50 transition-all duration-500 hover:-translate-y-2 text-left w-full overflow-hidden"
                   style={{
                     animationDelay: `${index * 100}ms`
                   }}

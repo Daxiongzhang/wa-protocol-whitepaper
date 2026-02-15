@@ -30,13 +30,6 @@ export const CHART_CONFIGS: ChartConfig[] = [
     description: 'WA Protocol 商业闭环总图',
     component: null as any, // 将在视觉层注入
   },
-  {
-    id: 'incentive-structure-diagram',
-    title: '激励体系结构（四种类型）',
-    keywords: ['激励体系结构', '四种类型'],
-    description: 'WA Protocol 激励体系结构图',
-    component: null as any, // 将在视觉层注入
-  },
 ];
 
 // 图表检测工具函数
