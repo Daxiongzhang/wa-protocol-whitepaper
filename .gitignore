@@ -3,6 +3,7 @@ node_modules
 WA-Database
 build
 dist
+.gh-pages-tmp
 .env
 .env.local
 .env.development.local
