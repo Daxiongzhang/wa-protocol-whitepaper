@@ -395,7 +395,8 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     const el = e.currentTarget;
     const now = performance.now();
 
-    const progressRaw = (el.scrollLeft - scrollCenterLeft.current) / 120;
+    const deviation = el.scrollLeft - scrollCenterLeft.current;
+    const progressRaw = deviation / 120;
     const progress = Math.max(-1, Math.min(1, progressRaw));
     scrollProgressPending.current = progress;
     if (scrollProgressRaf.current === null) {
@@ -403,6 +404,11 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
         scrollProgressRaf.current = null;
         setScrollProgress(scrollProgressPending.current);
       });
+    }
+
+    // 不让滚动面“真的滚走”，否则会带着整块内容偏移（触屏上尤其明显）
+    if (Math.abs(deviation) > 0.5) {
+      el.scrollLeft = scrollCenterLeft.current;
     }
 
     if (now < wheelLockUntilTs.current) {
@@ -497,18 +503,32 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
 
   // 处理触摸开始
   const handleTouchStart = (e: React.TouchEvent) => {
+    // 现代浏览器触屏会同时触发 pointer 事件；为避免双重触发，优先使用 pointer 处理
+    if (typeof window !== 'undefined' && 'PointerEvent' in window) return;
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
   };
 
   // 处理触摸移动
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (typeof window !== 'undefined' && 'PointerEvent' in window) return;
     touchEndX.current = e.touches[0].clientX;
     touchEndY.current = e.touches[0].clientY;
   };
 
   // 处理触摸结束
   const handleTouchEnd = (e: React.TouchEvent) => {
+    if (typeof window !== 'undefined' && 'PointerEvent' in window) return;
+
+    const now = performance.now();
+    if (now < wheelLockUntilTs.current) {
+      touchStartX.current = null;
+      touchEndX.current = null;
+      touchStartY.current = null;
+      touchEndY.current = null;
+      return;
+    }
+
     // 有些触控设备/浏览器 touchmove 可能不稳定，这里用 touchend 的 changedTouches 兜底
     const end = e.changedTouches?.[0];
     if (end) {
@@ -529,6 +549,9 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
           // 向左滑动，切换到下一张
           goToNext();
         }
+
+        // 触摸惯性/抖动可能导致 end 触发多次，这里加锁保证“一次手势只翻一页”
+        wheelLockUntilTs.current = now + WHEEL_LOCK_MS;
       }
       
       // 重置
@@ -576,6 +599,15 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     if (!isPointerDown.current) return;
     isPointerDown.current = false;
 
+    const now = performance.now();
+    if (now < wheelLockUntilTs.current) {
+      pointerStartX.current = null;
+      pointerEndX.current = null;
+      pointerStartY.current = null;
+      pointerEndY.current = null;
+      return;
+    }
+
     if (e.pointerType !== 'mouse') {
       try {
         (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
@@ -610,6 +642,8 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
         } else {
           goToNext();
         }
+
+        wheelLockUntilTs.current = now + WHEEL_LOCK_MS;
       } else {
         // 视作“点击”：用坐标命中到卡片（3D transform 下 event.target 可能会落到父容器）
         const idx = pickCardIndexAtPoint(e.clientX, e.clientY);
@@ -772,7 +806,7 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
         <div 
           className="absolute inset-0 flex items-center justify-center" 
           ref={wheelSurfaceRef}
-          style={{ transformStyle: 'preserve-3d', touchAction: 'none', userSelect: 'none', overscrollBehaviorX: 'contain', overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none' }}
+          style={{ transformStyle: 'preserve-3d', touchAction: 'pan-y', userSelect: 'none', overscrollBehaviorX: 'contain', overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none' }}
           onClickCapture={handleCarouselClickCapture}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
