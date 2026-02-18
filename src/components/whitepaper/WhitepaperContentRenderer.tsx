@@ -299,12 +299,52 @@ export function WhitepaperContentRenderer({ content, language }: WhitepaperConte
                         '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">门户网站</span>'
                       )
                       .replace(
+                        /#Portal sites#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">Portal sites</span>'
+                      )
+                      .replace(
+                        /#Portal site#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">Portal site</span>'
+                      )
+                      .replace(
+                        /#Situs portal#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">Situs portal</span>'
+                      )
+                      .replace(
+                        /#ポータルサイト#/g,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">ポータルサイト</span>'
+                      )
+                      .replace(
+                        /#포털 사이트#/g,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(245 158 11); border-color: rgb(245 158 11); color: rgb(0 0 0);">포털 사이트</span>'
+                      )
+                      .replace(
                         /#BBS#/gi,
                         '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(5 150 105); border-color: rgb(5 150 105); color: rgb(255 255 255);">BBS</span>'
                       )
                       .replace(
                         /#早期博客#/g,
                         '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">早期博客</span>'
+                      )
+                      .replace(
+                        /#early blogs#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">early blogs</span>'
+                      )
+                      .replace(
+                        /#early blog#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">early blog</span>'
+                      )
+                      .replace(
+                        /#Blog awal#/gi,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">Blog awal</span>'
+                      )
+                      .replace(
+                        /#初期ブログ#/g,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">初期ブログ</span>'
+                      )
+                      .replace(
+                        /#초기 블로그#/g,
+                        '<span class="inline-flex items-center px-2 py-1 mx-1 text-xs font-medium rounded-lg border" style="background-color: rgb(101 163 13); border-color: rgb(63 98 18); color: rgb(255 255 255);">초기 블로그</span>'
                       )
                       .replace(
                         /#([^#]+)#/g,
