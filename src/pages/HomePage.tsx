@@ -1,21 +1,47 @@
 import { ArrowRight, Sparkles, Star } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { CarouselSection } from '../components/CarouselSection';
 import type { Language, Page } from '../App';
 import { homeTranslations } from '../data/home-content';
 
 function HomePageComponent({ language, setCurrentPage }: { language: Language; setCurrentPage: (page: Page) => void }) {
   const t = homeTranslations[language];
+  const bgUrl = useMemo(() => `${import.meta.env.BASE_URL}bankground-compressed.png`, []);
+  const [bgReady, setBgReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = bgUrl;
+
+    const done = () => {
+      if (!cancelled) setBgReady(true);
+    };
+
+    if (typeof (img as any).decode === 'function') {
+      (img as any).decode().then(done).catch(done);
+    } else {
+      img.onload = done;
+      img.onerror = done;
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [bgUrl]);
 
   return (
     <>
       <div
         className="relative"
         style={{
-          backgroundImage: `url(${import.meta.env.BASE_URL}bankground-compressed.png)`,
+          backgroundImage: bgReady ? `url(${bgUrl})` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat'
+          backgroundRepeat: 'no-repeat',
+          opacity: bgReady ? 1 : 0.99,
+          transition: 'opacity 220ms ease-out'
         }}
       >
       <section 

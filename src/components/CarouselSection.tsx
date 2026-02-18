@@ -1,267 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FileText, Globe, MessageCircle, Layers, Users } from 'lucide-react';
 import type { Language, Page } from '../App';
+import { defaultCarouselContent, loadCarouselContent } from '../data/carousel';
+import type { CarouselContent } from '../data/carousel/types';
 
-const translations = {
-  en: {
-    title: 'Core Resources',
-    subtitle: 'Deep dive into our platform, technology and community',
-    cards: [
-      {
-        title: 'Whitepaper',
-        desc: 'Comprehensive documentation of our platform\'s vision, technology, and roadmap.',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: 'Global Community',
-        desc: 'Join our worldwide network of creators, developers, and innovators.',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: 'Q&A',
-        desc: 'Frequently asked questions and quick answers for partners and community members.',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: 'Social Channels',
-        desc: 'Connect with us on Telegram, Discord, and YouTube for updates and community.',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: 'Team & Partners',
-        desc: 'Meet the experts behind the platform and our strategic ecosystem partners.',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: 'Learn More'
-  },
-  zh: {
-    title: '核心资源',
-    subtitle: '深入了解我们的平台、技术和社区',
-    cards: [
-      {
-        title: '白皮书',
-        desc: '全面记录我们平台的愿景、技术和路线图。',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: '全球社区',
-        desc: '加入我们遍布全球的创作者、开发者和创新者网络。',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: '百问百答',
-        desc: '面向合作伙伴与社区成员的常见问题与快速解答。',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: '社交渠道',
-        desc: '通过 Telegram、Twitter、Discord 和 YouTube 与我们保持联系。',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: '团队与合作伙伴',
-        desc: '认识平台背后的专家团队和我们的战略合作伙伴。',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: '了解更多'
-  },
-  id: {
-    title: 'Sumber Daya Inti',
-    subtitle: 'Selami platform, teknologi, dan komunitas kami',
-    cards: [
-      {
-        title: 'Whitepaper',
-        desc: 'Dokumentasi komprehensif tentang visi, teknologi, dan roadmap platform kami.',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: 'Komunitas Global',
-        desc: 'Bergabunglah dengan jaringan global kreator, developer, dan inovator kami.',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: 'Q&A',
-        desc: 'Pertanyaan umum dan jawaban cepat untuk mitra dan anggota komunitas.',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: 'Saluran Sosial',
-        desc: 'Terhubung dengan kami di Telegram, Discord, dan YouTube untuk pembaruan.',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: 'Tim & Mitra',
-        desc: 'Temui para ahli di balik platform dan mitra ekosistem strategis kami.',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: 'Pelajari Lebih Lanjut'
-  },
-  th: {
-    title: 'แหล่งข้อมูลหลัก',
-    subtitle: 'เจาะลึกแพลตฟอร์ม เทคโนโลยี และชุมชนของเรา',
-    cards: [
-      {
-        title: 'Whitepaper',
-        desc: 'เอกสารที่ครอบคลุมเกี่ยวกับวิสัยทัศน์ เทคโนโลยี และแผนงานของแพลตฟอร์ม',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: 'ชุมชนทั่วโลก',
-        desc: 'เข้าร่วมเครือข่ายทั่วโลกของผู้สร้างสรรค์ นักพัฒนา และนักนวัตกรรม',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: 'คำถามที่พบบ่อย',
-        desc: 'คำถามที่พบบ่อยและคำตอบด่วนสำหรับพาร์ทเนอร์และสมาชิกชุมชน',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: 'ช่องทางโซเชียล',
-        desc: 'เชื่อมต่อกับเราบน Telegram, Discord และ YouTube สำหรับอัปเดต',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: 'ทีมและพาร์ทเนอร์',
-        desc: 'พบกับผู้เชี่ยวชาญเบื้องหลังแพลตฟอร์มและพาร์ทเนอร์เชิงกลยุทธ์',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: 'เรียนรู้เพิ่มเติม'
-  },
-  vi: {
-    title: 'Tài Nguyên Cốt Lõi',
-    subtitle: 'Tìm hiểu sâu về nền tảng, công nghệ và cộng đồng của chúng tôi',
-    cards: [
-      {
-        title: 'Whitepaper',
-        desc: 'Tài liệu toàn diện về tầm nhìn, công nghệ và lộ trình của nền tảng.',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: 'Cộng Đồng Toàn Cầu',
-        desc: 'Tham gia mạng lưới toàn cầu của các nhà sáng tạo, nhà phát triển và đổi mới.',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: 'Hỏi & Đáp',
-        desc: 'Câu hỏi thường gặp và câu trả lời nhanh cho đối tác và thành viên cộng đồng.',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: 'Kênh Xã Hội',
-        desc: 'Kết nối với chúng tôi trên Telegram, Discord và YouTube để cập nhật.',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: 'Đội Ngũ & Đối Tác',
-        desc: 'Gặp gỡ các chuyên gia đằng sau nền tảng và đối tác chiến lược.',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: 'Tìm Hiểu Thêm'
-  },
-  ko: {
-    title: '핵심 리소스',
-    subtitle: '플랫폼, 기술 및 커뮤니티에 대해 자세히 알아보세요',
-    cards: [
-      {
-        title: '백서',
-        desc: '플랫폼의 비전, 기술 및 로드맵에 대한 포괄적인 문서.',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: '글로벌 커뮤니티',
-        desc: '크리에이터, 개발자 및 혁신가의 전 세계 네트워크에 참여하세요.',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: '질문과 답변',
-        desc: '파트너 및 커뮤니티 구성원을 위한 자주 묻는 질문과 빠른 답변.',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: '소셜 채널',
-        desc: 'Telegram, Discord 및 YouTube에서 업데이트 및 커뮤니티를 위해 연결하세요.',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: '팀 및 파트너',
-        desc: '플랫폼 뒤의 전문가와 전략적 생태계 파트너를 만나보세요.',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: '자세히 보기'
-  },
-  ja: {
-    title: 'コアリソース',
-    subtitle: 'プラットフォーム、技術、コミュニティについて深く学ぶ',
-    cards: [
-      {
-        title: '�����ワ��トペーパー',
-        desc: 'プラットフォームのビジョン、技術、ロードマップの包括的なドキュメント。',
-        icon: FileText,
-        color: 'cyan'
-      },
-      {
-        title: 'グローバルコミュニティ',
-        desc: 'クリエイター、開発者、イノベーターの世界的なネット�����クに参���して���ださい。',
-        icon: Globe,
-        color: 'indigo'
-      },
-      {
-        title: 'Q&A',
-        desc: 'パートナーやコミュニティメンバー向けのよくある質問と迅速な回答。',
-        icon: MessageCircle,
-        color: 'emerald'
-      },
-      {
-        title: 'ソーシャルチャンネル',
-        desc: 'Telegram、Discord、YouTubeで更新情報とコミュニティのために接���してください。',
-        icon: Layers,
-        color: 'blue'
-      },
-      {
-        title: 'チームとパートナー',
-        desc: 'プラットフォームの背後にある専門家と戦略的エコシステムパートナーに会いましょう。',
-        icon: Users,
-        color: 'green'
-      }
-    ],
-    learnMore: '詳細を見る'
-  }
+type RenderCard = CarouselContent['cards'][number] & {
+  icon: typeof FileText;
+  color: 'cyan' | 'indigo' | 'emerald' | 'blue' | 'green';
 };
 
 const colorMap = {
@@ -298,10 +43,12 @@ interface CarouselSectionProps {
 }
 
 export function CarouselSection({ language, setCurrentPage }: CarouselSectionProps) {
+  const [t, setT] = useState<CarouselContent>(defaultCarouselContent);
   const [currentIndex, setCurrentIndex] = useState(2);
-  const [pendingEnterIndex, setPendingEnterIndex] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const SWIPE_THRESHOLD_PX = 24;
+  const NAV_STEP_DELAY_MS = 420;
+  const ENTER_AFTER_CENTER_MS = 720;
   const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
   const WHEEL_THRESHOLD_PX = isMac ? 14 : 18;
   const WHEEL_IMMEDIATE_TRIGGER_PX = isMac ? 8 : 12;
@@ -323,18 +70,42 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   const wheelSurfaceRef = useRef<HTMLDivElement | null>(null);
   const scrollCenterLeft = useRef(0);
   const scrollLastLeft = useRef(0);
+  const learnMoreBlockUntilTs = useRef(0);
+  const touchBlockStartX = useRef<number | null>(null);
+  const touchBlockStartY = useRef<number | null>(null);
   const scrollProgressRaf = useRef<number | null>(null);
   const scrollProgressPending = useRef(0);
+  const navTimeoutRef = useRef<number | null>(null);
+  const navOnDoneRef = useRef<(() => void) | null>(null);
   
-  const t = translations[language] || translations.en;
-  const totalCards = t.cards.length;
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const loaded = await loadCarouselContent(language);
+      if (!cancelled) setT(loaded);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [language]);
 
-  const pickCardIndexAtPoint = (clientX: number, clientY: number) => {
+  const cardIcons = [FileText, Globe, MessageCircle, Layers, Users] as const;
+  const cardColors = ['cyan', 'indigo', 'emerald', 'blue', 'green'] as const;
+
+  const cards: RenderCard[] = t.cards.map((card, index) => ({
+    ...card,
+    icon: cardIcons[index],
+    color: cardColors[index],
+  }));
+
+  const totalCards = cards.length;
+
+  const pickCardIndexAtPoint = (clientX: number, clientY: number, ignoreInteractive: boolean = true) => {
     const elements = document.elementsFromPoint(clientX, clientY) as HTMLElement[];
     const roots = new Map<number, HTMLElement>();
 
     for (const node of elements) {
-      if (node.closest('button, a')) continue;
+      if (ignoreInteractive && node.closest('button, a')) continue;
       const root = node.closest('[data-card-index]') as HTMLElement | null;
       if (!root) continue;
 
@@ -371,8 +142,72 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   };
 
   const goToPrevious = () => {
+    cancelPendingNav();
     setCurrentIndex((prev) => (prev - 1 + totalCards) % totalCards);
   };
+
+  const cancelPendingNav = () => {
+    if (navTimeoutRef.current !== null) {
+      window.clearTimeout(navTimeoutRef.current);
+      navTimeoutRef.current = null;
+    }
+    navOnDoneRef.current = null;
+  };
+
+  const animateToIndex = (targetIndex: number, onDone?: () => void) => {
+    cancelPendingNav();
+    navOnDoneRef.current = onDone || null;
+
+    const current = currentIndex;
+    if (targetIndex === current) return;
+
+    const forward = (targetIndex - current + totalCards) % totalCards;
+    const backward = (current - targetIndex + totalCards) % totalCards;
+    const step = forward <= backward ? 1 : -1;
+    const steps = Math.min(forward, backward);
+
+    if (steps <= 1) {
+      setCurrentIndex(targetIndex);
+      if (navOnDoneRef.current) {
+        const cb = navOnDoneRef.current;
+        navTimeoutRef.current = window.setTimeout(() => {
+          navTimeoutRef.current = null;
+          navOnDoneRef.current = null;
+          cb();
+        }, ENTER_AFTER_CENTER_MS);
+      }
+      return;
+    }
+
+    // 分步推进：让视觉上像连续滑动，而不是“瞬移”到目标
+    let remaining = steps;
+    const tick = () => {
+      setCurrentIndex((prev) => (prev + step + totalCards) % totalCards);
+      remaining -= 1;
+      if (remaining <= 0) {
+        if (navOnDoneRef.current) {
+          const cb = navOnDoneRef.current;
+          navTimeoutRef.current = window.setTimeout(() => {
+            navTimeoutRef.current = null;
+            navOnDoneRef.current = null;
+            cb();
+          }, ENTER_AFTER_CENTER_MS);
+        } else {
+          navTimeoutRef.current = null;
+        }
+        return;
+      }
+      navTimeoutRef.current = window.setTimeout(tick, NAV_STEP_DELAY_MS);
+    };
+
+    navTimeoutRef.current = window.setTimeout(tick, 0);
+  };
+
+  useEffect(() => {
+    return () => {
+      cancelPendingNav();
+    };
+  }, []);
 
   useEffect(() => {
     const el = wheelSurfaceRef.current;
@@ -394,6 +229,13 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
     const now = performance.now();
+    if (now < learnMoreBlockUntilTs.current) {
+      el.scrollLeft = scrollCenterLeft.current;
+      scrollLastLeft.current = scrollCenterLeft.current;
+      scrollProgressPending.current = 0;
+      setScrollProgress(0);
+      return;
+    }
 
     const deviation = el.scrollLeft - scrollCenterLeft.current;
     const progressRaw = deviation / 120;
@@ -425,10 +267,12 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   };
 
   const goToNext = () => {
+    cancelPendingNav();
     setCurrentIndex((prev) => (prev + 1) % totalCards);
   };
 
   const goToSlide = (index: number) => {
+    cancelPendingNav();
     setCurrentIndex(index);
   };
 
@@ -438,6 +282,7 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
 
     const handler = (e: WheelEvent) => {
       const now = performance.now();
+      if (now < learnMoreBlockUntilTs.current) return;
       if (now < wheelLockUntilTs.current) return;
 
       // 不抢按钮/链接区域（例如“了解更多”）
@@ -450,8 +295,11 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
       }
 
       const scale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
-      const rawX = e.shiftKey ? e.deltaY : e.deltaX;
-      const rawY = e.shiftKey ? 0 : e.deltaY;
+      // 兼容：有些设备/浏览器主要给 deltaY（纵向滚轮），deltaX 接近 0
+      const deltaX = e.shiftKey ? e.deltaY : e.deltaX;
+      const deltaY = e.shiftKey ? 0 : e.deltaY;
+      const rawX = Math.abs(deltaX) < 0.5 ? deltaY : deltaX;
+      const rawY = Math.abs(deltaX) < 0.5 ? 0 : deltaY;
       const dx = rawX * scale;
       const dy = rawY * scale;
 
@@ -500,6 +348,77 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     el.addEventListener('wheel', handler, { passive: false, capture: true });
     return () => el.removeEventListener('wheel', handler as EventListener, true);
   }, [language, totalCards]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!('history' in window) || typeof window.history?.pushState !== 'function') return;
+
+    const ensureGuard = () => {
+      try {
+        const st: any = window.history.state;
+        if (st && st.__wa_carousel_guard__) return;
+        window.history.pushState({ ...(st || {}), __wa_carousel_guard__: true }, '', window.location.href);
+      } catch {
+        // ignore
+      }
+    };
+
+    ensureGuard();
+
+    const onPopState = () => {
+      ensureGuard();
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  useEffect(() => {
+    const el = wheelSurfaceRef.current;
+    if (!el) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      const t = e.touches?.[0];
+      if (!t) return;
+      touchBlockStartX.current = t.clientX;
+      touchBlockStartY.current = t.clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchBlockStartX.current === null || touchBlockStartY.current === null) return;
+      const t = e.touches?.[0];
+      if (!t) return;
+
+      const dx = t.clientX - touchBlockStartX.current;
+      const dy = t.clientY - touchBlockStartY.current;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      // 只要是明显的横向手势，就阻止浏览器“侧滑返回/退出”
+      if (absDx > 8 && absDx > absDy) {
+        e.preventDefault();
+        (e as any).stopPropagation?.();
+        (e as any).stopImmediatePropagation?.();
+      }
+    };
+
+    const onTouchEnd = () => {
+      touchBlockStartX.current = null;
+      touchBlockStartY.current = null;
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: false, capture: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
+    el.addEventListener('touchend', onTouchEnd, { passive: true, capture: true });
+    el.addEventListener('touchcancel', onTouchEnd, { passive: true, capture: true });
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart as EventListener, true);
+      el.removeEventListener('touchmove', onTouchMove as EventListener, true);
+      el.removeEventListener('touchend', onTouchEnd as EventListener, true);
+      el.removeEventListener('touchcancel', onTouchEnd as EventListener, true);
+    };
+  }, []);
 
   // 处理触摸开始
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -565,13 +484,19 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   const handlePointerDown = (e: React.PointerEvent) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-    // 避免触屏时浏览器把手势当成页面滚动/选择
-    if (e.pointerType !== 'mouse') e.preventDefault();
+    const now = performance.now();
+    if (now < learnMoreBlockUntilTs.current) return;
+
+    const directHit = (e.target as HTMLElement | null)?.closest?.('[data-learn-more-index], button, a') as HTMLElement | null;
+    if (directHit) return;
 
     // 如果起手点在按钮/链接（例如“了解更多”），不要启动容器的手势逻辑
     const downEls = document.elementsFromPoint(e.clientX, e.clientY) as HTMLElement[];
     if (downEls.some((node) => !!node.closest('[data-learn-more-index]'))) return;
     if (downEls.some((node) => !!node.closest('button, a'))) return;
+
+    // 避免触屏时浏览器把手势当成页面滚动/选择
+    if (e.pointerType !== 'mouse') e.preventDefault();
 
     isPointerDown.current = true;
     pointerStartX.current = e.clientX;
@@ -579,13 +504,11 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     pointerStartY.current = e.clientY;
     pointerEndY.current = null;
 
-    // 触控/手写笔：捕获指针，保证滑动过程中 pointermove/pointerup 不丢失
-    if (e.pointerType !== 'mouse') {
-      try {
-        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-      } catch {
-        // ignore
-      }
+    // 捕获指针：mouse 也需要（否则拖出元素后松手可能收不到 pointerup，导致“翻页失败”）
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
     }
   };
 
@@ -593,6 +516,34 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     if (!isPointerDown.current) return;
     pointerEndX.current = e.clientX;
     pointerEndY.current = e.clientY;
+
+    // 超过阈值就立即触发翻页（mouse 也支持，且配合 pointer capture 可避免丢失 up）
+    if (e.pointerType !== 'mouse' || e.pointerType === 'mouse') {
+      const now = performance.now();
+      if (now < wheelLockUntilTs.current) return;
+
+      if (pointerStartX.current !== null && pointerStartY.current !== null) {
+        const deltaX = e.clientX - pointerStartX.current;
+        const deltaY = e.clientY - pointerStartY.current;
+        if (Math.abs(deltaX) > SWIPE_THRESHOLD_PX && Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX > 0) goToPrevious();
+          else goToNext();
+
+          wheelLockUntilTs.current = now + WHEEL_LOCK_MS;
+          isPointerDown.current = false;
+          pointerStartX.current = null;
+          pointerEndX.current = null;
+          pointerStartY.current = null;
+          pointerEndY.current = null;
+
+          try {
+            (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+          } catch {
+            // ignore
+          }
+        }
+      }
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
@@ -600,6 +551,13 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
     isPointerDown.current = false;
 
     const now = performance.now();
+    if (now < learnMoreBlockUntilTs.current) {
+      pointerStartX.current = null;
+      pointerEndX.current = null;
+      pointerStartY.current = null;
+      pointerEndY.current = null;
+      return;
+    }
     if (now < wheelLockUntilTs.current) {
       pointerStartX.current = null;
       pointerEndX.current = null;
@@ -658,18 +616,12 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
   };
 
   const handleCarouselClickCapture = (e: React.MouseEvent) => {
+    const now = performance.now();
+    if (now < learnMoreBlockUntilTs.current) return;
     const elements = document.elementsFromPoint(e.clientX, e.clientY) as HTMLElement[];
 
-    // 优先处理“了解更多”：即使命中目标落在卡片 div 上，也能通过坐标命中到热区
-    const moreHit = elements.find((node) => !!node.closest('[data-learn-more-index]'));
-    const moreAttr = moreHit?.closest('[data-learn-more-index]')?.getAttribute('data-learn-more-index');
-    const moreIdx = moreAttr ? Number(moreAttr) : NaN;
-    if (!Number.isNaN(moreIdx)) {
-      e.preventDefault();
-      e.stopPropagation();
-      handleLearnMoreClick(moreIdx);
-      return;
-    }
+    // 命中“了解更多”区域时，捕获阶段不要介入（避免误命中到背后的卡片导致翻页/切换）
+    if (elements.some((node) => !!node.closest('[data-learn-more-index]'))) return;
 
     // 如果点到按钮/链接（例如“了解更多”），不要在捕获阶段抢事件
     if (elements.some((node) => !!node.closest('button, a'))) return;
@@ -679,52 +631,93 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
 
   // 卡片到页面的映射
   const cardToPageMap: Record<number, Page | null> = {
-    0: 'whitepaper',  // Whitepaper
-    1: null,          // Global Community - 暂时没有对应页面
-    2: 'faq',         // Q&A
-    3: 'social',      // Social Channels
-    4: null           // Team & Partners - 暂时没有对应页面
+    0: null,
+    1: null,
+    2: 'faq',
+    3: null,
+    4: null
   };
+
+  useEffect(() => {
+    const el = wheelSurfaceRef.current;
+    if (!el) return;
+
+    const handler = (ev: Event) => {
+      const target = ev.target as HTMLElement | null;
+      if (!target) return;
+
+      const anyEv = ev as any;
+      const clientX = typeof anyEv.clientX === 'number' ? anyEv.clientX : null;
+      const clientY = typeof anyEv.clientY === 'number' ? anyEv.clientY : null;
+
+      // 坐标命中：落在“百问百答”卡片下半区则直接进入 FAQ（二级页）
+      if (clientX !== null && clientY !== null) {
+        const faqCard = el.querySelector('[data-faq-card="1"]') as HTMLElement | null;
+        if (faqCard) {
+          const rect = faqCard.getBoundingClientRect();
+          const inRect = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+          const inLowerZone = clientY >= rect.top + rect.height * 0.6;
+          if (inRect && inLowerZone) {
+            (ev as any).preventDefault?.();
+            (ev as any).stopPropagation?.();
+            (ev as any).stopImmediatePropagation?.();
+
+            const now = performance.now();
+            learnMoreBlockUntilTs.current = now + 900;
+            wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+            isPointerDown.current = false;
+            pointerStartX.current = null;
+            pointerEndX.current = null;
+            pointerStartY.current = null;
+            pointerEndY.current = null;
+
+            setCurrentPage('faq');
+            return;
+          }
+        }
+      }
+
+      const moreRoot = target.closest?.('[data-learn-more-index]') as HTMLElement | null;
+      if (!moreRoot) return;
+
+      const pageAttr = moreRoot.getAttribute('data-learn-more-page');
+      if (pageAttr !== 'faq') return;
+
+      const idxAttr = moreRoot.getAttribute('data-learn-more-index');
+      const idx = idxAttr ? Number(idxAttr) : NaN;
+      if (Number.isNaN(idx)) return;
+
+      (ev as any).preventDefault?.();
+      (ev as any).stopPropagation?.();
+      (ev as any).stopImmediatePropagation?.();
+
+      const now = performance.now();
+      learnMoreBlockUntilTs.current = now + 900;
+      wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+      isPointerDown.current = false;
+      pointerStartX.current = null;
+      pointerEndX.current = null;
+      pointerStartY.current = null;
+      pointerEndY.current = null;
+
+      setCurrentPage('faq');
+    };
+
+    el.addEventListener('pointerdown', handler, true);
+    el.addEventListener('click', handler, true);
+    return () => {
+      el.removeEventListener('pointerdown', handler, true);
+      el.removeEventListener('click', handler, true);
+    };
+  }, [setCurrentPage]);
 
   // 处理卡片点击
   const handleCardClick = (index: number) => {
     // 点击卡片仅用于切换，不直接进入二级页
     if (index !== currentIndex) {
-      setCurrentIndex(index);
+      animateToIndex(index);
     }
   };
-
-  const enterPage = (index: number) => {
-    const targetPage = cardToPageMap[index];
-    if (targetPage) {
-      setCurrentPage(targetPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const handleLearnMoreClick = (index: number) => {
-    // 点击“了解更多”需要进入二级页：若不是中间卡，先切到中间并在动画结束后自动进入
-    if (index !== currentIndex) {
-      setPendingEnterIndex(index);
-      setCurrentIndex(index);
-      return;
-    }
-
-    enterPage(index);
-  };
-
-  useEffect(() => {
-    if (pendingEnterIndex === null) return;
-    if (pendingEnterIndex !== currentIndex) return;
-
-    // 等待切换动画完成后再进入（与卡片 transition duration 对齐）
-    const id = window.setTimeout(() => {
-      enterPage(pendingEnterIndex);
-      setPendingEnterIndex(null);
-    }, 720);
-
-    return () => window.clearTimeout(id);
-  }, [currentIndex, pendingEnterIndex]);
 
   const getCardStyle = (index: number) => {
     const position = index - currentIndex;
@@ -806,7 +799,7 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
         <div 
           className="absolute inset-0 flex items-center justify-center" 
           ref={wheelSurfaceRef}
-          style={{ transformStyle: 'preserve-3d', touchAction: 'pan-y', userSelect: 'none', overscrollBehaviorX: 'contain', overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none' }}
+          style={{ transformStyle: 'preserve-3d', touchAction: 'pan-y', userSelect: 'none', overscrollBehaviorX: 'none', overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none' }}
           onClickCapture={handleCarouselClickCapture}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -818,9 +811,11 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
           onScroll={handleScroll}
         >
           <div className="pointer-events-none" style={{ width: '200%', height: 1 }} />
-          {t.cards.map((card, index) => {
+          {cards.map((card, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
+            const position = index - currentIndex;
+            const isFAQCard = card.color === 'emerald';
             const Icon = card.icon;
             const colors = colorMap[card.color as keyof typeof colorMap];
             
@@ -830,6 +825,7 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
                 className={`absolute transition-all duration-700 ease-out cursor-pointer`}
                 style={style as React.CSSProperties}
                 data-card-index={index}
+                data-faq-card={isFAQCard ? '1' : undefined}
               >
                 <div 
                   className={`w-[260px] h-[360px] rounded-2xl p-6 transition-all duration-700 border cursor-pointer ${
@@ -837,9 +833,53 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
                       ? 'bg-[rgba(26,26,26,1)] border-emerald-500/40 shadow-[0_10px_15px_rgba(0,0,0,0.3)]' 
                       : 'bg-[rgba(26,26,26,0.8)] border-zinc-800/50 hover:border-zinc-700/70'
                   }`}
+                  style={{ transformStyle: 'preserve-3d' }}
                   data-card-index={index}
-                  onClick={() => handleCardClick(index)}
+                  onClick={(e) => {
+                    if (performance.now() < learnMoreBlockUntilTs.current) return;
+                    const target = e.target as HTMLElement | null;
+                    if (target?.closest?.('[data-learn-more-index]')) return;
+                    handleCardClick(index);
+                  }}
                 >
+                  {isFAQCard && (
+                    <div
+                      className="absolute left-0 right-0 bottom-0 h-[120px] pointer-events-auto"
+                      style={{ transform: 'translateZ(260px)', zIndex: 260, touchAction: 'manipulation' }}
+                      data-learn-more-page="faq"
+                      onPointerDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        (e.nativeEvent as any).stopImmediatePropagation?.();
+
+                        const now = performance.now();
+                        learnMoreBlockUntilTs.current = now + 900;
+                        wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+                        isPointerDown.current = false;
+                        pointerStartX.current = null;
+                        pointerEndX.current = null;
+                        pointerStartY.current = null;
+                        pointerEndY.current = null;
+                        setCurrentPage('faq');
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        (e.nativeEvent as any).stopImmediatePropagation?.();
+
+                        const now = performance.now();
+                        learnMoreBlockUntilTs.current = now + 900;
+                        wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+                        isPointerDown.current = false;
+                        pointerStartX.current = null;
+                        pointerEndX.current = null;
+                        pointerStartY.current = null;
+                        pointerEndY.current = null;
+                        setCurrentPage('faq');
+                      }}
+                    />
+                  )}
+
                   {/* Icon */}
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 border transition-all duration-700 ${
                     isCenter 
@@ -866,29 +906,100 @@ export function CarouselSection({ language, setCurrentPage }: CarouselSectionPro
                   </p>
 
                   {/* Learn More Link */}
-                  <div className="absolute bottom-6 left-6 z-20 pointer-events-auto" data-learn-more-index={index}>
-                    <button 
-                      type="button"
-                      className={`relative z-20 pointer-events-auto inline-flex items-center gap-2 text-sm font-normal transition-all duration-300 group ${
-                        isCenter 
-                          ? 'text-lime-500 hover:text-lime-400' 
+                  <button
+                    type="button"
+                    className={`absolute bottom-6 ${isFAQCard ? 'pointer-events-auto' : 'pointer-events-none'} bg-transparent border-0 p-0 ${
+                      position > 0 ? 'right-6 left-auto' : 'left-6 right-auto'
+                    } ${position === 0 ? 'z-[220]' : 'z-[240]'}`}
+                    style={{ transform: 'translateZ(220px)', touchAction: 'manipulation' }}
+                    data-learn-more-index={index}
+                    data-learn-more-page={isFAQCard ? 'faq' : undefined}
+                    onPointerDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      if (isFAQCard) {
+                        (e.nativeEvent as any).stopImmediatePropagation?.();
+                      }
+
+                      // 非 FAQ 卡片："了解更多" 仅用于切换/翻页，不进入二级页
+                      if (!isFAQCard) {
+                        handleCardClick(index);
+                        return;
+                      }
+
+                      const now = performance.now();
+                      learnMoreBlockUntilTs.current = now + 900;
+                      wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+                      isPointerDown.current = false;
+                      pointerStartX.current = null;
+                      pointerEndX.current = null;
+                      pointerStartY.current = null;
+                      pointerEndY.current = null;
+
+                      setCurrentPage('faq');
+                    }}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      if (isFAQCard) {
+                        (e.nativeEvent as any).stopImmediatePropagation?.();
+                      }
+
+                      if (!isFAQCard) {
+                        handleCardClick(index);
+                        return;
+                      }
+
+                      const now = performance.now();
+                      learnMoreBlockUntilTs.current = now + 900;
+                      wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+                      isPointerDown.current = false;
+                      pointerStartX.current = null;
+                      pointerEndX.current = null;
+                      pointerStartY.current = null;
+                      pointerEndY.current = null;
+
+                      setCurrentPage('faq');
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      if (isFAQCard) {
+                        (e.nativeEvent as any).stopImmediatePropagation?.();
+                      }
+
+                      if (!isFAQCard) {
+                        handleCardClick(index);
+                        return;
+                      }
+
+                      const now = performance.now();
+                      learnMoreBlockUntilTs.current = now + 900;
+                      wheelLockUntilTs.current = Math.max(wheelLockUntilTs.current, now + 900);
+                      isPointerDown.current = false;
+                      pointerStartX.current = null;
+                      pointerEndX.current = null;
+                      pointerStartY.current = null;
+                      pointerEndY.current = null;
+
+                      setCurrentPage('faq');
+                    }}
+                  >
+                    <span
+                      className={`inline-flex items-center gap-2 text-sm font-normal transition-all duration-300 group ${
+                        isCenter
+                          ? 'text-lime-500 hover:text-lime-400'
                           : 'text-zinc-700'
                       }`}
-                      onPointerUp={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleLearnMoreClick(index);
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleLearnMoreClick(index);
-                      }}
+                      style={{ width: 132, height: 28, alignItems: 'center', touchAction: 'manipulation' }}
                     >
                       {t.learnMore}
                       <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </button>
-                  </div>
+                    </span>
+                  </button>
                 </div>
               </div>
             );

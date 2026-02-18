@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
+import type { ComponentType } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -99,15 +100,41 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      document.title = `WA - ${currentPage}`;
+      document.body.dataset.page = currentPage;
+    } catch {
+      // ignore
+    }
+  }, [currentPage]);
+
   // 页面渲染逻辑 - 使用useMemo优化
   const currentPageComponent = useMemo(() => {
     const pageKey = PAGE_CONFIG[currentPage];
-    const PageComponent = LazyPages[pageKey];
+    const PageComponent = LazyPages[pageKey] as unknown as ComponentType<any>;
     
+    if (currentPage === 'home') {
+      return (
+        <PageComponent 
+          language={language} 
+          setCurrentPage={handleSetCurrentPage} 
+        />
+      );
+    }
+
+    if (currentPage === 'whitepaper' || currentPage === 'faq' || currentPage === 'social') {
+      return (
+        <PageComponent 
+          language={language} 
+          setCurrentPage={handleSetCurrentPage} 
+        />
+      );
+    }
+
     return (
       <PageComponent 
         language={language} 
-        setCurrentPage={handleSetCurrentPage} 
       />
     );
   }, [currentPage, language, handleSetCurrentPage]);

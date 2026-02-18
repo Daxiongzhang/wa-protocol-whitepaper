@@ -1,38 +1,49 @@
-import { useState, memo } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { ArrowLeft, HelpCircle, ChevronDown, Search, AlertTriangle } from 'lucide-react';
 import type { Language, Page } from '../App';
-import {
-  zhFAQContent,
-  enFAQContent,
-  idFAQContent,
-  thFAQContent,
-  viFAQContent,
-  koFAQContent,
-  jaFAQContent
-} from '../data/faq-content';
+import { loadFAQContent } from '../data/faq';
 import type { CategoryKey } from '../types/content.types';
+import type { FAQContent } from '../types/content.types';
 
 interface FAQPageProps {
   language: Language;
   setCurrentPage: (page: Page) => void;
 }
 
-const translations = {
-  zh: zhFAQContent,
-  en: enFAQContent,
-  id: idFAQContent,
-  th: thFAQContent,
-  vi: viFAQContent,
-  ko: koFAQContent,
-  ja: jaFAQContent
-};
-
 function FAQPageComponent({ language, setCurrentPage }: FAQPageProps) {
-  const t = translations[language] || translations.zh;
+  const [t, setT] = useState<FAQContent | null>(null);
   const [activeCategory, setActiveCategory] = useState<CategoryKey>('basic');
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showRiskSummary, setShowRiskSummary] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const loaded = await loadFAQContent(language);
+      if (!cancelled) setT(loaded);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [language]);
+
+  useEffect(() => {
+    setActiveCategory('basic');
+    setOpenIndex(null);
+    setSearchQuery('');
+    setShowRiskSummary(true);
+  }, [language]);
+
+  if (!t) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto text-center mb-8 text-zinc-400">Loading…</div>
+        </div>
+      </div>
+    );
+  }
 
   const getCurrentFAQs = () => {
     const categoryOrder: CategoryKey[] = ['basic', 'revenue', 'organization', 'risk', 'conclusion'];

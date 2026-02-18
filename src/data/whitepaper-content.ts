@@ -1,24 +1,4 @@
-
-export interface WhitepaperTranslation {
-  title: string;
-  subtitle: string;
-  backToHome: string;
-  tableOfContents: string;
-  download: string;
-  readOnline: string;
-  chapter: string;
-}
-
-export interface WhitepaperSection {
-  id: number;
-  title: string;
-  icon: string;
-  content: string;
-}
-
-export interface WhitepaperContent {
-  sections: WhitepaperSection[];
-}
+import type { WhitepaperContent, WhitepaperTranslation } from './whitepaper/types';
 
 export const whitepaperTranslations: Record<string, WhitepaperTranslation> = {
   en: {
@@ -2095,7 +2075,7 @@ Goal: Use AI algorithms to identify system-level risks and attack models
 
 • Track network-wide address behavior graphs
 • Introduce time-relationship-frequency three-dimensional graph modeling
-• Use AI to identify zombie networks, circular withdrawals, DID串联 arbitrage, etc.
+• Use AI to identify zombie networks, circular withdrawals, DID-linked arbitrage, etc.
 • AI model continuously learns, gradually optimizes intelligent recognition engine through DAO governance
 • Cannot directly freeze user assets
 • Can flag "risk addresses" for delayed incentives
@@ -2714,11 +2694,3981 @@ WA = Protokol viral otonom + Basis kolaborasi multi-pihak + Model eksekusi tanpa
 • Ini bukan proyek, tetapi "mesin pertumbuhan tanpa manusia"
 
 WA Protocol adalah protokol lalu lintas tingkat Web4.0 pertama dengan kemampuan "propagasi sendiri, eksekusi sendiri, pembatasan sendiri".`
+      },
+      {
+        id: 4,
+        title: 'Arsitektur Teknis: Sistem Operasi On-Chain untuk Web4.0',
+        icon: 'Code',
+        content: `**Dari "DApp" ke "On-chain OS": sebuah pergeseran paradigma**
+
+Banyak aplikasi Web3 masih merupakan versi "cangkang terdesentralisasi" dari logika terpusat:
+• Backend menyimpan data on-chain
+• Frontend memanggil kontrak on-chain
+• Kontrol dan operasi tetap berada di tangan tim pengembang
+
+WA berbeda — sejak baris kode pertama, ia adalah "entitas native-protocol" di chain, dengan tujuan membangun sistem eksekusi tanpa manusia layaknya operating system.
+
+WA bukan "satu produk", melainkan "sekumpulan protokol eksekusi yang dapat dikomposisi". Setiap modul protokol dapat berjalan, dapat digabungkan, dapat diaudit, dan tidak dapat diubah.
+
+**Lima modul inti WA Operating System:**
+
+**1. Kernel Minimal Izin (No Admin Layer)**
+• Semua modul inti setelah deploy menjadi permanen tanpa kontrol, tanpa pintu upgrade
+• Tidak ada alamat tim, tidak ada kontrak pause, tidak ada hak reset
+• Pendiri tidak dapat "turun tangan mengubah" atau "mengintervensi aset"
+
+**2. Mesin Viral Otomatis (Scroll Engine)**
+• "Pencatat perilaku viral" berbasis perilaku undangan on-chain
+• Tidak bergantung pada server terpusat
+• Semua undangan/relasi/insentif dicatat dan diproses otomatis oleh kontrak
+
+**3. Sistem Mesin Daya (Power Engine Layer)**
+• Mirip modul "mining on-chain"
+• Pengguna lock WANT; seiring waktu menghasilkan output; aturan output bersifat tetap
+• Setiap 72 jam perlu maintenance, membentuk "biaya operasi" yang nyata
+• Mendukung pertumbuhan ekosistem, kebutuhan token, dan mekanisme deflasi
+
+**4. Sistem Mekanisme Token (WANT dan XANT)**
+• WANT adalah token nilai sirkulasi inti ekosistem
+• XANT adalah kredensial untuk mengaktifkan engine (starter yang dibakar)
+• Semua logika sirkulasi dieksekusi on-chain (withdraw = sirkulasi)
+
+**5. Sistem MiniApp yang dapat dikomposisi (modul ekosistem private domain)**
+• Menyediakan ruang berjalan on-chain bagi developer komunitas (seperti "plugin")
+• Dapat deploy logika operasional independen, memanggil engine protokol dasar
+• Membentuk kolaborasi ekosistem yang beragam
+
+MiniApp = "ruang kedaulatan digital private domain" milik builder
+
+**Tiga atribut kunci dari sistem "self-running"**
+
+| Kapabilitas | Deskripsi | Implementasi Teknis |
+|------|------|---------|
+| 1. Self-running | Dapat terus mengeksekusi tanpa intervensi manusia | Tanpa super admin, kontrak tetap |
+| 2. Self-driven | Setiap perilaku digerakkan mekanisme insentif | Penalti + keuntungan dieksekusi otomatis |
+| 3. Self-auditing | Semua perilaku dapat diverifikasi dan dilacak | Seluruh alur on-chain terbuka + AI audit |
+
+---
+
+**Penjelasan modul**
+
+| Modul | Fungsi | Karakteristik |
+|------|---------|------|
+| Kontrak minimal izin | Kontrak inti tak dapat diubah | Transparan on-chain, asumsi zero-trust |
+| Mesin viral otomatis | Pelacakan dan insentif undangan viral | Dikendalikan penuh oleh kontrak |
+| Sistem Power Engine | Satu-satunya mekanisme menghasilkan WANT | Maintenance berkala + konsumsi + dividen |
+| Ekosistem MiniApp | Kombinasi modul fungsi private domain | Akses terdesentralisasi |
+| Modul ekonomi token | Mengelola insentif dan aliran nilai governance | Dua token bersinergi untuk deflasi dan governance |
+
+**Dalam desain struktur, WA memasukkan tiga lapis pertahanan**
+
+1. **Deploy lalu terkunci (Immutable)**: setelah deploy, kontrak tidak dapat di-upgrade, mencegah "backdoor"
+
+2. **Insentif terikat tanggung jawab (Incentive + Cost)**: setiap output menanggung biaya konsumsi nyata, mencegah airdrop farming
+
+3. **AI memantau graf perilaku (On-chain AI Watcher)**: di masa depan, memasukkan model perilaku on-chain untuk mengenali alamat anomali, risiko viral, dll.
+
+**Mode developer protokol: semuanya dapat dikomposisi**
+
+| Cara membangun | Contoh |
+|---------|------|
+| Re-use Scroll Engine | Membuat mekanisme undangan DApp sendiri |
+| Nested Power Engine | Kombinasikan konten/aktivitas + reward berbasis engine |
+| Membangun protokol komunitas | MiniApp + alat aset private domain |
+| Membuat modul governance | Sub-protokol DAO/voting kustom |
+| Mencipta aturan insentif baru | Kombinasi Token + Task + Reward |
+
+WA adalah sistem Lego Web4.0 yang modular; siapa pun dapat "menenun" ruang ekonomi mereka sendiri di atasnya.
+
+**Ringkasan**
+
+| Fitur | Perwujudan dalam arsitektur WA |
+|------|-----------|
+| Otonom | Tanpa izin, kontrak terkunci, tak dapat di-upgrade |
+| Otomatis | Pelacakan perilaku otomatis, settlement reward/penalty otomatis |
+| Aman | Semua data on-chain bisa dicek, diaudit, dan ditelusuri |
+| Skalabel | MiniApp mendukung akses ekosistem private domain tanpa batas |
+| Kolaboratif | Banyak tim/komunitas dapat membangun sistem baru berbasis protokol yang sama |
+
+WA Protocol adalah sistem operasi on-chain tanpa kontrol, tanpa otorisasi, tanpa server — menyediakan fondasi operasi yang benar-benar native untuk Web4.0.`
+      },
+      {
+        id: 5,
+        title: 'Desain Mekanisme Inti: dari Viral menuju Otonomi',
+        icon: 'Settings',
+        content: `**Dari viral pengguna, ke output nilai, hingga stabilisasi sistem — sebuah model operasi closed-loop yang lengkap**
+
+Ciri terbesar WA Protocol bukan satu "mekanisme inovasi" tunggal, melainkan membangun closed-loop yang dapat beroperasi sendiri: pertumbuhan otomatis - pembentukan nilai - penyesuaian sistem.
+
+Viral bukan pertumbuhan airdrop, melainkan aktivasi sistem yang terikat biaya
+Output bukan emisi inflasi, melainkan ekonomi on-chain dengan biaya maintenance
+Konsumsi bukan burn pasif, melainkan "ambang survival" untuk memastikan operasi
+
+**Model closed-loop ekosistem WA: tiga logika**
+
+**1. Logika partisipasi pengguna: akuisisi traffic viral + pengikatan perilaku**
+• Mekanisme scroll mendorong pengguna mengundang
+• Semua perilaku dicatat on-chain; reward undangan terikat perilaku nyata
+• Tidak ada "free-riding"; semua insentif dibagikan otomatis berdasarkan data on-chain
+
+**2. Logika lahirnya insentif: Power Engine menentukan output**
+• Pengguna mengaktifkan engine dengan WANT (dinyalakan oleh XANT)
+• Engine menghasilkan WANT secara periodik saat berjalan
+• Setiap 72 jam harus maintenance; gagal maintenance = output berhenti
+• Engine makin tinggi, imbal hasil makin besar, tetapi ambang dan biaya maintenance juga makin tinggi
+
+**3. Logika stabilisasi ekonomi: insentif terikat biaya + deflasi sistem**
+• Setiap maintenance engine mengonsumsi 1% WANT posisi, masuk burn atau pool dividen
+• Upgrade engine, withdraw, dan fee semuanya melibatkan konsumsi "fuel"
+• Total WANT masuk lintasan deflasi berkelanjutan
+
+**Mekanisme Power Engine: jantung output dan konsumsi WA**
+
+WA tidak memiliki "airdrop". Semua sirkulasi WANT harus diproduksi melalui Power Engine. Tanpa partisipasi dan maintenance, tidak ada output.
+
+| Level Engine | Ambang (WANT) | Siklus (hari) | Total Output | Profit Bersih | Return bulanan | Batas |
+|---------|-----------|---------|-----------|--------|-----------|---------|
+| T10 | 100 | 30 | 130 | 30 | 30% | 3 |
+| T30 | 1,000 | 40 | 1,500 | 500 | 37.5% | 2 |
+| T70 | 100,000 | 90 | 200,000 | 100,000 | 33.3% | 1 |
+
+Keterangan:
+• Semua parameter ditulis ke smart contracts, pengguna tidak bisa mengubah
+• Setelah engine dibuka tidak bisa dihentikan, hanya bisa maintenance
+• Interval maintenance 72 jam; gagal = output tertunda
+
+**Mekanisme maintenance: "ambang fuel" dari sistem**
+
+Setiap engine, setiap kali maintenance harus burn 1% posisi WANT sebagai "fuel":
+• 50% masuk alamat blackhole (burn)
+• 25% masuk pool dividen global
+• 25% masuk cadangan governance protokol
+
+**Mekanisme XANT ignition**
+
+Pengguna tidak bisa langsung membuka Power Engine; harus menggunakan XANT untuk ignition.
+• XANT = izin aktivasi (tiap level engine membutuhkan jumlah XANT tetap)
+• Digunakan = burn, keluar dari sirkulasi selamanya
+• Pada fase awal hanya dirilis bertahap oleh foundation, makin lama makin deflasi
+
+**Ringkasan**
+
+| Tahap | Desain sistem |
+|------|---------|
+| Akuisisi pengguna | Viral scroll + mekanisme undangan otomatis |
+| Produksi insentif | Power Engine memproduksi WANT |
+| Ambang insentif | XANT ignition + WANT maintenance |
+| Keseimbangan sistem | Burn fuel + deflasi |
+| Pengaturan reward | Pool dividen + redistribusi fee |
+| Keberlanjutan | Semua partisipasi menanggung biaya (bukan zero-cost) |
+
+Mekanisme WA membuat setiap insentif disertai biaya, setiap output menanggung tanggung jawab — mewujudkan ekosistem on-chain "insentif x tanggung jawab x eksekusi otonom".`
+      },
+      {
+        id: 6,
+        title: 'Sistem Ekonomi Dual-Token: Desain Simbiosis WANT dan XANT',
+        icon: 'Gem',
+        content: `**Mengapa menggunakan model dual-token?**
+
+Dalam Web3 tradisional, mekanisme "single token" sering menimbulkan tiga masalah utama:
+
+| Masalah | Dampak |
+|------|------|
+| Tidak ada ambang aktivasi | Mudah dieksploitasi |
+| Insentif inflasi berlebihan | Penerbitan tanpa batas merusak nilai |
+| Tidak ada desain konsumsi berkelanjutan | Output langsung dijual, sistem tak bisa menutup loop |
+
+Karena itu, WA memisahkan peran menjadi 2 token:
+
+| Token | Peran | Karakteristik |
+|------|---------|------|
+| XANT | Kredensial aktivasi | Khusus ignition, dipakai lalu burn |
+| WANT | Token utama sistem | Output sekaligus biaya, sekaligus governance |
+
+**XANT: fuel ignition (Execution Fuel)**
+• Mengaktifkan Power Engine memerlukan XANT
+• Dipakai langsung burn, keluar dari sistem selamanya
+
+**WANT: value anchor**
+• Hanya diproduksi lewat Power Engine (tanpa pre-mine)
+• Digunakan sebagai reward dan biaya maintenance
+
+---
+
+**Tabel relasi sinergi dual-token**
+
+| Karakteristik | XANT | WANT |
+|------|------|------|
+| Fungsi | Kredensial ignition | Aset ekosistem |
+| Cara memperoleh | Rilis awal/Reward misi | Output dari Power Engine |
+| Deflasi | Setiap aktivasi burn | Burn saat maintenance/fee |
+| Dapat diperdagangkan | Tidak | Ya |
+| Menghasilkan output | Tidak | Ya, berkelanjutan |
+| Partisipasi governance | Tidak | Ya |
+
+---
+
+**Diagram struktur closed-loop dual-token**
+
+XANT ignition - Aktivasi Power Engine menghasilkan WANT - Partisipasi ekosistem/Konsumsi maintenance - Deflasi dan endapan nilai
+
+---
+
+**Tabel mekanisme distribusi**
+
+Setiap kali sistem menerima biaya maintenance atau biaya transaksi dalam WANT:
+
+| Aliran | Rasio |
+|------|------|
+| Burn ke blackhole | 25% |
+| Pool dividen global | 50% |
+| Governance fund | 25% |
+
+---
+
+**Mekanisme pengaturan ekonomi**
+
+WA memperkenalkan strategi pengaturan perilaku dinamis melalui smart contracts:
+• Jika jumlah withdraw pasar lebih besar dari maintenance/burn, sistem otomatis menaikkan biaya maintenance
+• Jika harga WANT berfluktuasi tajam, protokol menaikkan porsi dividen untuk mendorong lock
+• Jika rilis XANT per fase terlalu cepat, protokol dapat menjeda "pintu ignition"
+
+**Skenario konsumsi WANT:**
+
+| Skenario | Penggunaan WANT |
+|------|---------|
+| Maintenance Power Engine | Setiap 72h konsumsi 1% kepemilikan |
+| Pembayaran fungsi DApp | Biaya layanan dalam ekosistem MiniApp |
+| Biaya withdraw | Aksi To-Wallet perlu burn rasio WANT tertentu |
+| Governance komunitas | Voting/proposal perlu lock WANT |
+| Kartu dan pembayaran | Pembayaran lintas batas juga butuh konsumsi WANT |
+
+WANT = hak pakai + hak maintenance + hak governance + fuel aktivitas on-chain
+
+**Mekanisme deflasi WANT**
+
+Tiga loop deflasi:
+1. **Burn saat maintenance Power Engine**: setiap maintenance, WANT otomatis burn 1%
+2. **Burn fee**: pengguna burn sebagian fee saat withdraw/bertransaksi
+3. **Akumulasi ke alamat blackhole**: semua burn dapat ditelusuri on-chain, tidak dapat dibalik
+
+Tanpa pre-mine, tanpa reserve tim, tanpa airdrop.
+
+Model dual-token memberi WA "ambang aktivasi" sekaligus "mekanisme keseimbangan diri" agar bisa berjalan jangka panjang.`
+      },
+      {
+        id: 7,
+        title: 'Closed-Loop Bisnis: Sistem Hematopoietik dan Aturan Insentif',
+        icon: 'TrendingUp',
+        content: `**Latar belakang: Mengapa 90% proyek Web3 "tidak bisa menghidupi dirinya sendiri"?**
+
+Sebagian besar proyek Web3 akhirnya gagal, akar masalahnya adalah:
+
+| Masalah | Konsekuensi |
+|------|------|
+| Tidak ada pendapatan nyata | Bergantung pada penerbitan token untuk menarik pengguna |
+| Tidak ada closed-loop konsumsi | Token hanya bisa dijual, tidak ada tempat digunakan |
+| Tidak ada mekanisme deflasi | Inflasi terus-menerus, harga terus turun |
+| Bergantung pada tim operasional | Begitu tim bubar, proyek mati |
+
+WA Protocol mendesain closed-loop bisnis yang lengkap sejak awal: ada pendapatan, ada konsumsi, ada deflasi, ada dividen — membentuk "sistem hematopoietik" yang benar-benar berjalan.
+
+**Empat pilar closed-loop bisnis WA**
+
+**Pilar 1: Pendapatan dari Power Engine (sumber utama)**
+• Pengguna membayar WANT untuk mengaktifkan dan memelihara engine
+• Setiap maintenance mengonsumsi 1% posisi WANT
+• Sebagian masuk burn, sebagian masuk pool dividen
+
+**Pilar 2: Pendapatan dari ekosistem MiniApp**
+• Developer MiniApp membayar biaya akses protokol
+• Pengguna membayar biaya layanan dalam MiniApp
+• Semua fee mengalir kembali ke sistem
+
+**Pilar 3: Pendapatan dari kartu dan pembayaran**
+• Biaya konversi WANT ke fiat
+• Biaya transaksi lintas batas
+• Spread FX sebagai pendapatan protokol
+
+**Pilar 4: Pendapatan dari layanan enterprise**
+• Solusi white-label untuk bisnis
+• API akses untuk integrasi pihak ketiga
+• Biaya konsultasi dan implementasi
+
+**Aturan distribusi insentif**
+
+| Sumber pendapatan | Burn | Pool dividen | Governance fund |
+|------|------|------|------|
+| Maintenance engine | 50% | 25% | 25% |
+| Fee MiniApp | 30% | 50% | 20% |
+| Fee kartu/pembayaran | 20% | 60% | 20% |
+| Fee enterprise | 10% | 40% | 50% |
+
+**Mekanisme dividen global**
+
+Pool dividen global mendistribusikan reward kepada semua pemegang engine aktif:
+• Distribusi proporsional berdasarkan level engine dan durasi aktif
+• Semakin tinggi level engine, semakin besar porsi dividen
+• Hanya engine yang aktif (di-maintain) yang berhak menerima dividen
+
+**Mengapa ini berkelanjutan?**
+
+1. Setiap pendapatan memiliki sumber nyata (bukan dari penerbitan token baru)
+2. Setiap distribusi disertai burn (deflasi terus berjalan)
+3. Setiap partisipan harus aktif maintain (tidak ada passive income tanpa biaya)
+4. Semakin besar ekosistem, semakin banyak sumber pendapatan
+
+WA bukan "proyek yang menerbitkan token", melainkan "protokol ekonomi yang menghasilkan pendapatan nyata dan mendistribusikannya secara transparan on-chain".`
+      },
+      {
+        id: 8,
+        title: 'Sistem Pengendalian Risiko dan Desain Keberlanjutan',
+        icon: 'Shield',
+        content: `**Mengapa pengendalian risiko harus "native-protocol"?**
+
+Platform Web2 tradisional mengandalkan:
+• Audit manual
+• Pemantauan pusat data
+• Mekanisme pause terpusat
+
+Semua ini bergantung pada "manusia" — dan manusia bisa salah, bisa korup, bisa lambat bereaksi.
+
+WA mendesain pengendalian risiko sebagai bagian dari protokol itu sendiri: aturan ditulis ke smart contract, dieksekusi otomatis, tidak bisa dimanipulasi.
+
+**Lima lapisan pengendalian risiko WA**
+
+**Lapisan 1: Pengendalian risiko viral (Scroll Risk Control)**
+• Batas undangan per alamat per periode
+• Deteksi pola undangan abnormal (batch invite, self-referral)
+• Penalti otomatis: alamat yang terdeteksi curang kehilangan reward
+
+**Lapisan 2: Pengendalian risiko engine (Power Engine Risk Control)**
+• Batas kapasitas per level engine
+• Interval maintenance wajib 72 jam
+• Gagal maintenance = output berhenti otomatis
+
+**Lapisan 3: Pengendalian risiko token (Token Risk Control)**
+• Burn saat withdraw mencegah dump massal
+• Gradual release mencegah shock pasar
+• Rasio burn dinamis berdasarkan kondisi pasar
+
+**Lapisan 4: Pengendalian risiko perilaku (AI Behavior Risk Control)**
+• AI memantau graf perilaku on-chain secara real-time
+• Deteksi alamat anomali, pola Sybil, dan aktivitas mencurigakan
+• Flagging otomatis dan pembatasan akses
+
+**Lapisan 5: Pengendalian risiko sistem (System Risk Control)**
+• Governance fund sebagai cadangan darurat
+• Parameter protokol dapat disesuaikan melalui governance
+• Circuit breaker otomatis jika metrik sistem melewati ambang batas
+
+**Desain keberlanjutan**
+
+WA menyajikan tiga prinsip keberlanjutan:
+
+1. **Semua output harus berasal dari fuel nyata**: tidak ada airdrop gratis, semua output memerlukan XANT ignition + WANT maintenance
+2. **Semua withdraw mempengaruhi deflasi**: setiap kali WANT ditarik, sebagian di-burn
+3. **Semua struktur memiliki lifecycle**: engine perlu maintenance, reward memiliki batas, partisipasi memerlukan tanggung jawab
+
+**Tabel ringkasan pengendalian risiko**
+
+| Dimensi | Metode | Tujuan |
+|------|------|------|
+| Identifikasi perilaku | AI audit + pelacakan graf | Memblokir partisipasi non-riil |
+| Pengendalian reward | Batas insentif + binding algoritma | Mencegah viral collapse |
+| Pengendalian token | Burn + penalti withdraw | Menekan sirkulasi, mencegah inflasi |
+| Penyeimbangan insentif | Gradual release | Mengatasi pertumbuhan eksplosif jangka pendek |
+| Keamanan sistem | AI Sentinel monitoring | Membangun sistem imun ekosistem |
+
+WA tidak bergantung pada "manusia yang jujur", melainkan pada "sistem yang self-regulating":
+• Pengendalian risiko = protokol
+• Audit = AI
+• Penalti = deflasi
+
+Ini adalah OS on-chain baru yang "aturannya mengeksekusi dirinya sendiri".`
+      },
+      {
+        id: 9,
+        title: 'Peta Jalan dan Rencana Pengembangan Bertahap',
+        icon: 'Map',
+        content: `**Prinsip pengembangan WA: "protokol dulu, produk kemudian"**
+
+Berbeda dari proyek Web3 biasa yang "buat produk dulu, cari pengguna kemudian", WA mengikuti jalur:
+Desain protokol - Deploy kontrak - Verifikasi komunitas - Ekspansi ekosistem
+
+**Fase 1: Foundation (Q1-Q2)**
+• Deploy kontrak inti (Power Engine, Scroll Engine, Token contracts)
+• Audit keamanan oleh pihak ketiga
+• Peluncuran testnet dan program bug bounty
+• Pembentukan komunitas awal (early builders)
+
+**Fase 2: Growth (Q3-Q4)**
+• Peluncuran mainnet
+• Aktivasi Power Engine untuk pengguna awal
+• Peluncuran sistem scroll viral
+• Integrasi wallet dan on-ramp/off-ramp
+
+**Fase 3: Ecosystem (Q5-Q6)**
+• Peluncuran platform MiniApp
+• Onboarding developer pihak ketiga
+• Peluncuran kartu pembayaran WA
+• Ekspansi ke pasar Asia Tenggara dan LATAM
+
+**Fase 4: Autonomy (Q7-Q8)**
+• Transisi ke governance terdesentralisasi penuh
+• Peluncuran AI Sentinel untuk monitoring on-chain
+• Integrasi cross-chain
+• Pencapaian status "fully autonomous protocol"
+
+**Milestone kunci**
+
+| Fase | Target | Metrik |
+|------|------|------|
+| Foundation | Kontrak teraudit dan terdeploy | Audit report + testnet live |
+| Growth | 10,000 pengguna aktif | DAU + engine aktif |
+| Ecosystem | 50+ MiniApp terdeploy | Developer onboarded + TVL |
+| Autonomy | Governance terdesentralisasi | Proposal + voting aktif |
+
+**Prinsip pengembangan**
+
+1. **Keamanan di atas segalanya**: setiap fase dimulai dengan audit
+2. **Komunitas-first**: setiap fitur baru divalidasi oleh komunitas sebelum mainnet
+3. **Iterasi bertahap**: tidak ada "big bang launch", melainkan deployment bertahap
+4. **Transparansi penuh**: semua progress dipublikasikan on-chain dan di forum governance
+
+WA Protocol berkembang bukan karena "tim mendorong", melainkan karena "protokol menarik partisipan yang tepat pada waktu yang tepat".`
+      },
+      {
+        id: 10,
+        title: 'Desain Ekosistem MiniApp: Ruang Kedaulatan Digital Private Domain',
+        icon: 'Layout',
+        content: `**Apa itu MiniApp dalam konteks WA?**
+
+MiniApp bukan sekadar "aplikasi kecil" — ia adalah modul fungsional on-chain yang dapat di-deploy oleh siapa saja di atas protokol WA, membentuk "ruang kedaulatan digital" milik builder.
+
+**Karakteristik MiniApp WA:**
+• Berjalan di atas infrastruktur protokol WA
+• Dapat memanfaatkan Scroll Engine untuk viral
+• Dapat mengintegrasikan Power Engine untuk insentif
+• Sepenuhnya dimiliki dan dikelola oleh builder
+
+**Jenis MiniApp yang dapat dibangun:**
+
+| Kategori | Contoh | Manfaat |
+|------|------|------|
+| Komunitas | DAO tools, voting, forum | Governance terdesentralisasi |
+| Konten | Blog, video, kursus | Monetisasi konten on-chain |
+| Perdagangan | DEX, marketplace, OTC | Likuiditas ekosistem |
+| Layanan | Konsultasi, freelance, SaaS | Ekonomi jasa on-chain |
+| Gaming | Play-to-earn, prediction market | Hiburan + insentif |
+
+**Model bisnis MiniApp**
+
+Builder MiniApp dapat menghasilkan pendapatan melalui:
+1. **Biaya layanan**: pengguna membayar WANT untuk menggunakan fitur
+2. **Biaya langganan**: akses premium berbayar
+3. **Revenue sharing**: berbagi pendapatan dengan protokol WA
+4. **Insentif komunitas**: reward dari pool dividen global
+
+**Keunggulan ekosistem MiniApp WA vs platform tradisional**
+
+| Aspek | Platform Web2 | MiniApp WA |
+|------|------|------|
+| Kepemilikan | Platform | Builder |
+| Pendapatan | Platform ambil 30%+ | Builder ambil mayoritas |
+| Data pengguna | Milik platform | Milik pengguna (on-chain) |
+| Portabilitas | Terkunci di platform | Interoperable on-chain |
+| Sensor | Platform bisa hapus | Tidak bisa disensor |
+
+MiniApp adalah cara WA mewujudkan visi "internet milik penggunanya" — setiap builder memiliki kedaulatan penuh atas ruang digitalnya.`
+      },
+      {
+        id: 11,
+        title: 'Struktur Tim dan Latar Belakang',
+        icon: 'Users',
+        content: `**Filosofi tim WA: "Protokol lebih besar dari tim"**
+
+WA Protocol dirancang agar tidak bergantung pada satu tim tertentu. Namun, di fase awal, diperlukan tim inti untuk:
+• Mendesain dan mengaudit kontrak
+• Membangun infrastruktur awal
+• Membina komunitas builder
+• Memastikan keamanan dan stabilitas
+
+**Komposisi tim inti:**
+
+| Divisi | Tanggung jawab | Keahlian |
+|------|------|------|
+| Protocol Engineering | Desain dan deploy smart contracts | Solidity, Rust, audit keamanan |
+| Product | UX/UI, integrasi wallet, MiniApp SDK | Frontend, mobile, design |
+| Growth | Komunitas, partnership, marketing | Community building, BD |
+| Research | Ekonomi token, game theory, AI | Tokenomics, data science |
+| Operations | Legal, compliance, finance | Regulatory, accounting |
+
+**Advisor dan partner:**
+• Audit firm terkemuka untuk keamanan kontrak
+• Legal counsel untuk compliance multi-jurisdiksi
+• Academic advisor untuk riset ekonomi token
+• Industry partner untuk integrasi ekosistem
+
+**Prinsip organisasi:**
+
+1. **Progressive decentralization**: tim inti secara bertahap menyerahkan kontrol ke governance komunitas
+2. **Transparansi**: semua keputusan besar dipublikasikan dan didiskusikan di forum
+3. **Akuntabilitas**: tim inti memiliki vesting schedule yang panjang
+4. **Meritokrasi**: kontributor komunitas dapat naik menjadi core contributor
+
+Tujuan akhir: WA Protocol berjalan sepenuhnya tanpa ketergantungan pada tim inti manapun.`
+      },
+      {
+        id: 12,
+        title: 'Penutup: Visi Web4.0 dan Undangan untuk Membangun Bersama',
+        icon: 'Flag',
+        content: `**WA Protocol bukan sekadar proyek — ia adalah eksperimen peradaban digital**
+
+Kami percaya bahwa internet generasi berikutnya bukan tentang "siapa yang memiliki data" atau "siapa yang mengontrol platform", melainkan tentang:
+
+• Bisakah sebuah sistem berjalan tanpa manusia?
+• Bisakah insentif dan tanggung jawab berjalan beriringan?
+• Bisakah pertumbuhan terjadi tanpa eksploitasi?
+• Bisakah nilai diciptakan dan didistribusikan secara adil?
+
+WA Protocol adalah jawaban kami: **Ya, jika kita mendesain protokol yang benar.**
+
+**Apa yang membuat WA berbeda?**
+
+| Aspek | Proyek Web3 biasa | WA Protocol |
+|------|------|------|
+| Kontrol | Tim/DAO | Tidak ada (protokol otonom) |
+| Pertumbuhan | Marketing/airdrop | Viral otomatis (scroll) |
+| Insentif | Inflasi token | Output terikat biaya nyata |
+| Keberlanjutan | Bergantung pada tim | Self-sustaining protocol |
+| Risiko | Audit manual | AI + protokol native |
+
+**Undangan untuk membangun bersama**
+
+WA Protocol adalah infrastruktur terbuka. Kami mengundang:
+
+1. **Builder**: bangun MiniApp di atas protokol WA
+2. **Komunitas**: bentuk node viral dan dapatkan insentif
+3. **Developer**: kontribusi ke codebase open-source
+4. **Researcher**: riset dan publikasi tentang ekonomi token dan game theory
+5. **Partner**: integrasikan layanan Anda dengan ekosistem WA
+
+**Pesan penutup**
+
+Di era Web4.0, kita tidak lagi membangun "produk untuk pengguna" — kita membangun "protokol untuk peradaban digital".
+
+WA Protocol adalah langkah pertama menuju internet yang benar-benar otonom, adil, dan berkelanjutan.
+
+Bergabunglah dengan kami. Bukan sebagai pengguna, tetapi sebagai pembangun.
+
+> "The best way to predict the future is to build it." — Alan Kay
+
+WA Protocol: Build the future. Together.`
+      }
+    ]
+  },
+  th: {
+    sections: [
+      {
+        id: 1,
+        title: 'บทนำ — จาก Web1.0 สู่ Web4.0',
+        icon: 'Globe',
+        content: `"ทุกครั้งที่อินเทอร์เน็ตก้าวกระโดด คือการรื้อสร้างกรอบอารยธรรมใหม่"
+
+ตั้งแต่อินเทอร์เน็ตถือกำเนิด เราได้ผ่านการเปลี่ยนผ่านครั้งใหญ่หลายระลอก แต่ละครั้งไม่ใช่แค่การอัปเกรดเทคโนโลยี หากคือการเปลี่ยนแปลงเชิงโครงสร้างของความสัมพันธ์การผลิตและค่านิยม:
+
+**Web1.0: ยุคอ่านอย่างเดียว (Read Only)**
+• ผู้ใช้คือ “ผู้ท่องเว็บ/ผู้อ่าน”
+• ข้อมูลถูกควบคุมโดยเจ้าของเว็บไซต์จำนวนน้อย
+• เครือข่ายเป็นระบบแสดงเนื้อหาแบบคงที่
+• ตัวอย่าง: #Portal sites#、#BBS#、#early blogs#
+
+**Web2.0: ยุคมีส่วนร่วมของผู้ใช้ (Read + Write)**
+• UGC เติบโต โซเชียลเน็ตเวิร์กเป็นศูนย์กลาง
+• แพลตฟอร์มกลายเป็นศูนย์รวมข้อมูลและดาต้า
+• แต่ข้อมูลและมูลค่าของผู้ใช้กลับเป็นของแพลตฟอร์ม
+• ตัวอย่าง: #Facebook#、#Weibo#、#YouTube#
+
+**Web3.0: การตื่นรู้ของความเป็นเจ้าของแบบกระจายศูนย์ (Own)**
+• บล็อกเชนทำให้เกิดอธิปไตยสินทรัพย์ อัตลักษณ์ และ DAO governance
+• ผู้ใช้ถือ private key สินทรัพย์ และสิทธิการมีส่วนร่วม
+• แต่โปรโตคอลจำนวนมากยังต้องพึ่งทีมศูนย์กลางดูแล ระบบแรงจูงใจเงินเฟ้อสูง ยากต่อความยั่งยืน
+
+**Web4.0: ระบบที่ “อยู่รอดได้” (Survive) — ไม่ใช่แค่เป็นเจ้าของ แต่ต้อง “อยู่ได้ยาว”**
+
+Web4.0 ไม่ได้มีแค่ “Ownership” แต่คือ “สามารถทำงานต่อเนื่องได้โดยไม่ต้องพึ่งการแทรกแซงจากมนุษย์”
+
+นี่คือ:
+• ระบบโปรโตคอลอัตโนมัติที่ตรวจสอบได้ ไร้สิทธิพิเศษ ไร้ backdoor
+• โครงสร้างการทำงานอัตโนมัติที่ขับเคลื่อนร่วมกันโดย smart contracts และ AI
+• “สิ่งมีชีวิตบนเชน” ที่ผูกแรงจูงใจเข้ากับความรับผิดชอบ ทำงานโดยไม่ต้องใช้การปกครองแบบมนุษย์
+
+> ในยุค Web4.0 เราไม่ได้สร้าง “สินค้า/ผลิตภัณฑ์” อีกต่อไป แต่กำลังสร้างระบบชีวิตพื้นฐานของอารยธรรมดิจิทัล
+
+---
+
+**แนวโน้มอนาคต: AI × บล็อกเชน × โปรโตคอลอัตโนมัติ = สถาปัตยกรรมอารยธรรมอินเทอร์เน็ตใหม่**
+
+• AI: สร้างระบบร่วมมืออัตโนมัติและกลไกบริหารความเสี่ยงอัจฉริยะ
+• บล็อกเชน: ตัวบังคับใช้กฎที่ไม่ต้องพึ่งความไว้วางใจ
+• เศรษฐศาสตร์โทเคน: แรงจูงใจแบบไดนามิกและระบบความรับผิดชอบ
+• โปรโตคอล DApp: ระบบนิเวศแบบอัตโนมัติเต็มรูปแบบที่เติบโตแบบไวรัล
+
+> WA Protocol ไม่ใช่การเปิดตัวโปรเจ็กต์ธรรมดา แต่มันคือการ “รีบูตอินเทอร์เน็ต” สำหรับทศวรรษหน้า: เราไม่ได้สร้างผลิตภัณฑ์ แต่กำลังหล่อหลอมระบบดิจิทัลที่ “อยู่รอดได้”
+
+---
+
+**ทำไมตอนนี้จึงเป็นช่วงเวลาสำคัญของ Web4.0?**
+
+• ต้นทุนทราฟฟิกทั่วโลกพุ่งสูง ประสิทธิภาพไวรัลลดลง
+• โปรเจ็กต์ Web3 จำนวนมากอัตราการตายสูง ขาดกระแสเงินสดจริง
+• การแพร่หลายของ AI ทำให้เกิดการปฏิวัติด้านข้อมูล กำลังคำนวณ และคอนเทนต์
+• ความต้องการสังคมต่อ “พื้นที่ดิจิททัลที่น่าเชื่อถือ” เพิ่มขึ้นอย่างรวดเร็ว
+
+> เราต้องสร้างกรอบใหม่ ณ จุดเปลี่ยนนี้: โปรโตคอลที่ทำงานระยะยาวได้โดยไม่ต้องพึ่งมนุษย์ มีการสร้างเลือดใหม่จากภายใน และมีกฎที่ชัดเจน
+
+WA Protocol จึงถือกำเนิดขึ้นในเวลาที่เหมาะสม。`
+      },
+      {
+        id: 2,
+        title: 'รากฐานเชิงปรัชญาของ Web4.0 และพันธกิจของ WA',
+        icon: 'Brain',
+        content: `**การรื้อสร้างกระบวนทัศน์: จาก “ผลิตภัณฑ์อินเทอร์เน็ต” สู่ “ระบบการอยู่รอดดิจิทัล”**
+
+> ตรรกะแกนของโลก Web แบบดั้งเดิมคือโครงสร้างทวิภาค “ผู้ใช้-แพลตฟอร์ม”: แพลตฟอร์มควบคุมข้อมูล กำหนดกติกา และตัดสินใจแรงจูงใจ แม้ใน Web3 ที่เกิด “การกระจายศูนย์” ของสินทรัพย์ แต่ระบบยังคงต้องพึ่ง “มนุษย์” ในการดูแล — ทีมงาน หลังบ้าน การปรับพารามิเตอร์ และการอัปเดต
+
+Web4.0 เสนอไปอีกขั้นว่า: **กฎไม่ควรถูกควบคุมโดยมนุษย์ ระบบต้องมี “ความสามารถในการอยู่รอดด้วยตนเอง”**
+
+นี่คือกระบวนทัศน์เชิงปรัชญาแบบใหม่:
+
+| มิติเปรียบเทียบ | Web3 | Web4.0 |
+|---------|------|--------|
+| แนวคิดหลัก | Ownership | Survival |
+| ศูนย์กลางการออกแบบ | ออกแบบโดยยึดมนุษย์ | ออกแบบโดยยึดโปรโตคอล (ไม่มีคนก็ยังทำงานได้) |
+| วิธีการกำกับดูแล | ชุมชนกำกับได้ | ระบบอัตโนมัติ ไม่มีใครแก้กฎได้ |
+| รูปแบบแรงจูงใจ | ได้แรงจูงใจ | แรงจูงใจต้องมาพร้อมความรับผิดชอบ/ต้นทุน |
+| อายุโปรโตคอล | พึ่งทีมพัฒนา | ทำงานเอง วิวัฒน์เอง ไม่ต้องแทรกแซง |
+
+---
+
+### **เสาหลัก 4 ประการของ Web4.0**
+
+**1. Permissionless (ไร้สิทธิพิเศษ)**
+WA เมื่อ deploy แล้วจะไม่มี super permission ไม่มี backdoor และแก้ไม่ได้ ทุกกลไกถูกเข้ารหัสใน smart contract
+
+**2. Autonomous (ทำงานอัตโนมัติ)**
+แรงจูงใจ การแพร่กระจาย การใช้จ่าย การกระจาย ถูกทำให้เสร็จผ่านกฎ on-chain ทั้งหมด
+
+**3. Co-Built (ร่วมสร้าง)**
+ผู้ใช้ไม่ใช่แค่ผู้ใช้ แต่เป็นผู้ร่วมสร้าง มีไอเดียก็เสนอ มีทรัพยากรก็ทำโมดูล มีชุมชนก็สร้าง MiniApp
+
+**4. Symbiotic (อยู่ร่วมกันแบบพึ่งพา)**
+ระบบนิเวศต้องสร้างสมดุล: การผลิต (WANT) มากับต้นทุนบำรุงรักษา การแพร่กระจาย (scroll) อยู่ในกติกา รางวัลเชิญชวนต้องมาจากการหมุนเวียนจริง
+
+> ไม่มี “พิมพ์ไม่จำกัด” และไม่มี “กำไรแบบไม่มีต้นทุน”`
+      },
+      {
+        id: 3,
+        title: 'ตำแหน่งของ WA: โปรโตคอลการทำงานร่วมกันแบบไวรัลที่ไร้สิทธิพิเศษ',
+        icon: 'Network',
+        content: `**WA คืออะไร? ไม่ใช่แพลตฟอร์ม ไม่ใช่ผลิตภัณฑ์ แต่คือโปรโตคอล**
+
+WA ไม่ได้อยู่ในรูปแบบ App หรือบริการ และไม่ใช่องค์กรศูนย์กลาง WA คือ **“ระบบโปรโตคอลอัตโนมัติที่อยู่บนเชนทั้งหมด”** และมีคุณลักษณะหลัก 3 ประการ:
+
+1. **Permissionless**: ไม่มี super admin กฎแก้ไม่ได้หลัง deploy
+
+2. **Autonomous Growth**: ผ่านระบบการแพร่กระจายแบบ scroll ที่ควบคุมด้วย smart contract ทำให้เกิดการเติบโตแบบเรขาคณิตโดยไม่ต้องพึ่งการแทรกแซง
+
+3. **Collaborative Infrastructure**: ผู้ใช้/ทีม/ชุมชนสร้างโมดูลของตนบนโปรโตคอลได้ ทำให้ “ผู้สร้างคือผู้ถือหุ้น”
+
+**ทำไมต้องเป็นการแพร่กระจายแบบ “Scroll”?**
+
+ความจริงของ Web3 คือคอขวดด้านทราฟฟิก:
+• ต้นทุนเติบโตสูง
+• DApp ทั่วไปขาด network effect
+• หลายโปรเจ็กต์ยังต้องกลับไปพึ่งโฆษณา Web2
+
+WA เลือกโครงสร้างที่ต่างออกไป: ออกแบบให้ “การแพร่กระจายเป็นฟังก์ชันภายในของโปรโตคอล” ผู้ใช้คือโหนดการแพร่กระจาย
+
+**นิยามเชิงเทคนิค: Flow-Cooperative Protocol**
+
+| โมดูล | คำอธิบาย |
+|---------|------|
+| Scroll Rules Engine | สร้างภารกิจแพร่กระจาย/ผูกความสัมพันธ์อัตโนมัติ |
+| User Tokenization | ผู้ใช้แต่ละคนคือหน่วยสินทรัพย์ วัดการมีส่วนร่วมได้ |
+| Promotion Collaboration | คำเชิญคือความร่วมมือ ผู้ใช้คือ agent |
+| Incentive Distribution | พฤติกรรมและรายได้ถูกดำเนินการอัตโนมัติ |
+| Private Domain Authorization | รวมโมดูลของคนอื่น เพื่อนำความสามารถการแพร่กระจายกลับมาใช้ซ้ำ |`
+      },
+      {
+        id: 4,
+        title: 'สถาปัตยกรรมทางเทคนิค: ระบบปฏิบัติการ on-chain ของ Web4.0',
+        icon: 'Code',
+        content: `**จาก "DApp" สู่ "On-chain OS": การเปลี่ยนกระบวนทัศน์ครั้งใหญ่**
+
+แอป Web3 ส่วนใหญ่ยังเป็นแค่ “เวอร์ชันถอดเปลือก” ของตรรกะรวมศูนย์:
+• backend เก็บ/จัดการข้อมูลบนเชน
+• frontend เรียกสัญญาบนเชน
+• อำนาจควบคุมและการปฏิบัติการยังอยู่ในมือทีมพัฒนา
+
+WA แตกต่าง — ตั้งแต่บรรทัดแรกของโค้ด WA ถูกออกแบบให้เป็น “สิ่งมีชีวิตแบบโปรโตคอลเนทีฟบนเชน” เป้าหมายคือสร้างระบบไร้คนควบคุมที่ทำงานเหมือน OS
+
+WA ไม่ใช่ “ผลิตภัณฑ์เดียว” แต่คือ “ชุดโปรโตคอลการดำเนินการที่ประกอบได้” แต่ละโมดูลสามารถรันได้ ประกอบได้ ตรวจสอบได้ และแก้ไขไม่ได้
+
+**WA Operating System มี 5 โมดูลหลัก:**
+
+**1. เคอร์เนลสิทธิ์ขั้นต่ำ (No Admin Layer)**
+• โมดูลแกนหลักทั้งหมดหลัง deploy จะ “ไร้อำนาจควบคุมถาวร” ไม่มีช่องทางอัปเกรด
+• ไม่มีที่อยู่ทีม ไม่มีสวิตช์หยุดสัญญา ไม่มีสิทธิ์รีเซ็ต
+• ผู้ก่อตั้งไม่สามารถ “กลับมาแก้” หรือ “แทรกแซงสินทรัพย์” ได้
+
+**2. เครื่องยนต์การเติบโตแบบไวรัล (Scroll Engine)**
+• ตัวบันทึกพฤติกรรมเชิญและความสัมพันธ์บนเชน
+• ไม่ต้องพึ่งเซิร์ฟเวอร์ศูนย์กลาง
+• คำเชิญ/ความสัมพันธ์/แรงจูงใจ ถูกบันทึกและประมวลผลโดยสัญญาอัตโนมัติ
+
+**3. ระบบเครื่องยนต์พลัง (Power Engine Layer)**
+• ผู้ใช้ lock WANT แล้วรันตามเวลาเพื่อเกิดผลผลิต กติกาคงที่
+• ทุก 72 ชั่วโมงต้องบำรุงรักษา กลายเป็น “ต้นทุนการดำเนินงานจริง”
+• หนุนการเติบโตของระบบ ความต้องการโทเคน และกลไกเงินฝืด
+
+**4. ระบบโทเคน (WANT & XANT)**
+• WANT คือโทเคนหลักของระบบนิเวศ
+• XANT คือใบรับรองเปิดใช้งานเครื่องยนต์ (ใช้แล้วเผา)
+• ตรรกะการไหลเวียนทั้งหมดดำเนินการบนเชน
+
+**5. ระบบ MiniApp แบบประกอบได้**
+• ให้พื้นที่รันบนเชนแก่ผู้พัฒนาชุมชน
+• ดีพลอยตรรกะได้อิสระ และเรียกใช้เครื่องยนต์พื้นฐาน
+
+MiniApp = “พื้นที่อธิปไตยดิจิทัลส่วนตัว” ของผู้สร้าง
+
+**"ระบบที่รันเองได้" ต้องมี 3 คุณสมบัติ**
+
+| ความสามารถ | คำอธิบาย | การนำไปใช้ทางเทคนิค |
+|------|------|---------|
+| Self-running | รันต่อเนื่องได้โดยไม่ต้องพึ่งคนแทรกแซง | ไม่มี super admin, สัญญาคงที่ |
+| Self-driven | ทุกพฤติกรรมถูกชี้นำด้วยแรงจูงใจ | โทษ+ผลตอบแทนดำเนินการอัตโนมัติ |
+| Self-auditing | ทุกพฤติกรรมตรวจสอบ/ติดตามได้ | เปิดเผยบนเชนทั้งกระบวนการ + AI ช่วยตรวจสอบ |
+
+---
+
+### **ภาพรวมสถาปัตยกรรม (โครงสร้างตรรกะ)**
+
+| โมดูล | หน้าที่ | จุดเด่น |
+|------|---------|------|
+| สัญญาสิทธิ์ขั้นต่ำ | แกนหลักแก้ไม่ได้ | โปร่งใสบนเชน, zero-trust |
+| Scroll Engine | ติดตามการเชิญแบบไวรัล + ให้รางวัล | ควบคุมด้วยสัญญา |
+| Power Engine | กลไกเดียวที่ผลิต WANT | บำรุงรักษาเป็นรอบ + ใช้จ่าย + ปันผล |
+| MiniApp ecosystem | รวมโมดูลส่วนตัวแบบประกอบ | เชื่อมต่อแบบกระจายศูนย์ |
+| Tokenomics | จัดการแรงจูงใจและธรรมาภิบาล (governance) | โทเคนคู่ประสาน |
+
+WA Protocol คือ “ระบบปฏิบัติการบนเชน” ที่ไม่ต้องควบคุม ไม่ต้องอนุญาต ไม่ต้องเซิร์ฟเวอร์。`
+      },
+      {
+        id: 5,
+        title: 'การออกแบบกลไกหลัก: จากการเติบโตแบบไวรัลสู่การทำงานอัตโนมัติ',
+        icon: 'Settings',
+        content: `**จากการเติบโตแบบไวรัลของผู้ใช้ → ผลิตมูลค่า → ระบบทรงตัวเอง — โมเดลการทำงานแบบปิดลูปเต็มรูปแบบ**
+
+จุดเด่นที่สุดของ WA Protocol ไม่ใช่ “นวัตกรรมกลไกจุดเดียว” แต่คือการสร้างลูปปิด: เติบโตอัตโนมัติ → สร้างมูลค่า → ปรับสมดุลระบบ
+
+การเติบโตแบบไวรัล ≠ โตด้วย airdrop แต่คือการเปิดระบบที่ผูกต้นทุน
+ผลผลิต ≠ ปล่อยเงินเฟ้อ แต่คือเศรษฐกิจบนเชนที่มีต้นทุนบำรุงรักษา
+การใช้จ่าย ≠ เผาแบบรับสภาพ แต่ถูกออกแบบเป็น “เกณฑ์การอยู่รอด”
+
+**ลูปปิดของ WA: ตรรกะ 3 ชั้น**
+
+**1. การมีส่วนร่วมของผู้ใช้: ดึงคนด้วย Scroll + ผูกพฤติกรรม**
+• Scroll ขับการเชิญ
+• ทุกพฤติกรรมบันทึกบนเชน รางวัลเชิญผูกกับพฤติกรรมจริง
+
+**2. การเกิดแรงจูงใจ: Power Engine กำหนดผลผลิต**
+• ผู้ใช้ใช้ WANT เปิดเครื่องยนต์ (จุดไฟด้วย XANT)
+• เครื่องยนต์ผลิต WANT ตามรอบ
+• ทุก 72 ชม. ต้องบำรุงรักษา ล้มเหลวแล้วหยุดผลิต
+
+**3. สมดุลเศรษฐกิจ: แรงจูงใจผูกต้นทุน + เงินฝืดของระบบ**
+• ทุกครั้งที่บำรุงรักษา ใช้ WANT 1% เป็น “เชื้อเพลิง”
+• ส่วนหนึ่งถูกเผา ส่วนหนึ่งเข้าพูลปันผล/สำรองธรรมาภิบาล (governance)
+
+**ตัวอย่างโครงสร้างเครื่องยนต์ (ตารางหลัก):**
+
+| ระดับเครื่องยนต์ | เกณฑ์(WANT) | รอบ(วัน) | ผลผลิตรวม(WANT) | กำไรสุทธิ | ผลตอบแทนรายเดือน | จำกัดจำนวน |
+|---------|-----------|---------|-----------|--------|-----------|---------|
+| T10     | 100       | 30      | 130       | 30     | 30%       | 3 |
+| T30     | 1,000     | 40      | 1,500     | 500    | 37.5%     | 2 |
+| T70     | 100,000   | 90      | 200,000   | 100,000| 33.3%     | 1 |
+
+**กลไกบำรุงรักษา: "เกณฑ์เชื้อเพลิง" ของระบบ**
+
+ทุกครั้งที่บำรุงรักษา เครื่องยนต์ต้องเผา 1% ของตำแหน่ง WANT:
+• 50% ไปที่ที่อยู่หลุมดำ (เผาทิ้ง)
+• 25% เข้าพูลปันผลทั่วโลก
+• 25% เข้าสำรองธรรมาภิบาลของโปรโตคอล
+
+**กลไกจุดไฟ XANT**: เปิดเครื่องยนต์ต้องใช้ XANT และใช้แล้วเผาทันที
+
+สรุป: แรงจูงใจทุกส่วนมีต้นทุน ผลผลิตทุกหน่วยมีความรับผิดชอบรองรับ.`
+      },
+      {
+        id: 6,
+        title: 'ระบบเศรษฐกิจโทเคนคู่: WANT และ XANT',
+        icon: 'Gem',
+        content: `**ทำไมต้องใช้โมเดลโทเคนคู่?**
+
+ใน Web3 แบบดั้งเดิม “โทเคนเดี่ยว” มักก่อให้เกิดปัญหา:
+
+| ปัญหา | ผลลัพธ์ |
+|------|------|
+| ไม่มีเกณฑ์การเริ่มต้น | ถูกเอาเปรียบได้ง่าย/เกิดการหมุนระบบแบบไร้คุณค่า |
+| เงินเฟ้อแรงจูงใจเกินไป | การเพิ่มปริมาณไม่จำกัดทำให้มูลค่าเสียเสถียรภาพ |
+| ไม่มีการใช้จ่ายต่อเนื่อง | ผลิตแล้วขายทันที ระบบปิดลูปไม่เกิด |
+
+WA จึงแยกบทบาทออกเป็น 2 โทเคน:
+
+| โทเคน | หน้าที่ | คุณลักษณะ |
+|------|---------|------|
+| XANT | ใบรับรองเริ่มต้น | ใช้จุดไฟเท่านั้น ใช้แล้วเผา |
+| WANT | โทเคนหลักของระบบ | ทั้งผลผลิต ทั้งต้นทุน ทั้งธรรมาภิบาล (governance) |
+
+**XANT: ตัวจุดไฟ (Execution Fuel)**
+• เปิด Power Engine ต้องใช้ XANT
+• ใช้แล้วเผาทันที ออกจากระบบถาวร
+
+**WANT: ตัวค้ำมูลค่า (Value Anchor)**
+• ผลิตผ่าน Power Engine เท่านั้น (ไม่ pre-mine)
+• ใช้เป็นผลตอบแทน และต้นทุนบำรุงรักษา
+
+> โทเคนคู่ช่วยให้ WA มีทั้ง “เกณฑ์เริ่มต้น” และ “กลไกสมดุลตัวเอง” เพื่อรันระยะยาว.`
+      },
+      {
+        id: 7,
+        title: 'วงจรปิดธุรกิจ: ระบบสร้างเลือดและกฎเกณฑ์แรงจูงใจ',
+        icon: 'TrendingUp',
+        content: `**พื้นหลัง: ทำไม 90% ของโปรเจ็กต์ Web3 "เลี้ยงตัวเองไม่ได้"?**
+
+โปรเจ็กต์ Web3 ส่วนใหญ่ล้มเหลวในที่สุด สาเหตุหลัก:
+
+| ปัญหา | ผลลัพธ์ |
+|------|------|
+| ไม่มีรายได้จริง | พึ่งพาการออกโทเคนเพื่อดึงดูดผู้ใช้ |
+| ไม่มีวงจรปิดการบริโภค | โทเคนขายได้อย่างเดียว ไม่มีที่ใช้ |
+| ไม่มีกลไกเงินฝืด | เงินเฟ้อต่อเนื่อง ราคาลดลง |
+| พึ่งพาทีมปฏิบัติการ | ทีมยุบ โปรเจ็กต์ตาย |
+
+WA Protocol ออกแบบวงจรปิดธุรกิจที่สมบูรณ์ตั้งแต่แรก: มีรายได้ มีการบริโภค มีเงินฝืด มีเงินปันผล — สร้าง "ระบบสร้างเลือด" ที่ทำงานจริง
+
+**สี่เสาหลักวงจรปิดธุรกิจ WA**
+
+**เสาหลัก 1: รายได้จาก Power Engine (แหล่งหลัก)**
+• ผู้ใช้จ่าย WANT เพื่อเปิดใช้งานและบำรุงรักษา engine
+• ทุกครั้งที่บำรุงรักษาใช้ 1% ของตำแหน่ง WANT
+• ส่วนหนึ่งเผา ส่วนหนึ่งเข้าพูลเงินปันผล
+
+**เสาหลัก 2: รายได้จากระบบนิเวศ MiniApp**
+• นักพัฒนา MiniApp จ่ายค่าเข้าถึงโปรโตคอล
+• ผู้ใช้จ่ายค่าบริการใน MiniApp
+• ค่าธรรมเนียมทั้งหมดไหลกลับสู่ระบบ
+
+**เสาหลัก 3: รายได้จากบัตรและการชำระเงิน**
+• ค่าธรรมเนียมแปลง WANT เป็นเงินสด
+• ค่าธรรมเนียมธุรกรรมข้ามพรมแดน
+• Spread FX เป็นรายได้โปรโตคอล
+
+**เสาหลัก 4: รายได้จากบริการองค์กร**
+• โซลูชัน white-label สำหรับธุรกิจ
+• API สำหรับการรวมบุคคลที่สาม
+• ค่าที่ปรึกษาและการดำเนินงาน
+
+**กฎการกระจายแรงจูงใจ**
+
+| แหล่งรายได้ | เผา | พูลเงินปันผล | กองทุนธรรมาภิบาล |
+|------|------|------|------|
+| บำรุงรักษา engine | 50% | 25% | 25% |
+| ค่าธรรมเนียม MiniApp | 30% | 50% | 20% |
+| ค่าธรรมเนียมบัตร/ชำระเงิน | 20% | 60% | 20% |
+| ค่าธรรมเนียมองค์กร | 10% | 40% | 50% |
+
+**กลไกเงินปันผลทั่วโลก**
+
+พูลเงินปันผลทั่วโลกกระจายรางวัลให้ผู้ถือ engine ที่ใช้งานอยู่ทั้งหมด:
+• กระจายตามสัดส่วนระดับ engine และระยะเวลาใช้งาน
+• ระดับ engine ยิ่งสูง สัดส่วนเงินปันผลยิ่งมาก
+• เฉพาะ engine ที่ใช้งานอยู่ (บำรุงรักษาแล้ว) เท่านั้นที่มีสิทธิ์รับเงินปันผล
+
+WA ไม่ใช่ "โปรเจ็กต์ที่ออกโทเคน" แต่เป็น "โปรโตคอลเศรษฐกิจที่สร้างรายได้จริงและกระจายอย่างโปร่งใสบนเชน"`
+      },
+      {
+        id: 8,
+        title: 'ระบบควบคุมความเสี่ยงและการออกแบบความยั่งยืน',
+        icon: 'Shield',
+        content: `**ทำไมการควบคุมความเสี่ยงต้อง "native-protocol"?**
+
+แพลตฟอร์ม Web2 แบบดั้งเดิมพึ่งพา:
+• การตรวจสอบด้วยมือ
+• การเฝ้าระวังศูนย์ข้อมูล
+• กลไกหยุดชั่วคราวแบบรวมศูนย์
+
+ทั้งหมดนี้พึ่งพา "คน" — คนอาจผิดพลาด อาจทุจริต อาจตอบสนองช้า
+
+WA ออกแบบการควบคุมความเสี่ยงเป็นส่วนหนึ่งของโปรโตคอล: กฎเขียนลง smart contract ทำงานอัตโนมัติ ไม่สามารถบิดเบือนได้
+
+**ห้าชั้นการควบคุมความเสี่ยง WA**
+
+**ชั้น 1: ควบคุมความเสี่ยงไวรัล (Scroll Risk Control)**
+• จำกัดการเชิญต่อที่อยู่ต่อช่วงเวลา
+• ตรวจจับรูปแบบการเชิญผิดปกติ (เชิญเป็นกลุ่ม, แนะนำตัวเอง)
+• ลงโทษอัตโนมัติ: ที่อยู่ที่ตรวจพบการโกงสูญเสียรางวัล
+
+**ชั้น 2: ควบคุมความเสี่ยง engine (Power Engine Risk Control)**
+• จำกัดความจุต่อระดับ engine
+• ช่วงเวลาบำรุงรักษาบังคับ 72 ชั่วโมง
+• ไม่บำรุงรักษา = หยุดผลผลิตอัตโนมัติ
+
+**ชั้น 3: ควบคุมความเสี่ยงโทเคน (Token Risk Control)**
+• เผาเมื่อถอนป้องกันการทิ้งจำนวนมาก
+• ปล่อยทีละน้อยป้องกันช็อกตลาด
+• อัตราเผาแบบไดนามิกตามสภาพตลาด
+
+**ชั้น 4: ควบคุมความเสี่ยงพฤติกรรม (AI Behavior Risk Control)**
+• AI เฝ้าระวังกราฟพฤติกรรมบนเชนแบบเรียลไทม์
+• ตรวจจับที่อยู่ผิดปกติ รูปแบบ Sybil กิจกรรมน่าสงสัย
+• ติดธงอัตโนมัติและจำกัดการเข้าถึง
+
+**ชั้น 5: ควบคุมความเสี่ยงระบบ (System Risk Control)**
+• กองทุนธรรมาภิบาลเป็นเงินสำรองฉุกเฉิน
+• พารามิเตอร์โปรโตคอลปรับได้ผ่านธรรมาภิบาล
+• Circuit breaker อัตโนมัติเมื่อตัวชี้วัดระบบเกินเกณฑ์
+
+**การออกแบบความยั่งยืน**
+
+1. **ผลผลิตทั้งหมดต้องมาจากเชื้อเพลิงจริง**: ไม่มี airdrop ฟรี ผลผลิตทั้งหมดต้องการ XANT จุดไฟ + WANT บำรุงรักษา
+2. **การถอนทั้งหมดส่งผลต่อเงินฝืด**: ทุกครั้งที่ถอน WANT ส่วนหนึ่งถูกเผา
+3. **โครงสร้างทั้งหมดมีวงจรชีวิต**: engine ต้องบำรุงรักษา รางวัลมีขีดจำกัด การมีส่วนร่วมต้องมีความรับผิดชอบ
+
+WA ไม่พึ่งพา "คนซื่อสัตย์" แต่พึ่งพา "ระบบที่ควบคุมตัวเอง"`
+      },
+      {
+        id: 9,
+        title: 'แผนงานและแผนพัฒนาตามขั้นตอน',
+        icon: 'Map',
+        content: `**หลักการพัฒนา WA: "โปรโตคอลก่อน ผลิตภัณฑ์ตามหลัง"**
+
+ต่างจากโปรเจ็กต์ Web3 ทั่วไปที่ "สร้างผลิตภัณฑ์ก่อน หาผู้ใช้ทีหลัง" WA ตามเส้นทาง:
+ออกแบบโปรโตคอล → Deploy สัญญา → ตรวจสอบชุมชน → ขยายระบบนิเวศ
+
+**เฟส 1: Foundation (Q1-Q2)**
+• Deploy สัญญาหลัก (Power Engine, Scroll Engine, Token contracts)
+• ตรวจสอบความปลอดภัยโดยบุคคลที่สาม
+• เปิดตัว testnet และโปรแกรม bug bounty
+• สร้างชุมชนเริ่มต้น (early builders)
+
+**เฟส 2: Growth (Q3-Q4)**
+• เปิดตัว mainnet
+• เปิดใช้งาน Power Engine สำหรับผู้ใช้แรก
+• เปิดตัวระบบ scroll viral
+• รวมกระเป๋าเงินและ on-ramp/off-ramp
+
+**เฟส 3: Ecosystem (Q5-Q6)**
+• เปิดตัวแพลตฟอร์ม MiniApp
+• Onboarding นักพัฒนาบุคคลที่สาม
+• เปิดตัวบัตรชำระเงิน WA
+• ขยายสู่ตลาดเอเชียตะวันออกเฉียงใต้และ LATAM
+
+**เฟส 4: Autonomy (Q7-Q8)**
+• เปลี่ยนไปสู่ธรรมาภิบาลแบบกระจายอำนาจเต็มรูปแบบ
+• เปิดตัว AI Sentinel สำหรับการเฝ้าระวังบนเชน
+• รวม cross-chain
+• บรรลุสถานะ "โปรโตคอลอัตโนมัติเต็มรูปแบบ"
+
+**เป้าหมายสำคัญ**
+
+| เฟส | เป้าหมาย | ตัวชี้วัด |
+|------|------|------|
+| Foundation | สัญญาที่ตรวจสอบแล้วและ deploy | รายงานตรวจสอบ + testnet ทำงาน |
+| Growth | ผู้ใช้งาน 10,000 คน | DAU + engine ที่ใช้งาน |
+| Ecosystem | 50+ MiniApp ที่ deploy | นักพัฒนา onboarded + TVL |
+| Autonomy | ธรรมาภิบาลแบบกระจายอำนาจ | ข้อเสนอ + กิจกรรมโหวต |
+
+WA Protocol พัฒนาไม่ใช่เพราะ "ทีมผลักดัน" แต่เพราะ "โปรโตคอลดึงดูดผู้เข้าร่วมที่เหมาะสมในเวลาที่เหมาะสม"`
+      },
+      {
+        id: 10,
+        title: 'การออกแบบระบบนิเวศ MiniApp: พื้นที่อธิปไตยดิจิทัล Private Domain',
+        icon: 'Layout',
+        content: `**MiniApp ใน WA คืออะไร?**
+
+MiniApp ไม่ใช่แค่ "แอปเล็กๆ" — เป็นโมดูลฟังก์ชันบนเชนที่ใครก็สามารถ deploy บนโปรโตคอล WA สร้าง "พื้นที่อธิปไตยดิจิทัล" ของ builder
+
+**คุณลักษณะ MiniApp WA:**
+• ทำงานบนโครงสร้างพื้นฐานโปรโตคอล WA
+• สามารถใช้ Scroll Engine เพื่อไวรัล
+• สามารถรวม Power Engine เพื่อแรงจูงใจ
+• Builder เป็นเจ้าของและจัดการเต็มที่
+
+**ประเภท MiniApp ที่สร้างได้:**
+
+| หมวดหมู่ | ตัวอย่าง | ประโยชน์ |
+|------|------|------|
+| ชุมชน | เครื่องมือ DAO, โหวต, ฟอรัม | ธรรมาภิบาลแบบกระจาย |
+| เนื้อหา | บล็อก, วิดีโอ, คอร์ส | สร้างรายได้เนื้อหาบนเชน |
+| การซื้อขาย | DEX, marketplace, OTC | สภาพคล่องระบบนิเวศ |
+| บริการ | ที่ปรึกษา, ฟรีแลนซ์, SaaS | เศรษฐกิจบริการบนเชน |
+| เกม | Play-to-earn, ตลาดทำนาย | ความบันเทิง + แรงจูงใจ |
+
+**โมเดลธุรกิจ MiniApp**
+
+1. **ค่าบริการ**: ผู้ใช้จ่าย WANT เพื่อใช้ฟีเจอร์
+2. **สมัครสมาชิก**: เข้าถึงพรีเมียมแบบเสียเงิน
+3. **แบ่งปันรายได้**: แบ่งรายได้กับโปรโตคอล WA
+4. **แรงจูงใจชุมชน**: รางวัลจากพูลเงินปันผลทั่วโลก
+
+**WA MiniApp vs แพลตฟอร์มดั้งเดิม**
+
+| ด้าน | แพลตฟอร์ม Web2 | WA MiniApp |
+|------|------|------|
+| ความเป็นเจ้าของ | แพลตฟอร์ม | Builder |
+| รายได้ | แพลตฟอร์มเอา 30%+ | Builder ได้ส่วนใหญ่ |
+| ข้อมูลผู้ใช้ | ของแพลตฟอร์ม | ของผู้ใช้ (บนเชน) |
+| ความพกพา | ถูกล็อคในแพลตฟอร์ม | ทำงานร่วมกันบนเชน |
+| การเซ็นเซอร์ | แพลตฟอร์มลบได้ | ไม่สามารถเซ็นเซอร์ |
+
+MiniApp คือวิธีที่ WA ทำให้วิสัยทัศน์ "อินเทอร์เน็ตของผู้ใช้" เป็นจริง`
+      },
+      {
+        id: 11,
+        title: 'โครงสร้างทีมและภูมิหลัง',
+        icon: 'Users',
+        content: `**ปรัชญาทีม WA: "โปรโตคอลใหญ่กว่าทีม"**
+
+WA Protocol ถูกออกแบบให้ไม่พึ่งพาทีมใดทีมหนึ่ง อย่างไรก็ตาม ในระยะแรกต้องการทีมหลักเพื่อ:
+• ออกแบบและตรวจสอบสัญญา
+• สร้างโครงสร้างพื้นฐานเริ่มต้น
+• บ่มเพาะชุมชน builder
+• รับประกันความปลอดภัยและเสถียรภาพ
+
+**องค์ประกอบทีมหลัก:**
+
+| แผนก | ความรับผิดชอบ | ความเชี่ยวชาญ |
+|------|------|------|
+| Protocol Engineering | ออกแบบและ deploy smart contracts | Solidity, Rust, ตรวจสอบความปลอดภัย |
+| Product | UX/UI, รวมกระเป๋าเงิน, MiniApp SDK | Frontend, mobile, design |
+| Growth | ชุมชน, พันธมิตร, การตลาด | Community building, BD |
+| Research | เศรษฐศาสตร์โทเคน, ทฤษฎีเกม, AI | Tokenomics, data science |
+| Operations | กฎหมาย, การปฏิบัติตาม, การเงิน | กฎระเบียบ, บัญชี |
+
+**หลักการองค์กร:**
+
+1. **Progressive decentralization**: ทีมหลักค่อยๆ โอนการควบคุมให้ธรรมาภิบาลชุมชน
+2. **ความโปร่งใส**: การตัดสินใจสำคัญทั้งหมดเผยแพร่และอภิปรายในฟอรัม
+3. **ความรับผิดชอบ**: ทีมหลักมีตาราง vesting ระยะยาว
+4. **ระบบคุณธรรม**: ผู้มีส่วนร่วมชุมชนสามารถเลื่อนเป็น core contributor
+
+เป้าหมายสุดท้าย: WA Protocol ทำงานได้อย่างสมบูรณ์โดยไม่พึ่งพาทีมหลักใดๆ`
+      },
+      {
+        id: 12,
+        title: 'บทส่งท้าย: วิสัยทัศน์ Web4.0 และคำเชิญร่วมสร้าง',
+        icon: 'Flag',
+        content: `**WA Protocol ไม่ใช่แค่โปรเจ็กต์ — เป็นการทดลองอารยธรรมดิจิทัล**
+
+เราเชื่อว่าอินเทอร์เน็ตรุ่นถัดไปไม่ใช่เรื่อง "ใครเป็นเจ้าของข้อมูล" หรือ "ใครควบคุมแพลตฟอร์ม" แต่เป็นเรื่อง:
+
+• ระบบสามารถทำงานโดยไม่มีคนได้หรือไม่?
+• แรงจูงใจและความรับผิดชอบอยู่ร่วมกันได้หรือไม่?
+• การเติบโตโดยไม่เอาเปรียบเป็นไปได้หรือไม่?
+• มูลค่าสามารถสร้างและกระจายอย่างยุติธรรมได้หรือไม่?
+
+WA Protocol คือคำตอบของเรา: **ได้ ถ้าเราออกแบบโปรโตคอลที่ถูกต้อง**
+
+**อะไรทำให้ WA แตกต่าง?**
+
+| ด้าน | โปรเจ็กต์ Web3 ทั่วไป | WA Protocol |
+|------|------|------|
+| การควบคุม | ทีม/DAO | ไม่มี (โปรโตคอลอัตโนมัติ) |
+| การเติบโต | การตลาด/airdrop | ไวรัลอัตโนมัติ (scroll) |
+| แรงจูงใจ | เงินเฟ้อโทเคน | ผลผลิตผูกกับต้นทุนจริง |
+| ความยั่งยืน | พึ่งพาทีม | โปรโตคอลยั่งยืนด้วยตัวเอง |
+| ความเสี่ยง | ตรวจสอบด้วยมือ | AI + protocol native |
+
+**คำเชิญร่วมสร้าง**
+
+WA Protocol เป็นโครงสร้างพื้นฐานเปิด เราเชิญ:
+
+1. **Builder**: สร้าง MiniApp บนโปรโตคอล WA
+2. **ชุมชน**: สร้างโหนดไวรัลและรับแรงจูงใจ
+3. **นักพัฒนา**: มีส่วนร่วมกับ codebase โอเพนซอร์ส
+4. **นักวิจัย**: วิจัยและเผยแพร่เกี่ยวกับเศรษฐศาสตร์โทเคนและทฤษฎีเกม
+5. **พันธมิตร**: รวมบริการกับระบบนิเวศ WA
+
+**ข้อความส่งท้าย**
+
+ในยุค Web4.0 เราไม่ได้สร้าง "ผลิตภัณฑ์สำหรับผู้ใช้" อีกต่อไป — เราสร้าง "โปรโตคอลสำหรับอารยธรรมดิจิทัล"
+
+WA Protocol คือก้าวแรกสู่อินเทอร์เน็ตที่เป็นอิสระ ยุติธรรม และยั่งยืนอย่างแท้จริง
+
+เข้าร่วมกับเรา ไม่ใช่ในฐานะผู้ใช้ แต่ในฐานะผู้สร้าง
+
+> "The best way to predict the future is to build it." — Alan Kay
+
+WA Protocol: Build the future. Together.`
+      }
+
+    ]
+  },
+  vi: {
+    sections: [
+      {
+        id: 1,
+        title: 'Mở đầu — Từ Web1.0 đến Web4.0',
+        icon: 'Globe',
+        content: `"Mỗi lần Internet nhảy vọt là một lần tái cấu trúc mô thức văn minh."
+
+Kể từ khi ra đời, Internet đã trải qua nhiều lần chuyển mình mang tính cách mạng. Mỗi lần tiến hóa không chỉ là lặp lại công nghệ, mà là sự thay đổi căn bản trong quan hệ sản xuất và hệ giá trị:
+
+**Web1.0: Kỷ nguyên chỉ đọc (Read Only)**
+• Người dùng là “người xem/độc giả”
+• Thông tin do một nhóm nhỏ chủ sở hữu website kiểm soát
+• Mạng là hệ thống trưng bày nội dung tĩnh
+• Ví dụ tiêu biểu: #Portal sites#, #BBS#, #early blogs#
+
+**Web2.0: Kỷ nguyên người dùng tham gia (Read + Write)**
+• UGC bùng nổ, mạng xã hội thống trị
+• Nền tảng trở thành trung tâm tổng hợp thông tin và dữ liệu
+• Nhưng dữ liệu và giá trị của người dùng thuộc về nền tảng
+• Ví dụ tiêu biểu: #Facebook#, #Weibo#, #YouTube#
+
+**Web3.0: Sự thức tỉnh của quyền sở hữu phi tập trung (Own)**
+• Blockchain mang đến chủ quyền tài sản, chủ quyền danh tính và quản trị DAO
+• Người dùng sở hữu private key, tài sản và quyền tham gia
+• Nhưng nhiều giao thức vẫn phụ thuộc đội ngũ trung tâm duy trì; lạm phát khuyến khích nặng, khó bền vững
+
+**Web4.0: Hệ thống có thể “tồn tại” (Survive) — Không chỉ sở hữu, mà còn phải “sống được lâu”**
+
+Web4.0 không chỉ là “Ownership”, mà là “có thể vận hành và tiếp tục vận hành mà không cần can thiệp của con người”.
+
+Đây là:
+• Một hệ thống giao thức tự trị, có thể kiểm chứng, không đặc quyền, không backdoor
+• Một cấu trúc vận hành tự động đồng kiến tạo bởi smart contracts và AI
+• Một “sinh thể trên chain” nơi khuyến khích gắn với trách nhiệm, vận hành không cần nhân trị
+
+Trong kỷ nguyên Web4.0, chúng ta không còn xây “sản phẩm”, mà đang xây những hệ thống sự sống nền tảng của văn minh số.
+
+**Xu hướng tương lai: AI × Blockchain × Giao thức tự trị = Kiến trúc văn minh Internet mới**
+• AI: Xây dựng hệ thống hợp tác tự trị và cơ chế quản trị rủi ro thông minh
+• Blockchain: Xây dựng bộ máy thực thi quy tắc không cần niềm tin
+• Kinh tế token: Xây dựng cơ chế khuyến khích động và hệ thống trách nhiệm
+• Giao thức DApp: Xây dựng hệ sinh thái lan truyền tự trị, vận hành tự động hoàn toàn
+
+WA Protocol không phải là một lần “ra mắt dự án” thông thường, mà là một lần tái cấu trúc Internet cho thập kỷ tới: chúng ta không xây sản phẩm, mà đang rèn một hệ thống số có khả năng “tồn tại”.
+
+**Vì sao bây giờ là thời khắc then chốt của Web4.0?**
+• Chi phí traffic toàn cầu tăng vọt, hiệu quả lan truyền suy giảm
+• Tỷ lệ “tử vong” của dự án Web3 cao, thiếu dòng tiền thật
+• AI phổ cập kéo theo cách mạng dữ liệu, tính toán và nội dung
+• Nhu cầu xã hội về “không gian số đáng tin cậy” tăng mạnh
+
+Chúng ta phải, tại thời điểm này, tạo ra một mô thức mới: một hệ thống giao thức có thể vận hành dài hạn mà không cần can thiệp của con người, có khả năng tự tạo “dòng máu” nội sinh và có quy tắc rõ ràng.
+
+WA Protocol, ra đời đúng lúc.`
+      },
+      {
+        id: 2,
+        title: 'Nền tảng triết học của Web4.0 và sứ mệnh của WA',
+        icon: 'Brain',
+        content: `**Tái cấu trúc mô thức: Từ “sản phẩm Internet” đến “hệ thống sinh tồn số”**
+
+Logic cốt lõi của Web truyền thống nằm ở cấu trúc nhị nguyên “người dùng–nền tảng”: nền tảng nắm dữ liệu, đặt luật chơi và quyết định phân phối khuyến khích. Sang Web3, dù chủ quyền tài sản đã “phi tập trung”, hệ thống vẫn phải dựa vào “con người” để vận hành — đội ngũ, backend, điều chỉnh và cập nhật.
+
+Web4.0 đi xa hơn: **Quy tắc không nên bị con người kiểm soát; hệ thống phải có “khả năng tự sinh tồn”.**
+
+Đây là một mô thức triết học hoàn toàn mới:
+
+| Chiều so sánh | Web3 | Web4.0 |
+|---------|------|--------|
+| Tư tưởng cốt lõi | Sở hữu tài sản Ownership | Sinh tồn hệ thống Survival |
+| Trung tâm thiết kế | Lấy con người làm trung tâm | Lấy giao thức làm trung tâm (không có người vẫn chạy) |
+| Cách quản trị | Cộng đồng có thể quản trị | Hệ thống tự trị, không ai sửa quy tắc |
+| Mô hình khuyến khích | Khuyến khích “có thể nhận” | Khuyến khích đòi hỏi trách nhiệm/chi phí, tránh khai thác |
+| Thiết kế khuyến khích | Con người thiết kế | Mã nguồn thiết lập, không đảo ngược, không thay đổi |
+| Tuổi thọ giao thức | Phụ thuộc đội ngũ phát triển | Tự vận hành, tiến hóa liên tục, không cần can thiệp |
+
+**Bốn trụ cột triết học của Web4.0:**
+
+1. **Permissionless (Không cần cấp quyền)**
+   Khi đã deploy, WA Protocol không có siêu quyền hạn, không backdoor, và không thể sửa đổi. Tất cả cơ chế được mã hóa trong smart contracts. Dù nhà sáng lập có hiện diện hay không, giao thức vẫn vận hành theo logic đã định.
+   "Nếu một hệ thống cần con người can thiệp mới tồn tại, nó chắc chắn không bền." 
+
+2. **Autonomous (Tự vận hành)**
+   Mọi khuyến khích, lan truyền, tiêu hao và phân phối đều được hoàn tất tự động bằng quy tắc on-chain. WA từ chối airdrop thủ công hậu kỳ, cấu hình off-chain, hay kiểu “đội ngũ quyết định có phát thưởng hay không”. Hệ thống lan truyền, Power Engine, quản trị token, phân phối phí bảo trì — tất cả được vận hành bằng code on-chain.
+
+3. **Co-Built (Cùng xây dựng)**
+   Mỗi người dùng không chỉ là người dùng, mà là cộng tác viên. WA không phải dự án “chính thức vận hành”, mà là hệ thống mở nơi người dùng có thể trực tiếp xây “hệ sinh thái giao thức của riêng mình”.
+   • Có ý tưởng → đề xuất quản trị
+   • Có nguồn lực → khởi tạo giao thức con
+   • Có cộng đồng → xây MiniApp
+   • Có sản phẩm → kết nối Power Engine
+   WA là một “tổng hợp giao thức” tiến hóa tự phát từ cộng đồng.
+
+4. **Symbiotic (Cộng sinh)**
+   WA xây dựng một vòng tuần hoàn sinh thái tích cực:
+   • Sản lượng (WANT) phải đi kèm chi phí bảo trì (tiêu hao)
+   • Lan truyền (scroll) phải diễn ra tuân thủ trong quy tắc
+   • Khuyến khích (thưởng mời) phải đến từ lưu thông thật
+   Không có cây không rễ, cũng không có phát hành vô hạn.
+
+**Sứ mệnh cốt lõi của WA Protocol:**
+
+WA Protocol không chỉ là một “ứng dụng”, mà là một thực thể thống nhất của 3 phần:
+• Một hệ điều hành tự trị hoàn toàn on-chain — các mô-đun chức năng đều có thể ghép nối, lồng nhau và quản trị, hình thành môi trường vận hành Web4.0 hoàn chỉnh
+• Một không gian niềm tin số kết nối AI và hợp tác con người — AI thúc đẩy lan truyền và nhận diện rủi ro, blockchain bảo đảm tính đáng tin của quy tắc và sự ổn định vận hành
+• Một nền tảng hệ sinh thái private domain mở, ngưỡng thấp, tùy biến cao
+
+**Tầm nhìn của WA: Giao thức vì cộng đồng, hệ thống như pháp luật**
+
+Chúng ta đang bước vào kỷ nguyên hậu nền tảng — quyền lực không thuộc về một công ty, mà thuộc về hệ quy tắc do code thiết lập. Niềm tin không đến từ người nổi tiếng, mà đến từ quy tắc on-chain có thể kiểm chứng, khuyến khích có thể dự đoán và rủi ro có thể kiểm soát.
+
+Mục tiêu của WA không phải trở thành gã khổng lồ tập trung tiếp theo, mà trở thành hệ điều hành nơi ai cũng có thể sở hữu “quê hương số” của mình.
+
+Trong tương lai, mỗi người có thể sở hữu:
+• Tài khoản ví
+• Giao thức MiniApp
+• Cộng đồng DAO
+• Mô hình khuyến khích tùy biến
+• Vòng kinh tế tự chủ
+
+Trong thế giới của WA, “người dùng” không phải traffic, mà là người xây dựng; “sản phẩm” không phải nền tảng, mà là giao thức.
+
+**Tóm tắt**
+
+| Đặc trưng | Triết học Web4.0 thể hiện | Lộ trình WA triển khai |
+|------|----------------|-------------|
+| Phân tán quyền lực | Hợp đồng bất biến, DApp không đặc quyền | Quy tắc deploy là vĩnh viễn |
+| Khuyến khích gắn trách nhiệm | Lan truyền = đóng góp + chi phí bảo trì | Cơ chế bảo trì WANT |
+| Vận hành phi nhân trị | Lan truyền/sản lượng/tiêu hao tự động | Scroll system + Power Engine |
+| Niềm tin không cần tin | Cơ chế minh bạch có thể kiểm chứng | Dữ liệu on-chain truy vấn được |
+| Hệ sinh thái cùng xây | Truy cập mở, hợp tác có khuyến khích | MiniApp + hỗ trợ kỹ thuật/quỹ |
+
+WA Protocol là “hệ thống nền văn minh” mà chúng ta đang xây cho tương lai.`
+      },
+      {
+        id: 3,
+        title: 'Định vị của WA: Giao thức hợp tác lan truyền không cần quyền',
+        icon: 'Network',
+        content: `**WA là gì? Không phải nền tảng, không phải sản phẩm — mà là giao thức**
+
+WA không tồn tại dưới dạng một App hay một dịch vụ, càng không phải một doanh nghiệp tập trung. WA là một **“hệ thống giao thức tự trị hoàn toàn on-chain”** với ba đặc tính:
+
+1. **Permissionless (Không cần cấp quyền)**: Không siêu quản trị, quy tắc không thể đổi sau khi deploy
+
+2. **Tăng trưởng lan truyền tự động (Autonomous Growth)**: Thông qua hệ thống scroll lan truyền tự động do smart contracts kiểm soát, đạt tăng trưởng hình học mà không cần can thiệp thủ công
+
+3. **Hạ tầng hợp tác đa bên (Collaborative Infrastructure)**: Bất kỳ người dùng/đội nhóm/cộng đồng nào cũng có thể xây “mô-đun hệ sinh thái của riêng mình” trên giao thức, để “người xây dựng cũng là cổ đông”
+
+**Vì sao cần “lan truyền kiểu scroll”? Chúng tôi hiểu bản chất của traffic**
+
+Thực tế nền: Web3 đối mặt nút thắt traffic
+• Chi phí tăng trưởng người dùng cao, ngưỡng giáo dục cao
+• DApp phổ thông thiếu hiệu ứng mạng, vòng đời ngắn
+• Phần lớn dự án vẫn dựa vào kênh quảng cáo Web2 để kéo người
+
+Giải pháp: Chúng tôi thiết kế cơ chế “tự lan truyền bên trong giao thức” — không cần đội marketing ngoài, không cần kiểm soát trung tâm; người dùng chính là nút truyền.
+
+**Cơ chế scroll: Giải pháp on-chain kéo traffic chi phí thấp**
+
+Hệ thống scroll của WA về bản chất là mô hình giao thức traffic lan truyền do smart contracts dẫn động, với các đặc tính:
+
+✅ **Lan truyền tự động**
+• Người dùng kích hoạt một hành vi (tham gia/chia sẻ/đăng ký...) là tự sinh mã/đường link mời riêng
+• Smart contracts theo dõi chuỗi quan hệ; thưởng không phụ thuộc backend
+
+✅ **Thưởng gắn hành vi**
+• Thưởng phải dựa trên “hành động on-chain thật” (nạp/rút/bảo trì...)
+• Ngăn khai thác, máy đăng ký, bot
+
+✅ **Quyết toán phi tập trung**
+• Toàn bộ logic thưởng thực thi minh bạch on-chain
+• Không có quyền can thiệp hay thu hồi thủ công
+
+✅ **Cân bằng động giữa khuyến khích và rủi ro**
+• Thu nhập của người mời gắn với mức hoạt động thật của người được mời
+• Hệ thống tự ức chế phình to “vòng quay rỗng”
+
+"Quyền lan truyền được chuyển từ đội vận hành sang chính giao thức."
+
+**Định nghĩa kỹ thuật của WA: Flow-Cooperative Protocol**
+
+WA = Flow-Cooperative Protocol
+
+Đây không phải DApp truyền thống, mà là giao thức hợp tác kép của traffic và tài sản, do quy tắc on-chain dẫn động:
+
+| Mô-đun chức năng | Mô tả |
+|---------|------|
+| Scroll rule engine | Tự sinh nhiệm vụ lan truyền / ràng buộc quan hệ |
+| Token hóa người dùng | Mỗi người dùng là một đơn vị tài sản, đóng góp định lượng |
+| Hợp tác tăng trưởng | Người dùng là đại lý, lời mời là hợp tác |
+| Phân phối khuyến khích | Mọi hành vi và lợi ích tự động hóa thực thi |
+| Ủy quyền private domain | Có thể gọi mô-đun người khác, tái sử dụng khả năng lan truyền |
+
+**Mô hình vòng lặp ba ngôi “Traffic–Hợp tác–Giá trị”**
+
+1. **Traffic lan truyền (Flow)**
+   • Dẫn người mới vào hệ thống
+   • Tự sinh mã lan truyền riêng
+   • Thưởng do hành vi quyết định, không do cảm tính
+
+2. **Hợp tác xây dựng (Collaborate)**
+   • Người có private domain và đội nhóm có thể tái sử dụng giao thức
+   • Đội cộng đồng/nội dung/công cụ có thể xây MiniApp hoặc DApp
+
+3. **Tích lũy giá trị (Value)**
+   • Token WANT là tài sản chính của giao thức cho thanh toán nhiên liệu, quản trị, tham gia...
+   • Scroll không phải điểm kết, mà là động cơ dẫn giá trị vào hệ thống
+
+**Kịch bản ví dụ: Scroll WA dùng để kéo traffic như thế nào?**
+
+| Kịch bản ứng dụng | Hiệu quả thực thi scroll |
+|---------|------------|
+| Quảng bá cộng đồng | Tự sinh mã mời riêng, thưởng on-chain |
+| Phân phối nội dung | Xem/chia sẻ nội dung kèm mã mời, xác nhận hành vi on-chain |
+| Gây quỹ dự án | Nhà đầu tư mời người mới tham gia, WANT thưởng theo quy tắc |
+| Tham gia sự kiện | Mỗi lần tham gia có thể kích hoạt sinh mã lan truyền |
+| Đào tạo/giáo dục | Học viên hoàn thành nhiệm vụ nhận “thưởng lan truyền học tập” |
+
+Các chức năng trên không phụ thuộc backend, được smart contracts tự động sinh và thực thi.
+
+**Khác biệt bản chất giữa WA và các dự án Web3 hiện có**
+
+| Loại dự án | Quyền kiểm soát | Cách lan truyền | Kiểm toán rủi ro | Định vị người dùng |
+|------------|--------|---------|---------|---------|
+| Web3 DApp | Đội ngũ kiểm soát | Cộng đồng/airdrop | Yếu | Người dùng |
+| Nền tảng Web3 | Tập trung | Nội dung/quảng cáo | Trung bình | Người tiêu dùng |
+| WA Protocol | Không trung tâm | Lan truyền tự động | AI + kiểm toán thuật toán | Người xây + đối tác |
+
+WA = Giao thức lan truyền tự trị + Hạ tầng hợp tác đa bên + Mô hình thực thi không đặc quyền
+
+**Tóm tắt: Định vị của WA là một “hệ điều hành traffic dạng giao thức”**
+
+• Không phải công cụ, mà là “giao thức lan truyền”
+• Không phải nền tảng, mà là “hạ tầng hợp tác”
+• Không phải dự án, mà là “động cơ tăng trưởng phi nhân trị”
+
+WA Protocol là giao thức traffic cấp Web4.0 đầu tiên có khả năng “tự lan truyền, tự thực thi, tự ràng buộc”.`
+      },
+      {
+        id: 4,
+        title: 'Kiến trúc kỹ thuật: Hệ điều hành on-chain của Web4.0',
+        icon: 'Code',
+        content: `**Từ “DApp” đến “On-chain OS”: Một bước ngoặt mô thức**
+
+Phần lớn ứng dụng Web3 vẫn là phiên bản “bóc vỏ” của logic tập trung:
+• Backend lưu dữ liệu on-chain
+• Frontend gọi hợp đồng on-chain
+• Quyền kiểm soát và vận hành vẫn nằm trong tay đội phát triển
+
+WA thì khác — ngay từ dòng code đầu tiên, nó là một “thực thể giao thức nguyên bản” trên chain, mục tiêu là xây một hệ thống thực thi phi nhân trị như một hệ điều hành.
+
+WA không phải “một sản phẩm”, mà là “một bộ giao thức thực thi có thể ghép nối”, nơi mỗi mô-đun giao thức đều có thể vận hành, kết hợp, kiểm toán, và không thể sửa đổi.
+
+**Năm mô-đun lớn của hệ điều hành WA:**
+
+**1. Kernel quyền tối thiểu (No Admin Layer)**
+• Tất cả mô-đun lõi sau khi deploy sẽ “mất quyền kiểm soát vĩnh viễn”, không có cổng nâng cấp
+• Không địa chỉ đội ngũ, không công tắc tạm dừng, không quyền reset
+• Nhà sáng lập không thể “quay lại sửa” hay “can thiệp tài sản”
+
+**2. Động cơ lan truyền tự động (Scroll Engine)**
+• Bộ ghi nhận hành vi mời và quan hệ trên chain
+• Không phụ thuộc server tập trung
+• Lời mời/quan hệ/khuyến khích được ghi nhận và xử lý tự động bằng hợp đồng
+
+**3. Lớp Power Engine (Power Engine Layer)**
+• Tương tự mô-đun “đào on-chain”
+• Người dùng lock WANT, chạy theo thời gian để sinh sản lượng, quy tắc cố định
+• Cần bảo trì mỗi 72 giờ, trở thành “chi phí vận hành thật”
+• Hỗ trợ tăng trưởng hệ sinh thái, nhu cầu token và cơ chế giảm phát
+
+**4. Cơ chế token (WANT & XANT)**
+• WANT là token lưu thông giá trị lõi của hệ sinh thái
+• XANT là chứng chỉ kích hoạt động cơ (starter kiểu burn)
+• Toàn bộ logic lưu thông được thực thi on-chain
+
+**5. Hệ MiniApp có thể ghép nối**
+• Cung cấp không gian chạy on-chain cho nhà phát triển cộng đồng (như “plugin”)
+• Có thể deploy logic độc lập và gọi các động cơ nền
+
+MiniApp = “không gian chủ quyền số private domain” của builder
+
+**Ba thuộc tính then chốt của “hệ thống tự vận hành”**
+
+| Năng lực | Mô tả | Triển khai kỹ thuật |
+|------|------|---------|
+| Self-running | Có thể chạy liên tục không cần con người can thiệp | Không super admin, hợp đồng cố định |
+| Self-driven | Mọi hành vi được dẫn dắt bởi cơ chế khuyến khích | Phạt + thưởng tự động thực thi |
+| Self-auditing | Mọi hành vi có thể kiểm chứng/theo dõi | Công khai toàn bộ quy trình on-chain + AI hỗ trợ kiểm toán |
+
+---
+
+### **Tổng quan kiến trúc (cấu trúc logic)**
+
+| Mô-đun | Chức năng | Điểm nổi bật |
+|------|---------|------|
+| Hợp đồng quyền tối thiểu | Hợp đồng lõi không thể sửa | Minh bạch on-chain, zero-trust |
+| Scroll Engine | Theo dõi lan truyền mời + phát thưởng | Điều khiển bằng hợp đồng |
+| Power Engine | Cơ chế duy nhất tạo WANT | Chu kỳ bảo trì + tiêu hao + cổ tức |
+| MiniApp ecosystem | Ghép nối mô-đun private domain | Truy cập phi tập trung |
+| Tokenomics | Quản trị khuyến khích và giá trị (governance) | Hai token phối hợp |
+
+### **WA đưa vào thiết kế 3 lớp phòng thủ trong kiến trúc**
+
+1. **Deploy là khóa (Immutable)**: Hợp đồng sau khi deploy không thể nâng cấp, tránh “cửa sau hút máu”
+
+2. **Khuyến khích gắn trách nhiệm (Incentive + Cost)**: Mọi sản lượng đều gắn với chi phí tiêu hao thật, ngăn farm airdrop/farm
+
+3. **AI giám sát đồ thị hành vi (On-chain AI Watcher)**: Tương lai đưa vào mô hình hành vi on-chain để nhận diện địa chỉ bất thường, rủi ro lan truyền...
+
+**Chế độ builder: mọi thứ đều có thể ghép nối**
+
+Kiến trúc WA cho phép builder thực hiện với ngưỡng rất thấp:
+
+| Cách xây | Ví dụ |
+|---------|------|
+| Tái sử dụng Scroll Engine | Tạo DApp cơ chế mời riêng |
+| Nhúng Power Engine | Kết hợp nội dung/sự kiện + thưởng theo sức mạnh |
+| Xây giao thức cộng đồng | MiniApp + công cụ tài sản private domain |
+| Tạo mô-đun governance | Tự định nghĩa DAO/bỏ phiếu sub-protocol |
+| Thiết lập quy tắc khuyến khích mới | Kết hợp Token + Task + Reward |
+
+WA bản chất là một hệ Lego Web4.0 dạng mô-đun, ai cũng có thể “dệt” không gian kinh tế của mình trên đó.
+
+**Tóm tắt**
+
+| Đặc tính | Thể hiện trong kiến trúc WA |
+|------|-----------|
+| Tự trị | Không đặc quyền, hợp đồng khóa, không thể nâng cấp |
+| Tự động | Hành vi tự theo dõi, thưởng/phạt tự kết toán |
+| An toàn | Dữ liệu on-chain có thể truy vết/kiểm toán/truy trách |
+| Mở rộng | MiniApp hỗ trợ vô hạn kết nối private domain |
+| Hợp tác | Nhiều đội/nhóm có thể xây hệ mới trên cùng giao thức |
+
+WA Protocol là một “hệ điều hành trên chain” không cần kiểm soát, không cần cấp quyền, không cần server, cung cấp hạ tầng vận hành thật sự cho Web4.0.`
+      },
+      {
+        id: 5,
+        title: 'Thiết kế cơ chế cốt lõi: Từ tăng trưởng lan truyền đến tự vận hành',
+        icon: 'Settings',
+        content: `**Từ tăng trưởng lan truyền của người dùng → sinh giá trị → hệ thống tự cân bằng — mô hình vận hành vòng kín hoàn chỉnh**
+
+Điểm nổi bật nhất của WA Protocol không phải “đột phá cơ chế đơn điểm”, mà là xây một vòng lặp khép kín: tăng trưởng tự động → sinh giá trị → cân bằng hệ thống.
+
+Tăng trưởng lan truyền ≠ tăng bằng airdrop, mà là kích hoạt hệ thống gắn với chi phí
+Sản lượng ≠ phát hành lạm phát, mà là kinh tế on-chain có chi phí bảo trì
+Tiêu hao ≠ đốt thụ động, mà được thiết kế thành “ngưỡng sinh tồn”
+
+**Vòng lặp khép kín của WA: logic 3 tầng**
+
+**1. Tham gia người dùng: kéo người bằng Scroll + ràng buộc hành vi**
+• Scroll dẫn động lời mời
+• Mọi hành vi ghi nhận on-chain; thưởng mời gắn với hành vi thật
+• Không có “farm”, mọi khuyến khích dựa trên dữ liệu on-chain và tự động phát
+
+**2. Sinh khuyến khích: Power Engine quyết định sản lượng**
+• Người dùng dùng WANT kích hoạt động cơ (đốt lửa bằng XANT)
+• Động cơ tạo WANT theo chu kỳ
+• Mỗi 72 giờ cần bảo trì; thất bại thì dừng sản lượng
+
+**3. Tự cân bằng kinh tế: khuyến khích gắn chi phí + giảm phát hệ thống**
+• Mỗi lần bảo trì tiêu hao 1% WANT làm “nhiên liệu”
+• Một phần đốt, một phần vào pool cổ tức/quỹ governance
+
+**Ví dụ cấu trúc Power Engine (bảng lõi):**
+
+| Cấp động cơ | Ngưỡng (WANT) | Chu kỳ (ngày) | Tổng sản lượng (WANT) | Lợi nhuận ròng | ROI theo tháng | Giới hạn |
+|---------|-----------|---------|-----------|--------|-----------|---------|
+| T10     | 100       | 30      | 130       | 30     | 30%       | 3 |
+| T30     | 1,000     | 40      | 1,500     | 500    | 37.5%     | 2 |
+| T70     | 100,000   | 90      | 200,000   | 100,000| 33.3%     | 1 |
+
+WA không có “airdrop”. Toàn bộ WANT lưu thông đều phải được sản xuất qua “Power Engine”. Không tham gia, không bảo trì, thì không có sản lượng.
+
+Ghi chú:
+• Tất cả tham số được ghi vào smart contracts, người dùng không thể sửa
+• Động cơ sau khi mở không thể dừng, chỉ có thể bảo trì
+• Chu kỳ bảo trì là 72 giờ; thất bại sẽ tạm dừng sản lượng
+
+**Cơ chế bảo trì: “ngưỡng nhiên liệu” của hệ thống**
+
+Mỗi động cơ, mỗi lần bảo trì phải burn 1% vị thế WANT làm “nhiên liệu”:
+• 50% vào địa chỉ hố đen (đốt)
+• 25% vào pool cổ tức toàn cầu
+• 25% vào dự trữ governance của giao thức (risk control + support)
+
+Bảo trì = chi phí kinh tế để duy trì hệ thống chạy. Nếu một người dùng không sẵn sàng chịu tiêu hao, họ sẽ không thể nhận khuyến khích.
+
+**Cơ chế điểm lửa XANT: mọi thứ bắt đầu từ “đốt lửa cho động cơ”**
+
+Người dùng không thể trực tiếp mở Power Engine, phải dùng XANT để hoàn tất điểm lửa — đại diện cho “chi phí đầu vào ban đầu” đối với hệ thống.
+
+Đặc điểm:
+• XANT = giấy phép kích hoạt (mỗi cấp động cơ cần lượng XANT cố định)
+• Dùng là đốt, vĩnh viễn rời khỏi lưu thông
+• Giai đoạn đầu chỉ do foundation phát hành theo từng pha, dần dần giảm phát
+
+Cơ chế này gắn tăng trưởng hệ thống với tính khan hiếm tài nguyên, ngăn kích hoạt vô trật tự: mỗi lần tăng trưởng đều là đầu tư thật; mỗi lần sản xuất đều có chi phí thật phía sau.
+
+**Governance và thiết kế bền vững của giao thức**
+
+WA thiết kế một vòng lặp sinh thái: khuyến khích → chi phí → khuyến khích:
+1. Người dùng tham gia để nhận lợi ích
+
+2. Nhưng phải liên tục bảo trì thì động cơ mới sinh sản lượng
+
+3. Mọi hành vi bảo trì = tiêu hao token = thúc đẩy giảm phát + khuyến khích người khác (cổ tức)
+
+Cơ chế này đảm bảo:
+• Không thể farm airdrop
+• Không cần con người “xét duyệt người dùng đủ điều kiện”
+• Tất cả người tham gia đều phải có đóng góp thật cho hệ thống
+
+---
+
+### **Sơ đồ cấu trúc quy trình (cấu trúc logic)**
+
+**Quy tắc khuyến khích = thuật toán chọn lọc tự nhiên**
+
+WA thiết kế chính quy tắc khuyến khích như một “hàm khuyến khích sinh tồn”:
+• Chỉ có tham gia liên tục mới có sản lượng
+• Không bảo trì thì mất tư cách
+• Muốn nâng cấp phải gánh chi phí cao hơn
+• Khuyến khích càng cao, cơ chế càng khắt khe
+
+Điều này khiến hệ thống tự động lọc “người đầu cơ”, giữ lại “người đóng góp dài hạn”.
+
+**Tóm tắt: WA không phải “phát token + kéo người mới”, mà là một giao thức văn minh kinh tế “sản xuất + bảo trì”**
+
+| Khâu | Thiết kế hệ thống |
+|------|---------|
+| Kéo người dùng | Scroll lan truyền + cơ chế mời tự động |
+| Sinh khuyến khích | Power Engine sản xuất WANT |
+| Ngưỡng khuyến khích | Cần XANT điểm lửa + WANT bảo trì |
+| Cân bằng hệ thống | Burn nhiên liệu + cơ chế giảm phát |
+| Điều tiết thưởng | Pool cổ tức + phân phối lại phí |
+| Bền vững | Mọi tham gia đều có chi phí (phi 0) |
+
+WA đưa mọi khuyến khích đi kèm chi phí, mọi đơn vị sản lượng gánh trách nhiệm — thực hiện đúng nghĩa hệ sinh thái on-chain “khuyến khích × trách nhiệm × tự trị thực thi”.` 
+      },
+      {
+        id: 6,
+        title: 'Hệ kinh tế hai token: WANT và XANT',
+        icon: 'Gem',
+        content: `**Vì sao cần mô hình hai token?**
+
+Trong Web3 truyền thống, “cơ chế một token” thường dẫn đến các vấn đề:
+
+| Vấn đề | Hệ quả |
+|------|------|
+| Không có ngưỡng khởi động | Dễ bị khai thác/“quay vòng rỗng” |
+| Lạm phát khuyến khích quá mức | Phát hành vô hạn làm mất ổn định giá trị |
+| Thiếu thiết kế tiêu hao liên tục | Sinh ra rồi bán ngay, hệ thống không khép vòng |
+
+Vì vậy, WA tách vai trò thành 2 token:
+
+| Token | Vai trò | Đặc tính |
+|------|---------|------|
+| XANT | Chứng chỉ khởi động | Chỉ dùng để châm lửa, dùng xong đốt |
+| WANT | Token chủ đạo của hệ thống | Vừa là sản lượng, vừa là chi phí, vừa là governance |
+
+**XANT: nhiên liệu châm lửa (Execution Fuel)**
+• Khởi động Power Engine cần XANT
+• Dùng xong đốt ngay, rời khỏi hệ thống vĩnh viễn
+
+**WANT: neo giá trị (Value Anchor)**
+• Chỉ được tạo ra thông qua Power Engine (không pre-mine)
+• Dùng làm phần thưởng và chi phí bảo trì
+
+---
+
+### Bảng quan hệ hiệp đồng hai token
+
+| Đặc trưng | XANT | WANT |
+| :--- | :--- | :--- |
+| Chức năng | Chứng chỉ điểm lửa | Tài sản hệ sinh thái |
+| Cách nhận | Phát hành ban đầu/Thưởng nhiệm vụ | Sản lượng từ Power Engine |
+| Cách giảm phát | Mỗi lần kích hoạt đều bị đốt | Đốt khi bảo trì/đốt phí |
+| Có giao dịch được không | Không | Có |
+| Có tạo ra sản lượng không | Không tạo sản lượng | Tạo sản lượng liên tục |
+| Tham gia governance | Không | Có |
+
+---
+
+### Sơ đồ cấu trúc vòng kín cơ chế hai token
+
+    XANT điểm lửa  →  Kích hoạt Power Engine tạo WANT  →  Tham gia hệ sinh thái/Tiêu hao bảo trì  →  Giảm phát & lắng đọng giá trị
+
+---
+
+### Bảng cơ chế phân phối
+
+Mỗi lần hệ thống thu **phí bảo trì** hoặc **phí giao dịch** bằng WANT, sẽ phân phối theo tỷ lệ:
+
+| Dòng chảy | Tỷ lệ |
+| :--- | :--- |
+| Đốt vào hố đen | 25% |
+| Pool cổ tức toàn cầu | 50% |
+| Quỹ governance | 25% |
+
+---
+
+### Cơ chế điều tiết kinh tế
+
+WA đưa vào các chiến lược điều tiết hành vi động thông qua smart contracts:
+
+* Nếu lượng rút ra thị trường > bảo trì/đốt, hệ thống tự tăng chi phí bảo trì
+* Nếu giá WANT biến động mạnh trong ngắn hạn, giao thức sẽ tăng tỷ trọng cổ tức để khuyến khích lock
+* Nếu tốc độ phát hành XANT theo giai đoạn quá nhanh, giao thức có thể tạm dừng “cửa điểm lửa” để giảm tốc tăng mới
+
+---
+
+Các kịch bản tiêu hao:
+
+| Kịch bản | Cách dùng WANT |
+|------|---------|
+| Bảo trì Power Engine | Mỗi 72h tiêu hao 1% nắm giữ, một phần đốt, một phần vào pool thưởng |
+| Thanh toán chức năng DApp | Là phí dịch vụ/giấy phép truy cập trong hệ sinh thái MiniApp |
+| Phí rút | Hành vi To-Wallet cần đốt một tỷ lệ WANT nhất định |
+| Quản trị cộng đồng | Bỏ phiếu/đề xuất cần lock WANT |
+| Thẻ liên minh/Thanh toán | Thanh toán/đổi ngoại tệ xuyên biên giới cũng cần tiêu hao WANT |
+
+WANT = quyền sử dụng + quyền bảo trì + quyền governance + nhiên liệu hoạt động on-chain
+
+**Cơ chế giảm phát của WANT: Thiết kế tự cân bằng hệ thống**
+
+WA không khuyến khích tăng trưởng vô hạn, mà ức chế mở rộng vô trật tự bằng cơ chế “đốt” đã thiết kế:
+
+Ba vòng cơ chế giảm phát:
+1. **Đốt khi bảo trì Power Engine**: Mỗi lần bảo trì, WANT tự động đốt 1%
+
+2. **Đốt phí**: Người dùng khi rút/giao dịch sẽ đốt một phần phí
+
+3. **Thu gom về địa chỉ hố đen**: Tất cả hoạt động đốt có thể truy vấn on-chain, không thể đảo ngược, vận hành minh bạch
+
+Cơ chế phân phối:
+Mỗi lần hệ thống thu phí bảo trì hoặc phí giao dịch WANT, sẽ phân phối theo tỷ lệ:
+
+| Dòng chảy | Tỷ lệ |
+|------|------|
+| Đốt vào hố đen | 25% |
+| Pool cổ tức toàn cầu | 50% |
+| Quỹ governance | 25% |
+
+**Quan hệ hiệp đồng giữa WANT và XANT**
+
+| Đặc trưng | XANT | WANT |
+|------|------|------|
+| Chức năng | Chứng chỉ điểm lửa | Tài sản hệ sinh thái |
+| Cách nhận | Phát hành ban đầu/Thưởng nhiệm vụ | Sản lượng từ Power Engine |
+| Cách giảm phát | Mỗi lần kích hoạt đều bị đốt | Đốt khi bảo trì/đốt phí |
+| Có giao dịch được không | Không | Có |
+| Có tạo ra sản lượng không | Không tạo sản lượng | Tạo sản lượng liên tục |
+| Tham gia governance | Không | Có |
+
+---
+
+### **Vòng kín cơ chế hai token (cấu trúc logic)**
+
+XANT điểm lửa → Kích hoạt Power Engine tạo WANT → Tham gia hệ sinh thái/Tiêu hao bảo trì → Giảm phát & lắng đọng giá trị
+
+**Cơ chế điều tiết kinh tế: Cân bằng động, ngăn bong bóng**
+
+WA đưa vào các chiến lược điều tiết hành vi động thông qua smart contracts:
+• Nếu lượng rút ra thị trường > bảo trì/đốt, hệ thống tự tăng chi phí bảo trì
+• Nếu giá WANT biến động mạnh ngắn hạn, giao thức sẽ tăng tỷ trọng cổ tức để khuyến khích lock
+• Nếu tốc độ phát hành XANT theo giai đoạn quá nhanh, giao thức có thể tạm dừng “cửa điểm lửa” để giảm tốc tăng mới
+
+Mọi quy tắc đều deploy on-chain; cộng đồng có thể đề xuất điều chỉnh, nhưng không có quyền can thiệp thủ công.
+
+**Mô hình phát hành token**
+
+| Token | Tổng cung | Cách phân phối |
+|------|------|---------|
+| XANT | Có giới hạn (vd. 1 tỷ) | Phát hành theo giai đoạn + thưởng nhiệm vụ, dùng là đốt |
+| WANT | Không giới hạn | 100% sản xuất qua Power Engine, liên tục giảm phát |
+
+Không pre-mine, không dự trữ đội ngũ, không airdrop.
+
+**Tóm tắt: Token của WA không phải phần thưởng, mà là “hợp đồng trách nhiệm” cho vận hành giao thức**
+
+| Chiều | XANT | WANT |
+| :--- | :--- | :--- |
+| Khuyến khích khởi động | ✓ | ✓ |
+| Logic sản lượng | ✗ | ✓ |
+| Logic tiêu hao | ✓ | ✓ |
+| Chức năng governance | ✗ | ✓ |
+| Hỗ trợ giá trị | Kịch bản sử dụng khan hiếm | Nhiều kịch bản tiêu hao trong hệ sinh thái |
+
+Thiết kế kinh tế token của WA không nhằm đầu cơ lưu thông, mà là một vòng kín dạng chuỗi: kích hoạt giao thức → người dùng tạo sản lượng → hệ thống tiêu hao → lắng đọng giá trị.
+
+> Cơ chế hai token giúp WA có cả “ngưỡng khởi động” và “cơ chế tự cân bằng” để vận hành dài hạn.`
+      },
+      {
+        id: 7,
+        title: 'Vòng kín kinh doanh: Hệ thống tạo máu và quy tắc khuyến khích',
+        icon: 'TrendingUp',
+        content: `**Bối cảnh: Tại sao 90% dự án Web3 "không thể tự nuôi sống"?**
+
+Hầu hết các dự án Web3 cuối cùng thất bại, nguyên nhân gốc rễ:
+
+| Vấn đề | Hậu quả |
+|------|------|
+| Không có doanh thu thực | Phụ thuộc phát hành token để thu hút người dùng |
+| Không có vòng kín tiêu thụ | Token chỉ có thể bán, không có nơi sử dụng |
+| Không có cơ chế giảm phát | Lạm phát liên tục, giá giảm |
+| Phụ thuộc đội ngũ vận hành | Đội giải tán thì dự án chết |
+
+WA Protocol thiết kế vòng kín kinh doanh hoàn chỉnh ngay từ đầu: có doanh thu, có tiêu thụ, có giảm phát, có cổ tức — hình thành "hệ thống tạo máu" thực sự.
+
+**Bốn trụ cột vòng kín kinh doanh WA**
+
+**Trụ cột 1: Doanh thu từ Power Engine (nguồn chính)**
+• Người dùng trả WANT để kích hoạt và bảo trì engine
+• Mỗi lần bảo trì tiêu thụ 1% vị thế WANT
+• Một phần đốt, một phần vào pool cổ tức
+
+**Trụ cột 2: Doanh thu từ hệ sinh thái MiniApp**
+• Nhà phát triển MiniApp trả phí truy cập giao thức
+• Người dùng trả phí dịch vụ trong MiniApp
+• Tất cả phí quay lại hệ thống
+
+**Trụ cột 3: Doanh thu từ thẻ và thanh toán**
+• Phí chuyển đổi WANT sang fiat
+• Phí giao dịch xuyên biên giới
+• Spread FX là doanh thu giao thức
+
+**Trụ cột 4: Doanh thu từ dịch vụ doanh nghiệp**
+• Giải pháp white-label cho doanh nghiệp
+• API truy cập cho tích hợp bên thứ ba
+• Phí tư vấn và triển khai
+
+**Quy tắc phân phối khuyến khích**
+
+| Nguồn doanh thu | Đốt | Pool cổ tức | Quỹ quản trị |
+|------|------|------|------|
+| Bảo trì engine | 50% | 25% | 25% |
+| Phí MiniApp | 30% | 50% | 20% |
+| Phí thẻ/thanh toán | 20% | 60% | 20% |
+| Phí doanh nghiệp | 10% | 40% | 50% |
+
+**Cơ chế cổ tức toàn cầu**
+
+Pool cổ tức toàn cầu phân phối phần thưởng cho tất cả người nắm giữ engine hoạt động:
+• Phân phối theo tỷ lệ dựa trên cấp engine và thời gian hoạt động
+• Cấp engine càng cao, tỷ lệ cổ tức càng lớn
+• Chỉ engine đang hoạt động (được bảo trì) mới đủ điều kiện nhận cổ tức
+
+WA không phải "dự án phát hành token", mà là "giao thức kinh tế tạo doanh thu thực và phân phối minh bạch trên chuỗi".`
+      },
+      {
+        id: 8,
+        title: 'Hệ thống quản lý rủi ro và thiết kế bền vững',
+        icon: 'Shield',
+        content: `**Tại sao quản lý rủi ro phải "native-protocol"?**
+
+Nền tảng Web2 truyền thống dựa vào:
+• Kiểm toán thủ công
+• Giám sát trung tâm dữ liệu
+• Cơ chế tạm dừng tập trung
+
+Tất cả phụ thuộc vào "con người" — con người có thể sai, có thể tham nhũng, có thể phản ứng chậm.
+
+WA thiết kế quản lý rủi ro như một phần của giao thức: quy tắc được viết vào smart contract, tự động thực thi, không thể thao túng.
+
+**Năm lớp quản lý rủi ro WA**
+
+**Lớp 1: Quản lý rủi ro viral (Scroll Risk Control)**
+• Giới hạn lời mời mỗi địa chỉ mỗi kỳ
+• Phát hiện mẫu lời mời bất thường (mời hàng loạt, tự giới thiệu)
+• Phạt tự động: địa chỉ gian lận mất phần thưởng
+
+**Lớp 2: Quản lý rủi ro engine (Power Engine Risk Control)**
+• Giới hạn dung lượng theo cấp engine
+• Khoảng cách bảo trì bắt buộc 72 giờ
+• Không bảo trì = tự động dừng sản lượng
+
+**Lớp 3: Quản lý rủi ro token (Token Risk Control)**
+• Đốt khi rút ngăn bán tháo hàng loạt
+• Phát hành dần ngăn sốc thị trường
+• Tỷ lệ đốt động theo điều kiện thị trường
+
+**Lớp 4: Quản lý rủi ro hành vi (AI Behavior Risk Control)**
+• AI giám sát đồ thị hành vi on-chain theo thời gian thực
+• Phát hiện địa chỉ bất thường, mẫu Sybil, hoạt động đáng ngờ
+• Tự động gắn cờ và hạn chế truy cập
+
+**Lớp 5: Quản lý rủi ro hệ thống (System Risk Control)**
+• Quỹ quản trị làm dự trữ khẩn cấp
+• Tham số giao thức có thể điều chỉnh qua quản trị
+• Circuit breaker tự động khi chỉ số hệ thống vượt ngưỡng
+
+**Thiết kế bền vững**
+
+1. **Mọi sản lượng phải từ nhiên liệu thực**: không airdrop miễn phí, mọi sản lượng cần XANT khởi động + WANT bảo trì
+2. **Mọi rút tiền ảnh hưởng giảm phát**: mỗi lần rút WANT, một phần bị đốt
+3. **Mọi cấu trúc có vòng đời**: engine cần bảo trì, phần thưởng có giới hạn, tham gia cần trách nhiệm
+
+WA không dựa vào "con người trung thực" mà dựa vào "hệ thống tự điều chỉnh".`
+      },
+      {
+        id: 9,
+        title: 'Lộ trình và kế hoạch phát triển theo giai đoạn',
+        icon: 'Map',
+        content: `**Nguyên tắc phát triển WA: "giao thức trước, sản phẩm sau"**
+
+Khác với dự án Web3 thông thường "làm sản phẩm trước, tìm người dùng sau", WA theo lộ trình:
+Thiết kế giao thức - Deploy hợp đồng - Xác minh cộng đồng - Mở rộng hệ sinh thái
+
+**Giai đoạn 1: Foundation (Q1-Q2)**
+• Deploy hợp đồng cốt lõi (Power Engine, Scroll Engine, Token contracts)
+• Kiểm toán bảo mật bởi bên thứ ba
+• Ra mắt testnet và chương trình bug bounty
+• Hình thành cộng đồng ban đầu (early builders)
+
+**Giai đoạn 2: Growth (Q3-Q4)**
+• Ra mắt mainnet
+• Kích hoạt Power Engine cho người dùng đầu tiên
+• Ra mắt hệ thống scroll viral
+• Tích hợp ví và on-ramp/off-ramp
+
+**Giai đoạn 3: Ecosystem (Q5-Q6)**
+• Ra mắt nền tảng MiniApp
+• Onboarding nhà phát triển bên thứ ba
+• Ra mắt thẻ thanh toán WA
+• Mở rộng sang thị trường Đông Nam Á và LATAM
+
+**Giai đoạn 4: Autonomy (Q7-Q8)**
+• Chuyển đổi sang quản trị phi tập trung hoàn toàn
+• Ra mắt AI Sentinel giám sát on-chain
+• Tích hợp cross-chain
+• Đạt trạng thái "giao thức tự trị hoàn toàn"
+
+**Mốc quan trọng**
+
+| Giai đoạn | Mục tiêu | Chỉ số |
+|------|------|------|
+| Foundation | Hợp đồng đã kiểm toán và deploy | Báo cáo kiểm toán + testnet hoạt động |
+| Growth | 10,000 người dùng hoạt động | DAU + engine hoạt động |
+| Ecosystem | 50+ MiniApp đã deploy | Nhà phát triển onboarded + TVL |
+| Autonomy | Quản trị phi tập trung | Đề xuất + hoạt động bỏ phiếu |
+
+WA Protocol phát triển không phải vì "đội ngũ thúc đẩy" mà vì "giao thức thu hút đúng người tham gia vào đúng thời điểm".`
+      },
+      {
+        id: 10,
+        title: 'Thiết kế hệ sinh thái MiniApp: Không gian chủ quyền số Private Domain',
+        icon: 'Layout',
+        content: `**MiniApp trong WA là gì?**
+
+MiniApp không chỉ là "ứng dụng nhỏ" — nó là module chức năng on-chain mà bất kỳ ai cũng có thể deploy trên giao thức WA, tạo thành "không gian chủ quyền số" của builder.
+
+**Đặc điểm MiniApp WA:**
+• Chạy trên hạ tầng giao thức WA
+• Có thể tận dụng Scroll Engine để viral
+• Có thể tích hợp Power Engine để khuyến khích
+• Builder sở hữu và quản lý hoàn toàn
+
+**Các loại MiniApp có thể xây dựng:**
+
+| Danh mục | Ví dụ | Lợi ích |
+|------|------|------|
+| Cộng đồng | Công cụ DAO, bỏ phiếu, diễn đàn | Quản trị phi tập trung |
+| Nội dung | Blog, video, khóa học | Kiếm tiền nội dung on-chain |
+| Giao dịch | DEX, marketplace, OTC | Thanh khoản hệ sinh thái |
+| Dịch vụ | Tư vấn, freelance, SaaS | Kinh tế dịch vụ on-chain |
+| Game | Play-to-earn, thị trường dự đoán | Giải trí + khuyến khích |
+
+**Mô hình kinh doanh MiniApp**
+
+1. **Phí dịch vụ**: người dùng trả WANT để sử dụng tính năng
+2. **Đăng ký**: truy cập premium trả phí
+3. **Chia sẻ doanh thu**: chia doanh thu với giao thức WA
+4. **Khuyến khích cộng đồng**: phần thưởng từ pool cổ tức toàn cầu
+
+**WA MiniApp vs nền tảng truyền thống**
+
+| Khía cạnh | Nền tảng Web2 | WA MiniApp |
+|------|------|------|
+| Quyền sở hữu | Nền tảng | Builder |
+| Doanh thu | Nền tảng lấy 30%+ | Builder lấy phần lớn |
+| Dữ liệu người dùng | Thuộc nền tảng | Thuộc người dùng (on-chain) |
+| Tính di động | Bị khóa trong nền tảng | Tương tác on-chain |
+| Kiểm duyệt | Nền tảng có thể xóa | Không thể kiểm duyệt |
+
+MiniApp là cách WA hiện thực hóa tầm nhìn "internet thuộc về người dùng".`
+      },
+      {
+        id: 11,
+        title: 'Cấu trúc đội ngũ và nền tảng',
+        icon: 'Users',
+        content: `**Triết lý đội ngũ WA: "Giao thức lớn hơn đội ngũ"**
+
+WA Protocol được thiết kế để không phụ thuộc vào bất kỳ đội ngũ cụ thể nào. Tuy nhiên, ở giai đoạn đầu, cần đội ngũ cốt lõi để:
+• Thiết kế và kiểm toán hợp đồng
+• Xây dựng hạ tầng ban đầu
+• Nuôi dưỡng cộng đồng builder
+• Đảm bảo an ninh và ổn định
+
+**Thành phần đội ngũ cốt lõi:**
+
+| Bộ phận | Trách nhiệm | Chuyên môn |
+|------|------|------|
+| Protocol Engineering | Thiết kế và deploy smart contracts | Solidity, Rust, kiểm toán bảo mật |
+| Product | UX/UI, tích hợp ví, MiniApp SDK | Frontend, mobile, design |
+| Growth | Cộng đồng, đối tác, marketing | Community building, BD |
+| Research | Kinh tế token, lý thuyết trò chơi, AI | Tokenomics, data science |
+| Operations | Pháp lý, tuân thủ, tài chính | Quy định, kế toán |
+
+**Nguyên tắc tổ chức:**
+
+1. **Progressive decentralization**: đội ngũ cốt lõi dần chuyển quyền kiểm soát sang quản trị cộng đồng
+2. **Minh bạch**: mọi quyết định quan trọng được công bố và thảo luận trên diễn đàn
+3. **Trách nhiệm giải trình**: đội ngũ cốt lõi có lịch vesting dài hạn
+4. **Chế độ nhân tài**: người đóng góp cộng đồng có thể thăng tiến thành core contributor
+
+Mục tiêu cuối cùng: WA Protocol vận hành hoàn toàn không phụ thuộc vào bất kỳ đội ngũ cốt lõi nào.`
+      },
+      {
+        id: 12,
+        title: 'Lời kết: Tầm nhìn Web4.0 và lời mời cùng xây dựng',
+        icon: 'Flag',
+        content: `**WA Protocol không chỉ là một dự án — nó là một thí nghiệm văn minh số**
+
+Chúng tôi tin rằng internet thế hệ tiếp theo không phải về "ai sở hữu dữ liệu" hay "ai kiểm soát nền tảng", mà là về:
+
+• Hệ thống có thể vận hành không cần con người?
+• Khuyến khích và trách nhiệm có thể song hành?
+• Tăng trưởng không bóc lột có khả thi?
+• Giá trị có thể được tạo ra và phân phối công bằng?
+
+WA Protocol là câu trả lời của chúng tôi: **Có, nếu chúng ta thiết kế đúng giao thức.**
+
+**Điều gì khiến WA khác biệt?**
+
+| Khía cạnh | Dự án Web3 thông thường | WA Protocol |
+|------|------|------|
+| Kiểm soát | Đội/DAO | Không có (giao thức tự trị) |
+| Tăng trưởng | Marketing/airdrop | Viral tự động (scroll) |
+| Khuyến khích | Lạm phát token | Sản lượng gắn chi phí thực |
+| Bền vững | Phụ thuộc đội ngũ | Giao thức tự duy trì |
+| Rủi ro | Kiểm toán thủ công | AI + protocol native |
+
+**Lời mời cùng xây dựng**
+
+WA Protocol là hạ tầng mở. Chúng tôi mời:
+
+1. **Builder**: xây dựng MiniApp trên giao thức WA
+2. **Cộng đồng**: hình thành node viral và nhận khuyến khích
+3. **Nhà phát triển**: đóng góp vào codebase mã nguồn mở
+4. **Nhà nghiên cứu**: nghiên cứu và công bố về kinh tế token và lý thuyết trò chơi
+5. **Đối tác**: tích hợp dịch vụ với hệ sinh thái WA
+
+**Lời kết**
+
+Trong kỷ nguyên Web4.0, chúng ta không còn xây dựng "sản phẩm cho người dùng" — chúng ta xây dựng "giao thức cho văn minh số".
+
+WA Protocol là bước đầu tiên hướng tới internet thực sự tự trị, công bằng và bền vững.
+
+Hãy tham gia cùng chúng tôi. Không phải với tư cách người dùng, mà là người xây dựng.
+
+> "The best way to predict the future is to build it." — Alan Kay
+
+WA Protocol: Build the future. Together.`
+      }
+
+    ]
+  },
+  ko: {
+    sections: [
+      {
+        id: 1,
+        title: '서문 — Web1.0에서 Web4.0으로',
+        icon: 'Globe',
+        content: `"인터넷이 한 번 도약할 때마다, 문명 패러다임은 다시 짜인다."
+
+인터넷은 탄생 이후 여러 차례 혁명적 전환을 겪어왔습니다. 각 진화는 단순한 기술 반복이 아니라, 생산 관계와 가치관의 근본적 변화였습니다:
+
+**Web1.0: 읽기 전용 시대 (Read Only)**
+• 사용자는 “브라우저/열람자”
+• 정보는 소수의 웹사이트 소유자가 통제
+• 네트워크는 정적인 콘텐츠 전시 시스템
+• 대표 사례: #포털 사이트#、#BBS#、#초기 블로그#
+
+**Web2.0: 사용자 참여 시대 (Read + Write)**
+• UGC의 부상, 소셜 네트워크의 지배
+• 플랫폼이 정보·데이터의 집적 중심이 됨
+• 그러나 사용자 데이터와 가치는 플랫폼에 귀속
+• 대표 사례: #Facebook#、#Weibo#、#YouTube#
+
+**Web3.0: 탈중앙화 소유권의 각성 (Own)**
+• 블록체인이 자산 주권, 정체성 주권, DAO governance를 도입
+• 사용자는 private key, 자산, 참여 권리를 소유
+• 하지만 프로토콜은 여전히 중앙 팀 유지보수에 의존하는 경우가 많고, 인센티브 시스템 인플레이션이 심해 지속이 어려움
+
+**Web4.0: 생존형 시스템 (Survive) — 소유를 넘어 “계속 살아남는 것”**
+
+Web4.0는 단지 “소유”가 아니라, **사람의 간섭 없이도 지속적으로 운행될 수 있는 시스템**을 뜻합니다.
+
+이는:
+• 완전한 Permissionless, 백도어 없음, 검증 가능한 자율 프로토콜 시스템
+• smart contracts와 AI가 함께 구동하는 자동 운영 구조
+• 인센티브와 책임이 결합되고, 인간 통치 없이 돌아가는 “온체인 생명체”
+
+> Web4.0 시대에는 더 이상 “제품”을 만드는 것이 아니라, 디지털 문명의 바닥을 이루는 생명 시스템을 구축한다.
+
+---
+
+**미래 트렌드: AI × 블록체인 × 자율 프로토콜 = 새로운 인터넷 문명 아키텍처**
+
+• AI: 자율 협업 시스템과 지능형 리스크 컨트롤 메커니즘 구축
+• 블록체인: 신뢰 없이 규칙을 집행하는 실행기 구축
+• 토큰 경제: 동적 인센티브와 책임 체계 구축
+• DApp 프로토콜: 완전 자율·자동 운행의 바이럴 생태계 구축
+
+> WA Protocol은 단순한 프로젝트 런칭이 아니라, 앞으로 10년을 위한 인터넷 재구성이다. 우리는 제품을 만드는 것이 아니라 “생존성”을 갖춘 디지털 시스템을 단조하고 있다.
+
+---
+
+**왜 지금이 Web4.0의 결정적 순간인가?**
+
+• 글로벌 트래픽 비용 급등, 바이럴 효율 하락
+• 다수 Web3 프로젝트의 높은 사망률, 실질 현금흐름 부족
+• AI 보급으로 데이터·연산·콘텐츠 혁명 발생
+• “신뢰할 수 있는 디지털 공간”에 대한 사회적 수요 급증
+
+> 우리는 이 시점에서, 인간의 개입 없이도 장기적으로 운행되고, 내생적으로 ‘조혈’하며, 규칙이 명확한 프로토콜 체계를 만들어야 한다.
+
+WA Protocol, 바로 이 흐름 속에서 탄생한다.`
+      },
+      {
+        id: 2,
+        title: 'Web4.0의 철학적 기반과 WA의 사명',
+        icon: 'Brain',
+        content: `**패러다임의 재구성: “인터넷 제품”에서 “디지털 생존 시스템”으로**
+
+> 전통 Web 세계의 핵심 논리는 “사용자-플랫폼”이라는 이원 구조다. 플랫폼이 데이터를 통제하고, 규칙을 배분하며, 인센티브를 결정한다. Web3에서 자산 주권이 “탈중앙화”되었더라도, 시스템은 여전히 “사람”의 유지보수 — 팀, 백엔드, 조정, 업데이트 — 에 의존한다.
+
+Web4.0은 한 걸음 더 나아가 말한다: **규칙은 사람이 통제해서는 안 되며, 시스템은 “자기 생존성”을 갖춰야 한다.**
+
+이는 완전히 새로운 철학적 패러다임이다:
+
+| 비교 차원 | Web3 | Web4.0 |
+|---------|------|--------|
+| 핵심 이념 | 자산 소유 Ownership | 시스템 생존 Survival |
+| 설계 중심 | 인간 중심 설계 | 프로토콜 중심 설계(사람이 없어도 운행) |
+| 거버넌스 방식 | 커뮤니티가 관리 가능 | 시스템 자율, 누구도 규칙 수정 불가 |
+| 인센티브 모델 | 인센티브 “획득” | 인센티브는 책임/비용을 요구, 순수 파밍 방지 |
+| 인센티브 설계 | 인간이 설계 | 코드가 설정, 비가역·불변 |
+| 프로토콜 수명 | 개발팀 의존 | 자가 실행·지속 진화·인간 개입 불필요 |
+
+---
+
+### **Web4.0 핵심 철학의 4대 기둥:**
+
+**1. Permissionless (무권한)**
+WA의 프로토콜은 deploy되는 순간, 슈퍼 권한도 백도어도 없고 수정할 수도 없다. 모든 메커니즘은 smart contracts에 코드로 새겨진다. 창립자가 현장에 있든 없든, 프로토콜은 정해진 로직대로 계속 작동한다.
+
+> "어떤 시스템이 사람의 개입이 있어야 유지된다면, 그것은 오래갈 수 없다." 
+
+**2. Autonomous (자기 실행)**
+모든 인센티브, 바이럴, 소비, 분배는 온체인 규칙으로 자동 완결된다. WA는 런칭 이후 수동 airdrop, 오프체인 설정, 혹은 “팀이 보상을 줄지 말지 결정” 같은 중앙화 행위를 거부한다. 바이럴 시스템, Power Engine, 토큰 governance, 유지비 분배 — 모두 온체인 코드가 관리한다.
+
+**3. Co-Built (공동 구축)**
+각 사용자는 단순한 사용자라기보다 협력자다. WA는 공식이 운영하는 프로젝트가 아니라, 누구나 직접 “자신의 프로토콜 생태”를 구축할 수 있는 개방형 체계다.
+
+• 아이디어가 있다 → 제안(governance)
+• 자원이 있다 → 서브 프로토콜 발행
+   • 커뮤니티가 있다 → MiniApp 구축
+   • 제품이 있다 → Power Engine 연동
+
+WA는 사용자가 자발적으로 진화시키는 “프로토콜 집합체”다.
+
+**4. Symbiotic (공생)**
+WA는 긍정적 생태 순환을 구축한다:
+• 산출(WANT)은 유지비(소비)와 함께해야 한다
+• 바이럴(스크롤)은 규칙 안에서 합법적으로 일어나야 한다
+• 인센티브(초대 보상)는 실질 유통에서 나와야 한다
+
+> 뿌리 없는 나무는 없고, 무한 발행도 없다.
+
+---
+
+### **WA의 역사적 사명:**
+
+* Web4.0 생태계의 첫 실현
+* “소유”에서 “생존”으로의 패러다임 전환
+* 디지털 문명을 위한 인프라급 프로토콜 제공
+* 모두가 디지털 경제의 건설자이자 수혜자가 되게 함
+
+---
+
+### **WA의 비전: 프로토콜은 시민을 위해, 시스템은 법으로**
+
+> 우리는 포스트 플랫폼 시대에 들어서고 있다 — 권력은 어떤 회사가 아니라, 코드가 설정한 규칙 시스템에 있다. 신뢰는 유명인의 보증이 아니라, 온체인 규칙의 검증 가능성, 예측 가능한 인센티브, 통제 가능한 리스크에서 나온다.
+
+WA의 목표는 다음 중앙화 거인이 되는 것이 아니라, 모두가 자신의 디지털 홈을 소유할 수 있게 하는 운영체제가 되는 것이다.
+
+미래에는 누구나 자신의:
+
+• 지갑 계정
+• MiniApp 프로토콜
+• DAO 커뮤니티
+• 맞춤형 인센티브 모델
+• 자율 경제권
+
+을 가질 수 있다.
+
+> WA의 세계에서 “사용자”는 트래픽이 아니라 빌더이며, “제품”은 플랫폼이 아니라 프로토콜이다.
+
+---
+
+### **요약**
+
+| 특징 | Web4.0 철학의 구현 | WA의 구현 경로 |
+|------|----------------|-------------|
+| 권력 분산 | 불변 컨트랙트, 무권한 DApp | 규칙은 deploy 즉 영구 |
+| 인센티브-책임 결합 | 바이럴=기여+유지비 | WANT 유지 메커니즘 |
+| 비인간화 운행 | 자동 바이럴/산출/소비 | Scroll 시스템 + Power Engine |
+| 신뢰의 탈신뢰화 | 검증 가능한 투명 메커니즘 | 모든 데이터 온체인 조회 |
+| 생태 공동 구축 | 개방 접속, 협업 인센티브 | MiniApp + 기술·자금 지원 |
+
+WA Protocol은 우리가 미래를 위해 구축하는 “문명 시스템의 바닥”이다.`
+      },
+      {
+        id: 3,
+        title: 'WA의 포지셔닝: Permissionless 바이럴 협업 프로토콜',
+        icon: 'Network',
+        content: `**WA란 무엇인가? 플랫폼도 제품도 아닌, 프로토콜이다**
+
+WA의 존재 형태는 App도 서비스도, 중앙화 기업도 아니다. WA는 **“완전 온체인 자율 프로토콜 체계”**이며, 다음 3가지 특성을 갖는다:
+
+1. **Permissionless (무권한)**: 슈퍼 관리자 없음, 규칙은 deploy 후 변경 불가
+
+2. **트래픽 자가 바이럴 (Autonomous Growth)**: smart contracts가 제어하는 스크롤형 자동 전파 시스템으로, 사람 개입 없이 기하급수 성장
+
+3. **다자 협업 인프라 (Collaborative Infrastructure)**: 누구나 프로토콜 위에 “자신의 생태 모듈”을 구축해 “빌더=주주”를 실현
+
+**왜 “스크롤형 바이럴”인가? 우리는 트래픽의 본질을 이해한다**
+
+배경 현실: Web3는 트래픽 병목에 직면
+• 사용자 성장 비용 높음, 교육 장벽 높음
+• 일반 DApp은 네트워크 효과가 약하고 수명 짧음
+• 대부분의 프로젝트가 여전히 Web2 광고 채널에 의존
+
+해결책: 우리는 “프로토콜 내부 자가 바이럴” 메커니즘을 설계한다 — 외부 마케팅 팀도, 중앙 통제도 필요 없다. 사용자가 곧 전파 노드다.
+
+**스크롤 메커니즘: 저비용 온체인 유입 솔루션**
+
+WA 스크롤 시스템은 smart contracts가 구동하는 바이럴 트래픽 프로토콜 모델이며, 다음 특성을 갖는다:
+
+✅ **자동 바이럴**
+• 사용자가 어떤 동작(참여/공유/등록 등)을 트리거하면, 전용 초대 코드/링크가 자동 생성
+• 컨트랙트가 관계 체인을 추적, 보상은 백엔드 통제에 의존하지 않음
+
+✅ **보상은 행동에 결합**
+• 보상은 “실제 온체인 행동”(예: 입금, 출금, 유지보수 등)에 기반해 생성
+• 파밍, 등록기, 봇 행동을 방지
+
+✅ **탈중앙 결산**
+• 모든 보상 로직이 온체인에서 투명하게 실행
+• 플랫폼의 수동 개입/회수 권한 없음
+
+✅ **인센티브-리스크 동적 균형**
+• 초대자의 수익은 피초대자의 실제 활동도에 연동
+• 시스템은 “공회전식” 네트워크 팽창을 자동 억제
+
+"바이럴의 권력은 운영팀에서 프로토콜 자체로 완전히 위임된다."
+
+**WA의 기술적 정의: Flow-Cooperative Protocol**
+
+WA = Flow-Cooperative Protocol（협업형 트래픽 프로토콜）
+
+이는 전통적 의미의 DApp이 아니라, 온체인 규칙으로 구동되는 트래픽과 자산의 이중 협업 프로토콜이며, 다음 역할을 수행한다:
+
+| 기능 모듈 | 설명 |
+|---------|------|
+| 스크롤 규칙 엔진 | 바이럴 작업/관계 결합을 자동 생성 |
+| 사용자 토큰화 | 각 사용자는 자산 단위, 기여를 정량화 |
+| 프로모션 협업 | 사용자는 에이전트, 초대는 협업 |
+| 인센티브 분배 | 모든 행동과 수익을 자동 실행 |
+| private domain 권한 | 타 모듈을 호출해 바이럴 능력을 재사용 |
+
+**“트래픽-협업-가치” 3원 폐루프 모델**
+
+1. **트래픽 바이럴 (Flow)**
+   • 신규 사용자를 시스템으로 유입
+   • 전용 바이럴 코드 자동 생성
+   • 보상은 관계가 아니라 행동으로 결정
+
+2. **협업 구축 (Collaborate)**
+   • private domain·팀 보유자는 프로토콜을 재사용
+   • 커뮤니티/콘텐츠/도구 팀은 MiniApp 또는 DApp 구축
+
+3. **가치 침전 (Value)**
+   • WANT는 연료 결제, governance, 참여 등에 쓰이는 프로토콜 주 자산
+   • 스크롤은 종점이 아니라, 가치를 시스템으로 유도하는 엔진
+
+**사례 시나리오: WA 스크롤 프로토콜은 어떻게 유입에 쓰이는가?**
+
+| 적용 시나리오 | 스크롤 실행 효과 |
+|---------|------------|
+| 커뮤니티 홍보 | 전용 초대코드 자동 생성, 온체인 보상 |
+| 콘텐츠 배포 | 시청/전파에 초대코드 결합, 온체인 행동 확인 |
+| 프로젝트 펀딩 | 투자자가 신규 유저 초대 참여, WANT를 규칙에 따라 보상 |
+| 이벤트 참여 | 참여 행동마다 바이럴 코드 생성 트리거 |
+| 교육/훈련 | 과제 완료 시 “학습 바이럴 보상” 획득 |
+
+위 기능은 백엔드 구축에 의존하지 않으며, 프로토콜 smart contracts가 자동 생성·실행한다.
+
+**WA와 기존 Web3 프로젝트의 본질적 차이**
+
+| 비교 프로젝트 유형 | 통제권 | 바이럴 방식 | 리스크 감사 | 사용자 포지션 |
+|------------|--------|---------|---------|---------|
+| Web3 DApp | 팀 통제 | 커뮤니티/airdrop | 약함 | 사용자 |
+| Web3 플랫폼 | 중앙화 | 콘텐츠/광고 구동 | 중간 | 소비자 |
+| WA Protocol | 무중심 | 자동 바이럴 | AI+알고리즘 감사 | 빌더 + 파트너 |
+
+WA = 자율 바이럴 프로토콜 + 다자 협업 베이스 + Permissionless 실행 모델
+
+**요약: WA의 포지셔닝은 “프로토콜 형태의 트래픽 운영체제”다**
+
+• 도구가 아니라 “바이럴 프로토콜”
+• 플랫폼이 아니라 “협업 인프라”
+• 프로젝트가 아니라 “비인간화 성장 엔진”
+
+WA Protocol은 “자가 전파, 자가 실행, 자가 제약” 능력을 갖춘 Web4.0급 트래픽 프로토콜이다.`
+      },
+      {
+        id: 4,
+        title: '기술 아키텍처: Web4.0의 온체인 운영체제',
+        icon: 'Code',
+        content: `**"DApp"에서 "On-chain OS"로: 패러다임 전환**
+
+대부분의 Web3 애플리케이션은 여전히 중앙화 로직의 “껍데기만 분산화한 버전”에 가깝습니다:
+• 백엔드는 온체인 데이터를 저장
+• 프론트엔드는 온체인 컨트랙트를 호출
+• 제어와 운영 권한은 개발팀이 보유
+
+WA는 다릅니다 — 첫 줄의 코드부터 체인 위의 “프로토콜 네이티브 엔터티”이며, 운영체제처럼 **비인간화된 실행 시스템**을 만드는 것이 목표입니다.
+
+WA는 “하나의 제품”이 아니라, “조합 가능한 실행 프로토콜들의 집합”입니다. 각 프로토콜 모듈은 실행/결합/감사 가능하며, 규칙은 변경할 수 없습니다.
+
+**WA 운영체제의 5대 모듈:**
+
+**1. 최소 권한 커널 (No Admin Layer)**
+• 핵심 모듈은 deploy 이후 “영구적으로 권한을 상실”하며, 업그레이드 경로가 없습니다
+• 팀 주소 없음, 일시정지 스위치 없음, 리셋 권한 없음
+• 창립자는 “돌아와서 수정”하거나 “자산을 개입”할 수 없습니다
+
+**2. 자동 바이럴 엔진 (Scroll Engine)**
+• 초대 행동과 관계를 온체인에 기록하는 “바이럴 행동 기록기”
+• 중앙 서버에 의존하지 않음
+• 초대/관계/인센티브가 컨트랙트에 의해 자동 기록·처리
+
+**3. Power Engine 레이어 (Power Engine Layer)**
+• 온체인 “채굴”에 유사한 모듈
+• 사용자가 WANT를 lock하고 시간에 따라 산출을 생성(규칙 고정)
+• 72시간마다 유지보수 필요 → 실제 “운영 비용”이 됨
+• 생태계 성장, 토큰 수요, 디플레이션 메커니즘을 지지
+
+**4. 토큰 메커니즘 (WANT & XANT)**
+• WANT: 생태계 가치 순환의 핵심 토큰
+• XANT: 엔진 활성화에 필요한 자격(소각형 스타터)
+• 모든 순환 로직은 온체인에서 실행
+
+**5. 조합 가능한 MiniApp 시스템 (Private Domain 생태계 모듈)**
+• 커뮤니티 개발자에게 온체인 실행 공간 제공(“플러그인”처럼)
+• 로직을 독립적으로 deploy하고 기본 엔진을 호출 가능
+• 다양한 생태계 협업을 형성
+
+MiniApp = 빌더의 “개인 디지털 주권 공간”
+
+**"자기 실행 시스템"의 3가지 핵심 속성**
+
+온체인 운영체제로서 WA는 다음 3가지 능력을 갖춰야 합니다:
+
+| 능력 | 설명 | 기술 구현 |
+|------|------|---------|
+| 1. Self-Running | 사람 개입 없이 지속 실행 | 슈퍼 관리자 없음, 고정 컨트랙트 |
+| 2. Self-Driven | 모든 행동이 인센티브로 유도 | 벌점+보상이 컨트랙트로 자동 실행 |
+| 3. Self-Auditing | 모든 행동이 검증/추적 가능 | 전체 과정 온체인 공개 + AI 감사 보조 |
+
+**모듈 설명**
+
+| 모듈 | 기능 설명 | 특징 |
+|------|---------|------|
+| 최소 권한 컨트랙트 | 시스템 핵심 컨트랙트 변경 불가 | 온체인 투명, zero-trust 가정 |
+| 자동 바이럴 엔진 | 초대 바이럴 추적 및 인센티브 | 전 과정 컨트랙트 제어 |
+| Power Engine 시스템 | WANT 산출의 유일 메커니즘 | 주기 유지보수 + 소비 + 배당 |
+| MiniApp 생태계 | 개인 기능 모듈 조합 사용 | 분산형 접속 |
+| Tokenomics | 인센티브 및 governance 가치 흐름 관리 | 듀얼 토큰 시너지 |
+
+**보안 설계: 통제권 없이도 자율성을 어떻게 확보하는가?**
+
+WA는 구조 설계에서 3중 방어를 도입합니다:
+
+1. **Deploy 즉시 고정 (Immutable)**: 컨트랙트는 deploy 후 업그레이드 불가 → “백도어 착취” 방지
+
+2. **인센티브-책임 결합 (Incentive + Cost)**: 모든 산출은 실제 소비 비용을 부담 → 에어드랍 파밍/악용 방지
+
+3. **행동 그래프 AI 모니터링 (On-chain AI Watcher)**: 향후 온체인 행동 모델로 이상 주소, 바이럴 리스크 등을 식별
+
+**프로토콜 개발자 모드: 모든 것은 조합 가능**
+
+WA 아키텍처는 빌더가 매우 낮은 진입장벽으로 다음을 수행할 수 있게 합니다:
+
+| 빌딩 방식 | 예시 |
+|---------|------|
+| Scroll Engine 재사용 | 자체 초대 메커니즘 DApp 생성 |
+| Power Engine 중첩 | 콘텐츠/이벤트 + 파워 보상 결합 |
+| 커뮤니티 프로토콜 구축 | MiniApp + 개인 자산 도구 |
+| governance 모듈 생성 | 커스텀 DAO/투표 서브프로토콜 |
+| 새 인센티브 규칙 설계 | Token + Task + Reward 프로토콜 조합 |
+
+WA는 본질적으로 모듈형 Web4.0 레고 시스템이며, 누구나 그 위에 자신의 경제 공간을 “직조”할 수 있습니다.
+
+**요약**
+
+| 특성 | WA 아키텍처 구현 |
+|------|-----------|
+| 자율성 | Permissionless, 컨트랙트 고정, 업그레이드 불가 |
+| 자동성 | 행동 자동 추적, 보상/패널티 자동 결제 |
+| 보안성 | 모든 데이터 온체인 조회 가능, 감사 가능, 책임 가능 |
+| 확장성 | MiniApp 모듈을 통한 무제한 private domain 접속 |
+| 협업성 | 다자 팀/커뮤니티가 동일 프로토콜 기반으로 신규 시스템 구축 |
+
+WA Protocol은 통제/허가/서버 없이도 작동하는 “온체인 운영체제”로서 Web4.0 인프라를 제공합니다.`
+      },
+      {
+        id: 5,
+        title: '핵심 메커니즘 설계: 바이럴 성장에서 자율성으로',
+        icon: 'Settings',
+        content: `**사용자 바이럴 성장 → 가치 산출 → 시스템 자가 안정화 — 완전한 폐루프 운영 모델**
+
+WA Protocol의 가장 큰 특징은 단일 “혁신 포인트”가 아니라, 자동 성장—가치 생성—시스템 조절로 이어지는 **자가 실행 폐루프**를 구축한 것입니다:
+
+바이럴 성장 ≠ 에어드랍 성장, 비용과 결합된 시스템 활성화
+산출 ≠ 인플레이션 방출, 유지보수 비용이 있는 온체인 경제
+소비 ≠ 수동 소각, “생존 문턱”으로 설계된 운영 보장
+
+**WA 생태계 폐루프: 3중 로직**
+
+**1. 사용자 참여 로직: 바이럴 유입 + 행동 결합**
+• Scroll 메커니즘이 초대를 구동
+• 모든 행동은 온체인 기록, 초대 보상은 실제 행동과 연동
+• “파밍” 없음 — 모든 인센티브는 온체인 데이터 기반 자동 분배
+
+**2. 인센티브 생성 로직: Power Engine이 산출을 결정**
+• 사용자는 WANT로 엔진을 활성화(XANT로 점화)
+• 엔진은 주기적으로 WANT를 산출
+• 72시간마다 유지보수 필요, 실패 시 산출 중단
+• 상위 티어 엔진일수록 수익률이 높지만, 장벽과 유지비도 증가
+
+**3. 경제 자가 안정화 로직: 인센티브-비용 결합 + 시스템 디플레이션**
+• 매 유지보수마다 WANT 1%를 소비(소각 또는 배당 풀로 유입)
+• 엔진 업그레이드/출금/수수료는 모두 연료 소비를 수반
+• WANT 총 공급은 지속적인 디플레이션 궤도로 진입
+
+**Power Engine 메커니즘: WA의 산출/소비 심장**
+
+WA에는 “에어드랍”이 없습니다. 모든 WANT 순환은 “Power Engine”을 통해서만 생산되어야 합니다. 참여 없음, 유지보수 없음, 산출 없음.
+
+엔진 구조 예시(핵심 테이블):
+
+| 엔진 레벨 | 기준 (WANT) | 주기 (일) | 총 산출 (WANT) | 순이익 | 월 ROI | 수량 제한 |
+|---------|-----------|---------|-----------|--------|-----------|---------|
+| T10     | 100       | 30      | 130       | 30     | 30%       | 3 |
+| T30     | 1,000     | 40      | 1,500     | 500    | 37.5%     | 2 |
+| T70     | 100,000   | 90      | 200,000   | 100,000| 33.3%     | 1 |
+
+비고:
+• 모든 파라미터는 smart contracts에 기록되며, 사용자는 변경할 수 없습니다
+• 엔진은 시작 후 중지할 수 없고 “유지보수”만 가능합니다
+• 유지보수 간격은 72시간이며, 실패하면 산출이 일시 정지됩니다
+
+**유지보수 메커니즘: 시스템의 “연료 문턱”**
+
+각 유지보수는 포지션 WANT의 1%를 “연료”로 소각해야 합니다:
+• 50%: 블랙홀 주소로 이동(소각)
+• 25%: 글로벌 배당 풀로 이동
+• 25%: 프로토콜 governance 예비금으로 이동(리스크 컨트롤 + 지원)
+
+유지보수 = 시스템 운용을 유지하는 경제적 비용입니다. 사용자가 소비를 부담하지 않으면 인센티브를 받을 수 없습니다.
+
+**XANT 점화 메커니즘: 모든 것은 “엔진 점화”에서 시작된다**
+
+사용자는 Power Engine을 직접 시작할 수 없으며, 반드시 “XANT”로 점화를 완료해야 합니다. 이는 시스템에 대한 “초기 비용 투자”를 의미합니다.
+
+특징:
+• XANT = 활성화 라이선스(각 엔진 레벨마다 고정된 XANT 수량 필요)
+• 사용 = 소각, 영구적으로 순환에서 이탈
+• 초기에는 단계적으로만 방출되며, 점진적으로 희소해집니다
+
+이 메커니즘은 시스템 성장과 자원 희소성을 결합해 무질서한 활성화를 방지합니다: 모든 성장은 실제 투자이며, 모든 산출은 실제 비용을 동반합니다.
+
+**프로토콜 governance와 지속가능 설계**
+
+WA는 인센티브-비용-인센티브의 생태 사이클을 설계했습니다:
+1. 사용자는 참여로 이익을 얻지만
+
+2. 엔진이 산출하려면 지속적으로 유지보수해야 하며
+
+3. 모든 유지보수 행동 = 토큰 소비 = 디플레이션 유도 + 타인 인센티브(배당)
+
+이로써:
+• 에어드랍 파밍 불가
+• “자격자 선별”을 사람의 판단에 의존할 필요 없음
+• 모든 참여자가 시스템에 실질 기여를 해야 함
+
+**인센티브 규칙 = 자연선택 알고리즘**
+
+WA는 인센티브 규칙 자체를 “생존 인센티브 함수”로 설계했습니다:
+• 지속 참여를 통해서만 산출을 얻을 수 있음
+• 유지보수 없으면 자격 상실
+• 업그레이드하려면 더 높은 비용 부담
+• 인센티브가 높을수록 더 엄격한 메커니즘
+
+이를 통해 시스템은 “투기적 사용자”를 자동 필터링하고 “장기 기여자”를 남깁니다.
+
+**요약: WA는 “토큰 발행+유저 모집”이 아니라 “산출+유지보수”의 경제 문명 프로토콜**
+
+| 링크 | 시스템 설계 |
+|------|---------|
+| 사용자 트래픽 | Scroll 바이럴 + 자동 초대 |
+| 인센티브 산출 | Power Engine이 WANT 생산 |
+| 인센티브 문턱 | XANT 점화 + WANT 유지보수 |
+| 시스템 밸런스 | 연료 소각 + 디플레이션 |
+| 보상 조절 | 배당 풀 + 수수료 재분배 |
+| 지속가능성 | 모든 참여는 비용 부담(제로 코스트 불가) |
+
+WA의 메커니즘은 모든 인센티브에 비용을 동반시키고, 모든 산출에 책임을 부여하여 — 온체인에서 “인센티브 × 책임 결합 × 자율 실행” 생태를 실현합니다.`
+      },
+      {
+        id: 6,
+        title: '듀얼 토큰 경제 시스템: WANT와 XANT',
+        icon: 'Gem',
+        content: `**왜 듀얼 토큰 모델인가?**
+
+전통적인 Web3에서는 “싱글 토큰” 메커니즘이 다음과 같은 문제를 자주 야기합니다:
+
+| 문제 | 결과 |
+|------|------|
+| 시작(활성화) 문턱 부재 | 무비용 획득/악용이 쉬움 |
+| 과도한 인센티브 인플레이션 | 무제한 발행으로 가치가 붕괴 |
+| 지속적 소비 설계 부재 | 산출 후 즉시 매도, 시스템이 폐루프를 못 만듦 |
+
+그래서 WA는 역할을 2개 토큰으로 분리합니다:
+
+| 토큰 | 역할 | 특징 |
+|------|---------|------|
+| XANT | 활성화 자격 | 점화 전용, 사용 즉시 소각 |
+| WANT | 시스템 메인 토큰 | 산출이자 비용, governance까지 담당 |
+
+**XANT: 점화 연료 (Execution Fuel)**
+• Power Engine 시작에는 XANT가 필요
+• 사용 즉시 소각되어 영구히 시스템에서 이탈
+
+**WANT: 가치 앵커 (Value Anchor)**
+• Power Engine을 통해서만 산출(사전 발행 없음)
+• 보상 및 유지보수 비용으로 사용
+
+---
+
+### 듀얼 토큰 시너지 관계 표
+
+| 특성 | XANT | WANT |
+| :--- | :--- | :--- |
+| 기능 | 점화 자격 | 생태 자산 |
+| 획득 방식 | 초기 방출/미션 보상 | Power Engine 산출 |
+| 디플레이션 방식 | 활성화 시마다 소각 | 유지보수/수수료 소각 |
+| 거래 가능 여부 | 아니오 | 예 |
+| 산출 여부 | 산출 없음 | 지속 산출 |
+| governance 참여 | 아니오 | 예 |
+
+---
+
+### 듀얼 토큰 메커니즘 폐루프 구조도
+
+    XANT 점화  →  Power Engine 활성화로 WANT 산출  →  생태 참여/유지보수 소비  →  디플레이션 가치 축적
+
+---
+
+### 분배 메커니즘 표
+
+시스템이 WANT 유지보수비 또는 거래 수수료를 수취할 때, 다음 비율로 분배됩니다:
+
+| 흐름 | 비율 |
+| :--- | :--- |
+| 블랙홀 소각 | 25% |
+| 글로벌 배당 풀 | 50% |
+| governance 펀드 | 25% |
+
+---
+
+### 경제 조절 메커니즘
+
+WA 프로토콜은 smart contracts를 통해 동적 행동 조절 전략을 도입합니다:
+
+* 시장 출금이 유지보수/소각보다 크면, 시스템이 자동으로 유지비를 인상
+* WANT 단기 가격이 급변하면, 배당 비중을 높여 lock을 유도
+* XANT 단계 방출이 너무 빠르면, 점화 진입을 일시 중지해 신규 유입을 완화
+
+---
+
+소비 시나리오:
+
+| 시나리오 | WANT 사용 |
+|------|---------|
+| Power Engine 유지보수 | 72시간마다 보유량 1% 소비, 일부 소각/일부 보상 풀 유입 |
+| DApp 기능 결제 | MiniApp 생태에서 서비스비/접근 자격으로 사용 |
+| 출금 수수료 | To-Wallet 행동에 일정 비율 WANT 소각 필요 |
+| 커뮤니티 governance | 투표/제안에 WANT lock 필요 |
+| 제휴 카드/결제 | 국경 간 결제/환전에도 WANT 소비 필요 |
+
+WANT = 사용권 + 유지권 + governance 권리 + 온체인 활동 연료
+
+**WANT 디플레이션 메커니즘: 시스템 자가 균형 설계**
+
+WA는 무제한 성장을 권장하지 않으며, 설계된 “소각 메커니즘”으로 무질서한 확장을 억제합니다:
+
+디플레이션 메커니즘 3중 고리:
+1. **Power 유지보수 소각**: 각 유지보수 시 WANT 1% 자동 소각
+
+2. **수수료 소각**: 출금/거래 시 일부 수수료 소각
+
+3. **블랙홀 주소 집계**: 모든 소각은 온체인 조회 가능, 비가역, 투명 운영
+
+분배 메커니즘:
+시스템이 WANT 유지보수비 또는 거래 수수료를 수취할 때, 다음 비율로 분배됩니다:
+
+| 흐름 | 비율 |
+|------|------|
+| 블랙홀 소각 | 25% |
+| 글로벌 배당 풀 | 50% |
+| governance 펀드 | 25% |
+
+**WANT와 XANT의 시너지 관계**
+
+| 특성 | XANT | WANT |
+|------|------|------|
+| 기능 | 점화 자격 | 생태 자산 |
+| 획득 방식 | 초기 방출/미션 보상 | Power Engine 산출 |
+| 디플레이션 방식 | 활성화 시마다 소각 | 유지보수/수수료 소각 |
+| 거래 가능 여부 | 아니오 | 예 |
+| 산출 여부 | 산출 없음 | 지속 산출 |
+| governance 참여 | 아니오 | 예 |
+
+---
+
+### **듀얼 토큰 폐루프 구조(로직 구조)**
+
+XANT 점화 → Power Engine 활성화로 WANT 산출 → 생태 참여/유지보수 소비 → 디플레이션 가치 축적
+
+**경제 조절 메커니즘: 동적 균형, 버블 방지**
+
+WA 프로토콜은 smart contracts를 통해 동적 행동 조절 전략을 도입합니다:
+• 시장 출금이 유지보수/소각보다 크면, 시스템이 자동으로 유지비를 인상
+• WANT 단기 가격이 급변하면, 배당 비중을 높여 lock을 유도
+• XANT 단계 방출이 너무 빠르면, 점화 진입을 일시 중지해 신규 유입을 완화
+
+모든 규칙은 온체인에 배포되며, 커뮤니티가 제안으로 조정할 수 있지만 수동 개입 권한은 없습니다.
+
+**토큰 발행 모델**
+
+| 토큰 | 총량 | 분배 방식 |
+|------|------|---------|
+| XANT | 제한(예: 10억) | 단계 방출 + 미션 인센티브, 사용 즉시 소각 |
+| WANT | 무제한 | 100% Power Engine 산출, 지속 디플레이션 |
+
+사전 채굴 없음, 팀 리저브 없음, 에어드랍 없음.
+
+**요약: WA의 토큰은 보상이 아니라 프로토콜 운영을 위한 “책임 계약”이다**
+
+| 차원 | XANT | WANT |
+| :--- | :--- | :--- |
+| 시작 인센티브 | ✓ | ✓ |
+| 산출 로직 | ✗ | ✓ |
+| 소비 로직 | ✓ | ✓ |
+| governance 기능 | ✗ | ✓ |
+| 가치 지지 | 희소한 사용 시나리오 | 다중 생태 소비 시나리오 |
+
+WA의 토큰 경제 설계의 핵심은 투기적 유통이 아니라, 프로토콜 활성화 → 사용자 산출 → 시스템 소비 → 가치 축적의 체인형 폐루프입니다.
+
+> 듀얼 토큰은 WA가 장기적으로 운영될 수 있도록 “시작 문턱”과 “자가 균형 메커니즘”을 동시에 제공합니다.`
+      },
+      {
+        id: 7,
+        title: '비즈니스 클로즈드 루프: 조혈 시스템과 인센티브 규칙',
+        icon: 'TrendingUp',
+        content: `**배경: 왜 90%의 Web3 프로젝트가 "자생할 수 없는가"?**
+
+대부분의 Web3 프로젝트가 결국 실패하는 근본 원인:
+
+| 문제 | 결과 |
+|------|------|
+| 실질 수익 없음 | 토큰 발행으로 사용자 유치에 의존 |
+| 소비 클로즈드 루프 없음 | 토큰은 판매만 가능, 사용처 없음 |
+| 디플레이션 메커니즘 없음 | 지속적 인플레이션, 가격 하락 |
+| 운영팀 의존 | 팀 해산 시 프로젝트 사망 |
+
+WA Protocol은 처음부터 완전한 비즈니스 클로즈드 루프를 설계했습니다: 수익, 소비, 디플레이션, 배당 — 진정한 "조혈 시스템"을 형성합니다.
+
+**WA 비즈니스 클로즈드 루프의 4대 기둥**
+
+**기둥 1: Power Engine 수익 (주요 수입원)**
+• 사용자가 엔진 활성화 및 유지보수에 WANT 지불
+• 매 유지보수마다 포지션 WANT의 1% 소비
+• 일부는 소각, 일부는 배당 풀로
+
+**기둥 2: MiniApp 생태계 수익**
+• MiniApp 개발자가 프로토콜 접근 비용 지불
+• 사용자가 MiniApp 내 서비스 비용 지불
+• 모든 수수료가 시스템으로 환류
+
+**기둥 3: 카드 및 결제 수익**
+• WANT에서 법정화폐 전환 수수료
+• 국경 간 거래 수수료
+• FX 스프레드가 프로토콜 수익
+
+**기둥 4: 엔터프라이즈 서비스 수익**
+• 기업용 화이트라벨 솔루션
+• 제3자 통합을 위한 API 접근
+• 컨설팅 및 구현 비용
+
+**인센티브 분배 규칙**
+
+| 수입원 | 소각 | 배당 풀 | 거버넌스 펀드 |
+|------|------|------|------|
+| 엔진 유지보수 | 50% | 25% | 25% |
+| MiniApp 수수료 | 30% | 50% | 20% |
+| 카드/결제 수수료 | 20% | 60% | 20% |
+| 엔터프라이즈 수수료 | 10% | 40% | 50% |
+
+**글로벌 배당 메커니즘**
+
+글로벌 배당 풀은 모든 활성 엔진 보유자에게 보상을 분배합니다:
+• 엔진 레벨과 활성 기간에 비례하여 분배
+• 엔진 레벨이 높을수록 배당 비율이 큼
+• 활성(유지보수된) 엔진만 배당 수령 자격
+
+WA는 "토큰을 발행하는 프로젝트"가 아니라, "실질 수익을 생성하고 온체인에서 투명하게 분배하는 경제 프로토콜"입니다.`
+      },
+      {
+        id: 8,
+        title: '리스크 관리 시스템과 지속가능성 설계',
+        icon: 'Shield',
+        content: `**왜 리스크 관리가 "프로토콜 네이티브"여야 하는가?**
+
+전통적인 Web2 플랫폼의 리스크 관리는 다음에 의존합니다:
+• 수동 감사
+• 데이터 센터 모니터링
+• 중앙화된 일시정지 메커니즘
+
+이 모든 것은 "사람"에 의존합니다 — 사람은 실수할 수 있고, 부패할 수 있고, 반응이 느릴 수 있습니다.
+
+WA는 리스크 관리를 프로토콜 자체의 일부로 설계합니다: 규칙은 스마트 컨트랙트에 작성되고, 자동 실행되며, 조작할 수 없습니다.
+
+**WA의 5계층 리스크 관리**
+
+**계층 1: 바이럴 리스크 관리 (Scroll Risk Control)**
+• 주소당 기간별 초대 제한
+• 비정상 초대 패턴 감지 (일괄 초대, 자기 추천)
+• 자동 페널티: 부정행위 감지 주소는 보상 상실
+
+**계층 2: 엔진 리스크 관리 (Power Engine Risk Control)**
+• 엔진 레벨별 용량 제한
+• 72시간 필수 유지보수 간격
+• 유지보수 실패 = 자동 산출 중단
+
+**계층 3: 토큰 리스크 관리 (Token Risk Control)**
+• 출금 시 소각으로 대량 덤핑 방지
+• 점진적 릴리스로 시장 충격 방지
+• 시장 상황에 따른 동적 소각 비율
+
+**계층 4: 행동 리스크 관리 (AI Behavior Risk Control)**
+• AI가 온체인 행동 그래프를 실시간 모니터링
+• 이상 주소, Sybil 패턴, 의심스러운 활동 감지
+• 자동 플래깅 및 접근 제한
+
+**계층 5: 시스템 리스크 관리 (System Risk Control)**
+• 거버넌스 펀드가 비상 준비금 역할
+• 거버넌스를 통한 프로토콜 파라미터 조정 가능
+• 시스템 지표가 임계값 초과 시 자동 서킷 브레이커
+
+**지속가능성 설계**
+
+1. **모든 산출은 "실질 연료"에서 비롯**: 무료 에어드롭 없음, 모든 산출에 XANT 점화 + WANT 유지보수 필요
+2. **모든 출금은 디플레이션에 영향**: WANT 출금 시마다 일부 소각
+3. **모든 구조에 수명주기 존재**: 엔진은 유지보수 필요, 보상에 한도 있음, 참여에 책임 수반
+
+WA는 "정직한 사람"에 의존하지 않고 "자기 조절 시스템"에 의존합니다.`
+      },
+      {
+        id: 9,
+        title: '로드맵과 단계별 개발 계획',
+        icon: 'Map',
+        content: `**WA 개발 원칙: "프로토콜 우선, 프로덕트 후행"**
+
+일반적인 Web3 프로젝트가 "먼저 프로덕트를 만들고 사용자를 찾는" 것과 달리, WA는 다음 경로를 따릅니다:
+프로토콜 설계 → 컨트랙트 배포 → 커뮤니티 검증 → 생태계 확장
+
+**페이즈 1: Foundation (Q1-Q2)**
+• 코어 컨트랙트 배포 (Power Engine, Scroll Engine, Token 컨트랙트)
+• 제3자 보안 감사
+• 테스트넷 출시 및 버그 바운티 프로그램
+• 초기 커뮤니티 형성 (early builders)
+
+**페이즈 2: Growth (Q3-Q4)**
+• 메인넷 출시
+• 초기 사용자 대상 Power Engine 활성화
+• Scroll 바이럴 시스템 출시
+• 지갑 통합 및 온/오프 램프
+
+**페이즈 3: Ecosystem (Q5-Q6)**
+• MiniApp 플랫폼 출시
+• 서드파티 개발자 온보딩
+• WA 결제 카드 출시
+• 동남아시아 및 LATAM 시장 확장
+
+**페이즈 4: Autonomy (Q7-Q8)**
+• 완전 분산형 거버넌스로 전환
+• 온체인 모니터링용 AI Sentinel 출시
+• 크로스체인 통합
+• "완전 자율 프로토콜" 달성
+
+**주요 마일스톤**
+
+| 페이즈 | 목표 | 지표 |
+|------|------|------|
+| Foundation | 감사 완료 컨트랙트 배포 | 감사 보고서 + 테스트넷 가동 |
+| Growth | 활성 사용자 10,000명 | DAU + 활성 엔진 수 |
+| Ecosystem | 50+ MiniApp 배포 | 개발자 온보딩 수 + TVL |
+| Autonomy | 분산형 거버넌스 | 제안 + 투표 활동 |
+
+WA 프로토콜은 "팀이 추진하는" 것이 아니라, "프로토콜이 적절한 시점에 적절한 참여자를 끌어들이는" 것으로 발전합니다.`
+      },
+      {
+        id: 10,
+        title: 'MiniApp 생태계 설계: 프라이빗 도메인 디지털 주권 공간',
+        icon: 'Layout',
+        content: `**WA에서 MiniApp이란?**
+
+MiniApp은 단순한 "작은 앱"이 아닙니다 — WA 프로토콜 위에 누구나 배포할 수 있는 온체인 기능 모듈로, 빌더의 "디지털 주권 공간"을 형성합니다.
+
+**WA MiniApp의 특징:**
+• WA 프로토콜 인프라 위에서 실행
+• Scroll Engine을 활용한 바이럴 가능
+• Power Engine을 통합한 인센티브 부여 가능
+• 빌더가 완전히 소유 및 관리
+
+**구축 가능한 MiniApp 유형:**
+
+| 카테고리 | 예시 | 이점 |
+|------|------|------|
+| 커뮤니티 | DAO 도구, 투표, 포럼 | 분산형 거버넌스 |
+| 콘텐츠 | 블로그, 비디오, 코스 | 온체인 콘텐츠 수익화 |
+| 거래 | DEX, 마켓플레이스, OTC | 생태계 유동성 |
+| 서비스 | 컨설팅, 프리랜스, SaaS | 온체인 서비스 경제 |
+| 게임 | Play-to-earn, 예측 시장 | 엔터테인먼트 + 인센티브 |
+
+**MiniApp 비즈니스 모델**
+
+1. **서비스 수수료**: 사용자가 기능 이용에 WANT 지불
+2. **구독**: 유료 프리미엄 접근
+3. **수익 공유**: WA 프로토콜과의 수익 분배
+4. **커뮤니티 인센티브**: 글로벌 배당 풀에서의 보상
+
+**WA MiniApp vs 전통 플랫폼**
+
+| 측면 | Web2 플랫폼 | WA MiniApp |
+|------|------|------|
+| 소유권 | 플랫폼 | 빌더 |
+| 수익 | 플랫폼이 30%+ 가져감 | 빌더가 대부분 |
+| 사용자 데이터 | 플랫폼 소유 | 사용자 소유 (온체인) |
+| 이식성 | 플랫폼에 잠김 | 온체인 상호운용 가능 |
+| 검열 | 플랫폼이 삭제 가능 | 검열 불가능 |
+
+MiniApp은 WA가 "사용자의 인터넷" 비전을 실현하는 방법입니다.`
+      },
+      {
+        id: 11,
+        title: '팀 구성과 배경',
+        icon: 'Users',
+        content: `**WA 팀 철학: "프로토콜이 팀보다 크다"**
+
+WA 프로토콜은 특정 팀에 의존하지 않도록 설계되었습니다. 그러나 초기 단계에서는 코어 팀이 필요합니다:
+• 컨트랙트 설계 및 감사
+• 초기 인프라 구축
+• 빌더 커뮤니티 육성
+• 보안 및 안정성 확보
+
+**코어 팀 구성:**
+
+| 부서 | 책임 | 전문성 |
+|------|------|------|
+| Protocol Engineering | 스마트 컨트랙트 설계 및 배포 | Solidity, Rust, 보안 감사 |
+| Product | UX/UI, 지갑 통합, MiniApp SDK | 프론트엔드, 모바일, 디자인 |
+| Growth | 커뮤니티, 파트너십, 마케팅 | 커뮤니티 빌딩, BD |
+| Research | 토큰 경제, 게임 이론, AI | 토크노믹스, 데이터 사이언스 |
+| Operations | 법무, 컴플라이언스, 재무 | 규제, 회계 |
+
+**조직 원칙:**
+
+1. **Progressive decentralization**: 코어 팀이 점진적으로 커뮤니티 거버넌스에 제어권 이양
+2. **투명성**: 모든 주요 결정은 포럼에서 공개 및 토론
+3. **책임성**: 코어 팀은 장기 베스팅 스케줄 적용
+4. **실력주의**: 커뮤니티 기여자가 코어 기여자로 승격 가능
+
+최종 목표: WA 프로토콜이 특정 코어 팀에 대한 의존 없이 완전히 운영되는 것.`
+      },
+      {
+        id: 12,
+        title: '맺음말: Web4.0 비전과 함께 만들어가는 초대',
+        icon: 'Flag',
+        content: `**WA 프로토콜은 단순한 프로젝트가 아닌, 디지털 문명의 실험입니다**
+
+우리는 차세대 인터넷이 "누가 데이터를 소유하는가" 또는 "누가 플랫폼을 통제하는가"가 아니라 다음 질문에 답하는 것이라 믿습니다:
+
+• 시스템이 사람 없이 운영될 수 있는가?
+• 인센티브와 책임이 공존할 수 있는가?
+• 착취 없는 성장이 가능한가?
+• 가치가 공정하게 창출되고 분배될 수 있는가?
+
+WA 프로토콜은 우리의 답입니다: **올바른 프로토콜을 설계하면 가능합니다.**
+
+**WA의 차별점**
+
+| 측면 | 일반 Web3 프로젝트 | WA 프로토콜 |
+|------|------|------|
+| 제어 | 팀/DAO | 없음 (자율 프로토콜) |
+| 성장 | 마케팅/에어드롭 | 자동 바이럴 (scroll) |
+| 인센티브 | 토큰 인플레이션 | 실비용 연동 산출 |
+| 지속가능성 | 팀 의존 | 자기 지속 프로토콜 |
+| 리스크 | 수동 감사 | AI + 프로토콜 네이티브 |
+
+**함께 만들어가는 초대**
+
+WA 프로토콜은 오픈 인프라입니다. 다음 분들을 초대합니다:
+
+1. **빌더**: WA 프로토콜 위에 MiniApp 구축
+2. **커뮤니티**: 바이럴 노드를 형성하고 인센티브 획득
+3. **개발자**: 오픈소스 코드베이스에 기여
+4. **연구자**: 토큰 경제와 게임 이론 연구 및 발표
+5. **파트너**: WA 생태계와 서비스 통합
+
+**맺음말**
+
+Web4.0 시대, 우리는 더 이상 "사용자를 위한 프로덕트"를 만드는 것이 아니라 "디지털 문명을 위한 프로토콜"을 구축하고 있습니다.
+
+WA 프로토콜은 진정으로 자율적이고, 공정하며, 지속 가능한 인터넷을 향한 첫걸음입니다.
+
+우리와 함께하세요. 사용자가 아닌, 빌더로서.
+
+> "The best way to predict the future is to build it." — Alan Kay
+
+WA Protocol: Build the future. Together.`
+      }
+
+    ]
+  },
+  ja: {
+    sections: [
+      {
+        id: 1,
+        title: '序章 — Web1.0からWeb4.0へ',
+        icon: 'Globe',
+        content: `"インターネットが跳躍するたびに、文明のパラダイムは組み替えられる。"
+
+インターネットは誕生以来、幾度も革命的な転換を経験してきました。各段階の進化は技術の反復にとどまらず、生産関係と価値観そのものを更新してきたのです：
+
+**Web1.0: 読み取り専用の時代 (Read Only)**
+• ユーザーは「閲覧者」
+• 情報は少数のサイト所有者によって管理
+• ネットワークは静的なコンテンツ表示システム
+• 代表例：#ポータルサイト#、#BBS#、#初期ブログ#
+
+**Web2.0: ユーザー参加の時代 (Read + Write)**
+• UGCの台頭、ソーシャルネットワークの支配
+• プラットフォームが情報とデータの集約中心に
+• しかしユーザーデータと価値はプラットフォームに帰属
+• 代表例：#Facebook#、#Weibo#、#YouTube#
+
+**Web3.0: 分散型所有の覚醒 (Own)**
+• ブロックチェーンが資産主権・ID主権・DAO governanceを導入
+• ユーザーはprivate key、資産、参加権を保有
+• しかしプロトコルは依然として中央チームの保守に依存しがちで、インセンティブのインフレが深刻、持続が難しい
+
+**Web4.0: 生存するシステム (Survive) — 所有するだけでなく「生き残る」**
+
+Web4.0は「所有」ではなく、**人の介入なしに走り続けられる**ことを意味します。
+
+それは：
+• 完全なPermissionless、バックドアなし、検証可能な自律プロトコルシステム
+• smart contractsとAIが共同で駆動する自動運用構造
+• インセンティブと責任が結びつき、人の統治なしに動く「オンチェーン生命体」
+
+> Web4.0の時代、私たちはもはや「製品」を作るのではなく、デジタル文明の基層となる生命システムを構築する。
+
+---
+
+**未来トレンド：AI × ブロックチェーン × 自律プロトコル = 新しいインターネット文明のアーキテクチャ**
+
+• AI：自律協業システムと知能型リスク制御メカニズムの構築
+• ブロックチェーン：信頼不要のルール実行器の構築
+• トークン経済：動的インセンティブと責任体系の構築
+• DAppプロトコル：完全自律・自動運用のバイラル生態系の構築
+
+> WA Protocolは単なるプロジェクトのローンチではなく、次の10年に向けたインターネットの再構成です。私たちは「製品」を作るのではなく、「生存性」を備えたデジタルシステムを鍛造しています。
+
+---
+
+**なぜ今がWeb4.0の決定的な瞬間なのか？**
+
+• 世界的なトラフィックコストが急騰し、バイラル効率が低下
+• Web3プロジェクトの死亡率が高く、実質的なキャッシュフローが不足
+• AIの普及がデータ・計算・コンテンツの革命をもたらす
+• 「信頼できるデジタル空間」への社会的需要が急増
+
+> 私たちはこの時点で、新しいパラダイムを打ち立てなければならない。人間の介入なしに長期運用でき、内生的に“造血”し、ルールが明確なプロトコル体系である。
+
+WA Protocol、ここに誕生する。`
+      },
+      {
+        id: 2,
+        title: 'Web4.0の哲学的基盤とWAの使命',
+        icon: 'Brain',
+        content: `**パラダイムの再構築：「インターネット製品」から「デジタル生存システム」へ**
+
+> 従来のWeb世界の中核ロジックは「ユーザー-プラットフォーム」という二項構造です。プラットフォームがデータを支配し、ルールを配分し、インセンティブを決定する。Web3において資産主権が「分散化」されたとしても、システムはなお「人」による保守 — チーム、バックエンド、調整、アップデート — に依存しています。
+
+Web4.0はさらに踏み込みます：**ルールは人が支配すべきではなく、システムは「自己生存性」を備えなければならない。**
+
+これはまったく新しい哲学的パラダイムです：
+
+| 比較軸 | Web3 | Web4.0 |
+|---------|------|--------|
+| 中核理念 | 資産の所有 Ownership | 走り続けること Survival |
+| 設計中心 | 人間中心設計 | プロトコル中心設計（人がいなくても運用） |
+| ガバナンス方式 | コミュニティが治理可能 | システム自律、誰もルールを改変できない |
+| インセンティブモデル | インセンティブを「獲得」 | インセンティブは責任/コストを要求し、純粋なファーミングを防ぐ |
+| インセンティブ設計 | 人が設計 | コードが設定、不可逆・不変 |
+| プロトコル寿命 | 開発チームに依存 | 自己運用・継続進化・人の介入不要 |
+
+---
+
+### **Web4.0 コア哲学の4本柱：**
+
+**1. Permissionless（無権限）**
+WAのプロトコルはdeployされた瞬間、スーパー権限もバックドアもなく、変更もできません。すべてのメカニズムはsmart contractsにコードとして刻まれます。創設者がそこに居ようと居まいと、プロトコルは定められたロジックで動き続けます。
+
+> "人の介入がなければ維持できないシステムは、長く続かない。"
+
+**2. Autonomous（自走）**
+あらゆるインセンティブ、バイラル、消費、分配はオンチェーンルールで自動完結します。WAはローンチ後の手動airdrops、オフチェーン設定、あるいは「チームが報酬を出すか決める」といった中央集権的行為を拒否します。バイラルシステム、Power Engine、トークン governance、維持費の分配 — すべてオンチェーンコードが統治します。
+
+**3. Co-Built（共創）**
+各ユーザーは単なる利用者ではなく協力者です。WAは公式が運営するプロジェクトではなく、ユーザーが直接「自分のプロトコル生態」を構築できるオープンな体系です。
+
+• アイデアがある → ガバナンス提案
+• リソースがある → サブプロトコルを起動
+   • コミュニティがある → MiniAppを構築
+   • プロダクトがある → Power Engineに接続
+   WAはユーザーの自発的進化による「プロトコル集合体」です。
+
+**4. Symbiotic（共生）**
+WAが構築するのは正のエコロジー循環です：
+• 産出（WANT）は維持コスト（消費）を伴う
+• バイラル（スクロール）はルール内で合法的に起こる
+• インセンティブ（招待報酬）は実流通から生まれる
+
+> 根のない木はなく、無限増発もない。
+
+---
+
+### **WAの歴史的使命：**
+
+* Web4.0エコシステムの最初の実装
+* 「所有」から「生存」へのパラダイム転換
+* デジタル文明のためのインフラ級プロトコル提供
+* 誰もがデジタル経済の建設者であり受益者となれるように
+
+---
+
+### **WAのビジョン：プロトコルは市民のために、システムは法として**
+
+> 私たちはポスト・プラットフォーム時代に入っている — 権力は企業ではなく、コードが定めたルール体系にある。信頼は著名人の保証ではなく、検証可能なオンチェーンルール、予測可能なインセンティブ、制御可能なリスクから生まれる。
+
+WAの目標は次の中央集権的巨頭になることではなく、誰もが自分のデジタルホームを持てるOSになることです。
+
+未来には誰もが自分の：
+
+• ウォレットアカウント
+• MiniAppプロトコル
+• DAOコミュニティ
+• カスタム・インセンティブモデル
+• 自律経済圏
+
+を持てます。
+
+> WAの世界では、「ユーザー」はトラフィックではなくビルダーであり、「製品」はプラットフォームではなくプロトコルである。
+
+---
+
+### **まとめ**
+
+| 特徴 | Web4.0哲学の体現 | WAの実装パス |
+|------|----------------|-------------|
+| 権力の分散 | 不変コントラクト、無権限DApp | ルールはdeployと同時に永続 |
+| インセンティブと責任の結合 | バイラル=貢献+維持コスト | WANT維持メカニズム |
+| 脱人間運用 | 自動バイラル/産出/消費 | スクロールシステム + Power Engine |
+| 信頼の脱信頼化 | 検証可能な透明メカニズム | すべてのデータをオンチェーンで照会 |
+| エコシステム共創 | オープンアクセス、協業インセンティブ | MiniApp + 技術/資金支援 |
+
+WA Protocolは、私たちが未来のために築く「文明システムの基層」です。`
+      },
+      {
+        id: 3,
+        title: 'WAの位置づけ：Permissionlessなバイラル協業プロトコル',
+        icon: 'Network',
+        content: `**WAとは何か？プラットフォームでも製品でもなく、プロトコルである**
+
+WAの存在形態はAppでもサービスでも、まして中央集権企業でもありません。WAは**「完全オンチェーン自律プロトコル体系」**であり、次の3つの特性を備えます：
+
+1. **Permissionless（無権限）**：スーパー管理者なし、プロトコルルールはdeploy後に変更不可
+
+2. **トラフィックの自己バイラル（Autonomous Growth）**：smart contractsが制御するスクロール型自動伝播システムにより、人の介入なしで幾何級数的に成長
+
+3. **多者協業インフラ（Collaborative Infrastructure）**：あらゆるユーザー/チーム/コミュニティがプロトコル上に「自分のエコモジュール」を構築でき、「ビルダー=株主」を実現
+
+**なぜ「スクロール型バイラル」なのか？私たちはトラフィックの本質を理解している**
+
+背景現実：Web3はトラフィックのボトルネックに直面
+• ユーザー獲得コストが高く、教育コストも高い
+• 一般的なDAppはネットワーク効果が弱く、寿命が短い
+• 多くのプロジェクトが依然としてWeb2広告チャネルに依存
+
+解決策：私たちは「プロトコル内部の自己バイラル」メカニズムを設計する — 外部のマーケティングチームも中央制御も不要。ユーザー自身が伝播ノードとなる。
+
+**スクロールメカニズム：低コスト流入のオンチェーン解**
+
+WAのスクロールシステムはsmart contractsが駆動するバイラル・トラフィックのプロトコルモデルであり、次の特性を持つ：
+
+✅ **自動バイラル**
+• ユーザーが特定の操作（参加/シェア/登録など）をトリガーすると、専用の招待コード/リンクが自動生成
+• smart contractsが関係チェーンを追跡し、報酬はバックエンド制御に依存しない
+
+✅ **報酬は行動に紐づく**
+• 報酬は「実際のオンチェーン行動」（例：入金、出金、維持）に基づいて生成
+• ファーミング、登録機、ボット行為を防止
+
+✅ **分散決済**
+• すべての報酬ロジックがオンチェーンで透明に実行
+• プラットフォームの手動介入や回収権限はない
+
+✅ **インセンティブとリスクの動的バランス**
+• 招待者の収益は被招待者の実活動度に連動
+• システムが「空回り型」ネットワーク膨張を自動抑制
+
+"バイラルの権力は、運営チームからプロトコルそのものへ完全に委譲される。"
+
+**WAの技術定義：Flow-Cooperative Protocol**
+
+WA = Flow-Cooperative Protocol
+
+これは従来の意味での「DApp」ではなく、オンチェーンルールで駆動されるトラフィックと資産の二重協業プロトコルであり、次の役割を担う：
+
+| 機能モジュール | 説明 |
+|---------|------|
+| スクロールルールエンジン | バイラルタスク/関係バインドを自動生成 |
+| ユーザートークン化 | 各ユーザーを資産単位とし、貢献を定量化 |
+| プロモーション協業 | ユーザーはエージェント、招待は協業 |
+| インセンティブ分配 | すべての行動と収益を自動実行 |
+| private domain 授権 | 他者モジュールに接続し、バイラル能力を再利用 |
+
+**「トラフィック-協業-価値」三元閉ループモデル**
+
+1. **トラフィックのバイラル（Flow）**
+   • 新規ユーザーをシステムへ導入
+   • 専用バイラルコードを自動生成
+   • 報酬は関係ではなく行動で決まる
+
+2. **協業構築（Collaborate）**
+   • private domainやチーム保有者はプロトコルを再利用
+   • コミュニティ/コンテンツ/ツールチームがMiniAppやDAppを構築
+
+3. **価値の沈殿（Value）**
+   • WANTトークンは燃料支払い、governance、参加などに用いられるプロトコル主資産
+   • スクロールは終点ではなく、価値をシステムへ導くエンジン
+
+**ケース：WAスクロールプロトコルはどのように流入に使われるか？**
+
+| 適用シナリオ | スクロール実行効果 |
+|---------|------------|
+| コミュニティ拡散 | 専用招待コードを自動生成、オンチェーン報酬 |
+| コンテンツ配信 | 視聴/共有に招待コードを紐づけ、オンチェーンで行動確認 |
+| プロジェクト資金調達 | 投資家が新規ユーザーを招待して参加、WANTをルールに沿って報酬 |
+| イベント参加 | 参加行動ごとにバイラルコード生成をトリガー |
+| 教育/トレーニング | 課題完了で「学習バイラル報酬」を獲得 |
+
+上記機能はバックエンド構築に依存せず、プロトコルのsmart contractsが自動生成・実行します。
+
+**WAと既存Web3プロジェクトの本質的な違い**
+
+| 比較対象 | 統制 | バイラル方式 | リスク監査 | ユーザー位置づけ |
+|------------|--------|---------|---------|---------|
+| Web3 DApp | チーム統制 | コミュニティ/airdrop | 弱い | 利用者 |
+| Web3プラットフォーム | 中央集権 | コンテンツ/広告駆動 | 中 | 消費者 |
+| WA Protocol | 無中心 | 自動バイラル | AI+アルゴリズム監査 | ビルダー + パートナー |
+
+WA = 自律バイラルプロトコル + 多者協業基盤 + Permissionless実行モデル
+
+**まとめ：WAの位置づけは「プロトコル形態のトラフィックOS」**
+
+• それはツールではなく「バイラルプロトコル」
+• それはプラットフォームではなく「協業インフラ」
+• それはプロジェクトではなく「脱人間の成長エンジン」
+
+WA Protocolは「自己伝播・自己実行・自己制約」能力を備えたWeb4.0級トラフィックプロトコルです。`
+      },
+      {
+        id: 4,
+        title: '技術アーキテクチャ：Web4.0のオンチェーンOS',
+        icon: 'Code',
+        content: `**"DApp"から"On-chain OS"へ：パラダイムシフト**
+
+多くのWeb3アプリケーションは依然として、中央集権ロジックの「殻だけを分散化した版」に留まっています：
+• バックエンドがオンチェーンデータを保存
+• フロントエンドがオンチェーンコントラクトを呼び出す
+• 制御と運用は開発チームが握ったまま
+
+しかしWAは違います — 最初の1行のコードからチェーン上の「プロトコル・ネイティブ体」であり、OSのような**脱人間的な実行システム**を構築することが目標です。
+
+WAは「ひとつの製品」ではなく、「組み合わせ可能な実行プロトコル群」です。各プロトコルモジュールは実行可能、組成可能、監査可能で、変更できません。
+
+**WAオンチェーンOSの5大モジュール：**
+
+**1. 最小権限カーネル (No Admin Layer)**
+• すべての中核モジュールはdeploy後に永久的に権限を失い、アップグレード入口がない
+• チームアドレスなし、コントラクト一時停止なし、リセット権限なし
+• 創設者は「戻って修正」も「資産へ介入」もできない
+
+**2. 自動バイラルエンジン (Scroll Engine)**
+• 招待行動にもとづくオンチェーン「バイラル行動レコーダー」
+• 中央サーバーに依存しない
+• すべての招待/関係/インセンティブをコントラクトが自動記録・処理
+
+**3. Power Engineシステム (Power Engine Layer)**
+• オンチェーン「マイニング」に近いモジュール
+• ユーザーがWANTをロックし、稼働時間に応じて産出（ルールは固定）
+• 72時間ごとに維持が必要で、実際の「運用コスト」を構成
+• 生態の成長、トークン需要、デフレメカニズムを支える
+
+**4. トークンメカニズム (WANT & XANT)**
+• WANTは生態価値循環の中核トークン
+• XANTはエンジン起動に必要な資格（焼却型スターター）
+• すべての循環ロジックがオンチェーンで実行（出金＝循環）
+
+**5. 組み合わせ可能なMiniAppシステム（private domain生態モジュール）**
+• コミュニティ開発者にオンチェーン実行空間を提供（「プラグイン」のように）
+• ロジックを独立deployし、基盤プロトコルエンジンを呼び出せる
+• 多元的な生態協業体を形成
+
+MiniApp = ビルダーの「private domainデジタル主権空間」
+
+**"自走システム"の3つの鍵となる属性**
+
+オンチェーンOSとしてWAは、次の3つの能力を実現しなければなりません：
+
+| 能力 | 説明 | 技術実装 |
+|------|------|---------|
+| 1. 自走 | 人の介入なしに継続実行 | スーパー管理者なし、固定コントラクト |
+| 2. 自駆動 | あらゆる行動がインセンティブで誘導 | 罰則+利益をコントラクトが自動実行 |
+| 3. 自監査 | すべての行動が検証/追跡可能 | 全工程オンチェーン公開 + AI監査補助 |
+
+---
+
+### **アーキテクチャ総覧図（ロジック構造）**
+
+**モジュール説明**
+
+| モジュール | 機能説明 | 特徴 |
+|------|---------|------|
+| 最小権限コントラクト | システム中核コントラクトは変更不能 | オンチェーン透明、zero-trust前提 |
+| 自動バイラルエンジン | 招待バイラルの自動追跡とインセンティブ | 全てコントラクト制御 |
+| Power Engineシステム | WANT産出の唯一メカニズム | 定期維持 + 消費 + 配当 |
+| MiniApp生態 | private domain機能モジュールの組み合わせ利用 | 分散型接続 |
+| Tokenomics | インセンティブとガバナンス価値フローの管理 | デュアルトークン協調・デフレ統治 |
+
+### **WAは構造設計に3層防御を導入**
+
+1. **deploy即ロック（Immutable）**：コントラクトはdeploy後にアップグレード不可、"バックドア搾取"を防ぐ
+
+2. **インセンティブに責任を結合（Incentive + Cost）**：あらゆる産出に実消費コストを紐づけ、airdropのファーミング/悪用を防止
+
+3. **行動グラフAI監視（On-chain AI Watcher）**：将来、オンチェーン行動モデルで異常アドレス、バイラルリスク等を識別
+
+**プロトコル開発者モード：すべては組み合わせ可能**
+
+WAアーキテクチャはビルダーが極めて低いハードルで次を実行できるようにします：
+
+| 構築方式 | 例 |
+|---------|------|
+| Scroll Engineの再利用 | 自分の招待メカニズムDAppを作成 |
+| Power Engineのネスト | コンテンツ/イベント + パワー報酬を結合 |
+| コミュニティプロトコル構築 | MiniApp + private domain資産ツール |
+| ガバナンスモジュール作成 | カスタムDAO/投票サブプロトコル |
+| 新しいインセンティブルール構築 | Token + Task + Rewardプロトコルを組成 |
+
+WAは本質的にモジュール型Web4.0のLegoシステムであり、誰もがその上で自分の経済空間を"編む"ことができます。
+
+**まとめ**
+
+| 特性 | WAアーキテクチャの体現 |
+|------|-----------|
+| 自律 | Permissionless、コントラクトロック、アップグレード不可 |
+| 自動 | 行動の自動追跡、報酬/罰則の自動決済 |
+| 安全 | すべてのデータがオンチェーンで照会可能、監査可能、責任追跡 |
+| 拡張 | MiniAppモジュールで無限のprivate domain生態を接続 |
+| 協業 | 多者のチーム/コミュニティが同一プロトコル上で新システムを構築 |
+
+WA Protocolは、統制も許可もサーバーも不要な「オンチェーンOS」として、Web4.0の実運用インフラを提供します。`
+      },
+      {
+        id: 5,
+        title: '中核メカニズム設計：バイラルから自律へ',
+        icon: 'Settings',
+        content: `**ユーザーバイラル → 価値産出 → システム自己安定化 — 完全な閉ループ運用モデル**
+
+WA Protocolの最大の特徴は単発の「革新メカニズム」ではなく、自動成長—価値生成—システム調整が連なった自己運転閉ループを構築したことです：
+
+バイラル ≠ airdrop成長、コストに紐づくシステム起動
+産出 ≠ インフレ放出、維持コストを伴うオンチェーン経済体
+消費 ≠ 受動的焼却、「生存の閾値」として設計された運用保障
+
+**WA生態の閉ループモデル：3つのロジック**
+
+**1. ユーザー参加ロジック：バイラル流入 + 行動バインド**
+• スクロールメカニズムが招待を駆動
+• すべての行動がオンチェーン記録され、招待報酬は実行動に紐づく
+• "ファーミング"は存在せず、インセンティブはオンチェーンデータにもとづき自動配布
+
+**2. インセンティブ生成ロジック：Power Engineが産出を決める**
+• ユーザーはWANTでエンジンを起動（XANTが点火）
+• エンジンは稼働期間に周期的にWANTを産出
+• 72時間ごとに維持が必要で、失敗すると産出停止
+• 上位エンジンほど収益は高いが、参入障壁と維持コストも高い
+
+**3. 経済自己安定ロジック：インセンティブにコストを結合 + システムデフレ**
+• 維持ごとにWANTの1%を消費し、焼却または配当プールへ
+• エンジンアップグレード、出金、手数料はすべて燃料消費を伴う
+• WANTの総量は継続的なデフレ軌道へ
+
+**Power Engineメカニズム：WAの産出と消費の心臓**
+
+WAには"airdrop"がありません。WANTの循環はすべて「Power Engine」によって産出されなければなりません。参加がなければ、維持がなければ、産出はありません。
+
+エンジン構造例（中核テーブル）：
+
+| エンジン等級 | 閾値(WANT) | 期間(日) | 総産出(WANT) | 純利益 | 月換算利回り | 容量制限 |
+|---------|-----------|---------|-----------|--------|-----------|---------|
+| T10     | 100       | 30      | 130       | 30     | 30%       | 3個 |
+| T30     | 1,000     | 40      | 1,500     | 500    | 37.5%     | 2個 |
+| T70     | 100,000   | 90      | 200,000   | 100,000| 33.3%     | 1個 |
+
+説明：
+• すべてのパラメータはsmart contractsに書き込まれ、ユーザーは変更できない
+• エンジン開始後は中止できず、「維持」しかできない
+• 維持間隔は72時間、失敗すれば産出が停止
+
+**維持メカニズム：システムの"燃料閾値"**
+
+各エンジンは維持のたびに、ポジションの1%のWANTを"燃料"として焼却します：
+• 50%はブラックホールアドレスへ（焼却）
+• 25%はグローバル配当プールへ
+• 25%はプロトコルガバナンス準備金へ（リスク制御 + 支え）
+
+維持 = システム運用を維持する経済コスト。消費を負担しないユーザーはインセンティブを得られません。
+
+**XANT点火メカニズム：すべては"エンジン点火"から始まる**
+
+ユーザーはPower Engineを直接起動できず、必ず"XANT"で点火を完了する必要があります。これはシステムへの「初期コスト投入」を表します。
+
+特徴：
+• XANT = 起動許可（各エンジン等級に固定XANT量）
+• 使用すると焼却され、永久に循環から退出
+• 市場初期は財団が段階的に放出し、総量は有限で、徐々に希少化
+
+このメカニズムは成長を資源希少性に紐づけ、無秩序な起動を防ぎます：あらゆる成長は実投入であり、あらゆる産出の背後には実コストがあります。
+
+**プロトコルガバナンスと持続可能設計**
+
+WAはインセンティブ-コスト-インセンティブの生態循環を設計しました：
+1. ユーザーは参加で収益を得る
+
+2. しかし継続的に維持しなければエンジンは産出できない
+
+3. すべての維持行動 = トークン消費 = デフレを駆動し、他者のインセンティブ（配当）を生む
+
+この仕組みは次を保証します：
+• airdropのファーミングができない
+• 人が"適格ユーザー"を判断する必要がない
+• すべての参加者がシステムに実質的貢献を負う
+
+---
+
+### **フロー構造図（ロジック構造）**
+
+**インセンティブルール = 自然選択アルゴリズム**
+
+WAはインセンティブルールそのものを「生存インセンティブ関数」として設計します：
+• 継続参加しなければ産出できない
+• 維持しなければ資格を失う
+• アップグレードにはより高いコスト負担が必要
+• インセンティブが高いほどメカニズムも厳格
+
+これによりシステムは"投機ユーザー"を自動的にフィルタし、"長期貢献者"を残します。
+
+**小結：WAは"発行+集客"ではなく、"産出+維持"の経済文明プロトコル**
+
+| リンク | システム設計 |
+|------|---------|
+| ユーザー流入 | スクロール・バイラル + 自動招待 |
+| インセンティブ産出 | Power EngineがWANTを産出 |
+| インセンティブ閾値 | XANT点火 + WANT維持 |
+| システムバランス | 燃料焼却 + デフレメカニズム |
+| 報酬調整 | 配当プール + 手数料再配分 |
+| 持続可能性 | すべての参加はコスト負担（ゼロコスト不可） |
+
+WAのメカニズムは、あらゆるインセンティブにコストを伴わせ、あらゆる産出に責任を付与する — まさに「経済インセンティブ × 責任バインド × 自律実行」のオンチェーン生態を実現します。`
+      },
+      {
+        id: 6,
+        title: 'デュアルトークン経済：WANTとXANTの共生設計',
+        icon: 'Gem',
+        content: `**なぜデュアルトークンモデルなのか？**
+
+従来のWeb3では、"シングルトークン"メカニズムが次の3つの問題を引き起こしがちです：
+
+| 問題 | 結果 |
+|------|------|
+| トークンに起動閾値がない | 無コスト獲得が可能で、ファーミング/空回りが起きやすい |
+| インセンティブの過度なインフレ | 無限増発により価値が崩壊 |
+| 継続的消費設計がない | 産出後すぐに売却され、システムが閉ループを作れない |
+
+そこでWAは、起動コストと価値担保という2つの中核役割を分離し、デュアルトークン協調システムを設計しました：
+
+| トークン | 役割 | 特徴 |
+|------|---------|------|
+| XANT | 起動資格 | 点火専用、段階放出、焼却後は循環から退出 |
+| WANT | システム主トークン | 中核資産、産出燃料、価値アンカー、ガバナンス資格 |
+
+**XANT: 生態点火器 (Execution Fuel)**
+
+XANTはシステム起動期に必要な"点火資源"です：
+
+コアメカニズム：
+• ユーザーはPower Engineを直接得られず、まずXANTを保有し消費する必要がある
+• エンジンを起動するたび、対応するXANTが自動焼却される
+• 初期は財団が段階的にのみXANTを放出し、総量は有限で、徐々に希少化
+• 産出属性は持たず、コントラクト起動のみに用いる（循環しない、取引しない）
+
+XANTには"二次市場価値"は存在せず、その価値はすべて「システム起動権」に体現されます。
+
+点火プロセス：
+ユーザーがXANTを保有 → XANTを消費 → Power Engineを起動 → WANT産出サイクルを開始
+
+**WANT: 価値アンカー (Value Anchor)**
+
+WANTはWAプロトコルにおいて唯一、"支払い・インセンティブ・ガバナンス・消費"の多重役割を持つ中核トークンです。
+
+供給源：
+• "Power Engine"によって産出（XANTを消費して起動）
+• プレマインなし、中央放出なし、100%ユーザー参加で産出
+
+---
+
+### デュアルトークンのシナジー関係表
+
+| 特性 | XANT | WANT |
+| :--- | :--- | :--- |
+| 機能 | 点火資格 | 生態資産 |
+| 取得方法 | 初期放出/ミッション報酬 | Power Engine産出 |
+| デフレ方式 | 起動ごとに焼却 | 維持/手数料の焼却 |
+| 取引可否 | 否 | 可 |
+| 産出有無 | 産出しない | 継続産出 |
+| ガバナンス参加 | 否 | 可 |
+
+---
+
+### デュアルトークン閉ループ構造図
+
+    XANT点火  →  Power Engine起動でWANT産出  →  生態参加/維持消費  →  デフレによる価値沈殿
+
+---
+
+### 分配メカニズム表
+
+システムがWANTの維持費または取引手数料を徴収するたび、次の比率で分配されます：
+
+| フロー | 比率 |
+| :--- | :--- |
+| ブラックホール焼却 | 25% |
+| グローバル配当プール | 50% |
+| governanceファンド | 25% |
+
+---
+
+### 経済調整メカニズム
+
+WAプロトコルはsmart contractsを通じて動的行動調整戦略を導入します：
+
+* 市場出金が維持/焼却を上回る場合、システムが自動的に維持コストを引き上げる
+* WANTの短期価格が激しく変動する場合、配当比率を引き上げてlockを促進
+* XANTの段階放出が速すぎる場合、点火入口を一時停止して新規流入を緩和
+
+---
+
+消費シナリオ：
+
+| シナリオ | WANT用途 |
+|------|---------|
+| Power Engine維持 | 72時間ごとに保有量1%を消費、一部焼却/一部は報酬プールへ |
+| DApp機能支払い | MiniApp生態でサービス料/アクセス資格として使用 |
+| 出金手数料 | To-Wallet行動に一定比率のWANT焼却が必要 |
+| コミュニティ governance | 投票/提案にWANT lockが必要 |
+| 提携カード/決済 | 越境決済/両替にもWANT消費が必要 |
+
+WANT = 使用権 + 維持権 + ガバナンス権利 + オンチェーン活動燃料
+
+**WANTデフレメカニズム：システム自己均衡設計**
+
+WAは無限成長を推奨せず、設計された"焼却メカニズム"で無秩序な拡張を抑制します：
+
+デフレメカニズム三重ループ：
+1. **Power維持焼却**：各維持のたびWANT 1%を自動焼却
+
+2. **手数料焼却**：出金/取引時に一部手数料を焼却
+
+3. **ブラックホール集約**：すべての焼却はオンチェーン照会可能、不可逆、透明運用
+
+分配メカニズム：
+システムがWANTの維持費または取引手数料を徴収するたび、次の比率で分配されます：
+
+| フロー | 比率 |
+|------|------|
+| ブラックホール焼却 | 25% |
+| グローバル配当プール | 50% |
+| governanceファンド | 25% |
+
+**WANTとXANTのシナジー関係**
+
+| 特性 | XANT | WANT |
+|------|------|------|
+| 機能 | 点火資格 | 生態資産 |
+| 取得方法 | 初期放出/ミッション報酬 | Power Engine産出 |
+| デフレ方式 | 起動ごとに焼却 | 維持/手数料の焼却 |
+| 取引可否 | 否 | 可 |
+| 産出有無 | 産出しない | 継続産出 |
+| ガバナンス参加 | 否 | 可 |
+
+---
+
+### **デュアルトークン閉ループ構造（ロジック構造）**
+
+XANT点火 → Power Engine起動でWANT産出 → 生態参加/維持消費 → デフレによる価値沈殿
+
+**経済調整メカニズム：動的均衡、バブル防止**
+
+WAプロトコルはsmart contractsを通じて動的行動調整戦略を導入します：
+• 市場出金が維持/焼却を上回る場合、システムが自動的に維持コストを引き上げる
+• WANT短期価格が激しく変動する場合、配当比率を引き上げてlockを促進
+• XANTの段階放出が速すぎる場合、点火入口を一時停止して新規流入を緩和
+
+すべてのルールはオンチェーンにdeployされ、コミュニティが提案で調整できる一方で、手動介入権限はありません。
+
+**トークン発行モデル**
+
+| トークン | 総量 | 分配方式 |
+|------|------|---------|
+| XANT | 限量（例：10億） | 段階放出 + ミッションインセンティブ、使用即焼却 |
+| WANT | 無上限 | 100% Power Engine産出、継続デフレ |
+
+プレマインなし、チームリザーブなし、airdropなし。
+
+**小結：WAのトークンは報酬ではなく、プロトコル運用の"責任契約"**
+
+| 次元 | XANT | WANT |
+| :--- | :--- | :--- |
+| 起動インセンティブ | ✓ | ✓ |
+| 産出ロジック | ✗ | ✓ |
+| 消費ロジック | ✓ | ✓ |
+| ガバナンス機能 | ✗ | ✓ |
+| 価値支え | 希少な使用シナリオ | 多重生態消費シナリオ |
+
+WAのトークン経済設計の核心は投機的流通ではなく、プロトコル起動 → ユーザー産出 → システム消費 → 価値沈殿のチェーン型閉ループです。`
+      },
+      {
+        id: 7,
+        title: 'ビジネス閉ループ：造血システムとインセンティブルール',
+        icon: 'TrendingUp',
+        content: `**背景：なぜ90%のWeb3プロジェクトは「自分を養えない」のか？**
+
+多くのWeb3プロジェクトが最終的に失敗する根本原因は次の通りです：
+
+| 問題 | 結果 |
+|------|------|
+| 発行と資金調達に依存 | 実際のユーザー課金行動がない |
+| インセンティブをインフレで賄う | ユーザーが得るのは実質「後から来る人の買い支え」 |
+| 現金収入がない | 永遠に資金調達の"輸血"で生存する |
+| 報酬設計が現実のコストから乖離 | デフレが維持できず、ユーザーが徐々に離脱 |
+
+WAの考え方は逆です：プロジェクトは資金調達で生きるのではなく、メカニズムで"自ら造血"して生きるべきだ。
+
+**WAの3つの造血源システム（実在のキャッシュフロー）**
+
+WAのあらゆる「配当・インセンティブ・買い戻し」は、次の検証可能な実収入から生まれます：
+
+**1. トラフィック収益化システム (Ad Engine)**
+• 内蔵の広告タスクプラットフォーム（短動画視聴、コンテンツ共有など）
+• 広告主は視聴数/インタラクションに応じてUSD広告費を支払う
+• ユーザーはタスク完了で報酬を獲得
+• 収益は生態キャッシュプール（USDT）へ
+
+フロー：ユーザーの注意 → 広告クリック → Google Ad/提携主の出稿 → 収益 → 配当/維持/買い戻し
+
+**2. 金融コミッションシステム (Fintech Commission)**
+• 世界トップ取引所（Binance/OKX等）と提携し送客
+• ユーザーがWA経由で取引所登録 → プラットフォームはCPA（登録報酬）+ 手数料リベートを獲得
+• カード組織と提携し、ユーザーの提携カード利用で分配収益を得る
+
+フロー：ユーザー転換 → 取引所登録 → 初回入金+取引 → プラットフォームがコミッション獲得（ステーブルコイン決済）
+
+**3. アルゴリズム量化システム (AI Quant Engine)**
+• ユーザー資金を量化口座に誘導し、AI量化戦略で取引
+• プラットフォームは管理費（例：2%）と成果報酬（例：20%）を徴収
+• すべてのデータ、最大ドローダウン、収益率はオンチェーンまたはAPIで検証可能
+
+実運用の収益履歴：月換算約36%、最大ドローダウン<3%（過去データであり、保証ではありません）
+
+**ビジネス閉ループ全体図（ロジック構造）**
+
+    **報酬ルール設計：インセンティブ ≠ 配る金、貢献が価値に変わる**
+
+WAの報酬システムは次の思想に従います：
+
+| 原則 | 説明 |
+|------|------|
+| 報酬は実行動から生まれる | 登録は報酬対象にせず、「参加・共有・維持」などの"行動"を報酬化 |
+| インセンティブは継続貢献に紐づく | 一度の紹介 ≠ 報酬、下位が継続的にアクティブであることが必要 |
+| すべての報酬はオンチェーン配布 | バックエンドの手動に依存せず、透明に分配 |
+
+**インセンティブ体系（4タイプ）：**
+
+| タイプ | 説明 | 条件 |
+| :--- | :--- | :--- |
+| 1. ネットワーク解放報酬 | 招待バイラル階層に基づく一部リベート | ロック/アクティブ基準達成 |
+| 2. 同階層報酬 | 1世代の同階層ユーザーに対し1%リベート | 1層のみ、無限貫通を防止 |
+| 3. エキスパート等級報酬 | 星級エキスパート到達後、級差報酬を獲得 | 有効直推 + チーム体量要件 |
+| 4. グローバル手数料配当 | 全手数料を等級の降順で分配 | 等級が高いほど重みが大きい |
+
+**星級エキスパートモデル例（抜粋）：**
+
+| 等級 | 条件（直推+構造） | 報酬 |
+|------|-----------------|------|
+| 1スター | 5人直推 + チーム5万規模 | 同階層報酬3% + 配当30% |
+| 3スター | 15人直推 + 2名の2スター育成 | 同階層報酬9% + 配当20% |
+| 6スター | 30人直推 + 3名の5スター育成 | 同階層報酬15% + 配当3% |
+
+すべてのインセンティブ構造はオンチェーンで実行され、変更できません。
+
+**リスク制御でインセンティブを持続可能にする：**
+
+1. **算力バインドメカニズム**：上位の算力が下位以上でなければ、該当報酬を獲得できない（"焼傷メカニズム"）
+
+---
+
+### リスク制御アーキテクチャ総図
+
+    AI リアルタイム監査（リスク識別）
+            ↓
+    オンチェーンルール実行（算力バインド/上限/燃焼）
+            ↓
+    ガバナンス基金ヘッジ（資金支え）
+            ↓
+    システム自己均衡（動的パラメータ調整）
+
+---
+
+### 3層防護体系
+
+プロトコルは外部ショックに対する"自己治癒能力"を備える：
+
+| リスク場面 | プロトコルの自動反応メカニズム |
+| :--- | :--- |
+| **産出が速すぎる（インフレ）** | XANT点火閾値を自動引き上げ + WANT維持費比率を増加 |
+| **市場流動性不足** | "ガバナンス基金"で買い戻しを開始、または配当プール配分重みを引き上げ |
+| **悪意攻撃/スクリプト** | AI監査モデルが異常アカウントを自動ロックし、出金クールダウンを延長 |
+| **価格の急変動** | エンジン産出速度を動的調整し、"生産-販売"バランスを実現 |
+
+---
+
+### 4. ガバナンス準備とセーフティクッション
+* **ガバナンス基金 (Governance Fund)**：すべての焼却/維持費分配の25%。
+* **用途**:
+  1. 極端状況での流動性支え。
+  2. バグバウンティと技術アップグレード。
+  3. 生態MiniAppのリスク補償保証金。
+
+2. **上限メカニズム**：日次動的報酬は算力の1.5倍/日を超えない
+
+3. **出金燃焼メカニズム**：出金行動自体がWANTを消費し、インセンティブ = コストを保証
+
+インセンティブはあくまで"システム再分配"であり、決して"配布ゲーム"ではありません。
+
+**買い戻しとデフレメカニズム：**
+
+プラットフォームのすべての実収入（USDT）は、次に使用されます：
+• 市場でWANTを買い戻す
+• 買い戻したWANTを自動焼却
+• 配当プールとインセンティブ支えを補充
+
+つまり、ユーザーのあらゆる産出の背後には、実際のキャッシュが"逆方向の下支え"として存在します。
+
+**小結：WAは資金調達ではなく、システムの自己進化で生きる**
+
+| モジュール | 説明 |
+|------|------|
+| 収入構造 | 広告 + 金融コミッション + AI量化 |
+| 報酬構造 | 行動駆動 + 等級インセンティブ + 同階層上限 |
+| 買い戻し | USDTでWANTを買い戻し + ブラックホール焼却 |
+| 配当 | 等級降順の加重 + 完全オンチェーン |
+| リスク制御 | 算力バインド + 限産 + 動的均衡 |
+
+WAは一連のメカニズムで次を実現します：
+• 成長できる（ユーザーバイラル）
+• 分配できる（インセンティブルール）
+• 造血できる（キャッシュフロー）
+• 持続できる（リスク制御・デフレ）`
+      },
+      {
+        id: 8,
+        title: 'リスク制御システムと持続可能性設計',
+        icon: 'Shield',
+        content: `**なぜリスク制御は"プロトコル・ネイティブ"でなければならないのか？**
+
+従来のWeb2プラットフォームのリスク制御は次に依存します：
+• 人手審査
+• データセンター監視
+• 中央制御による停止メカニズム
+
+しかしWeb3では、一度オンチェーンに載れば不可逆・不変です。したがってリスク制御は必ず：
+1. smart contractsに書き込まれ
+2. 自動的にトリガーされ実行され
+3. いかなる"バックエンド介入"にも依存しない
+
+WA Protocolはさらに踏み込みます：**リスク制御はプロトコル構造そのものであり、リスク識別と経済ロジックは不可分である。**
+
+**WAリスク制御体系の5大コアモジュール：**
+
+**1. 自動行動監督システム (Behavior Audit)**
+
+目的：非人間行動、バルク登録、アービトラージ行動を識別
+
+メカニズム：
+• ユーザー行動シーケンス（頻度、パス、タイムスタンプ）を監視
+• "ボット模式"に合致する行動を自動マーク
+• 一部インセンティブを遅延放出し、AIモデルで二次判定
+• ルールはオンチェーンで公開
+• ブラックリスト方式ではなく、ユーザー資産の安全性に影響しない
+
+**2. 報酬獲得性制限システム (Cap Control)**
+
+目的：無限バイラル、多アカウントでのインセンティブ搾取を防止
+
+メカニズム：
+• すべてのユーザーの日次最大収益は算力規模により制限（デフォルト上限：1.5倍/日）
+• "算力不足"の上位は対応リベート資格を失う（焼傷メカニズム）
+• 同階層バイラル報酬は1層のみ、貫通不可
+• "労働組織"型のアービトラージを回避
+• 報酬は厳密に実投入と紐づく
+
+**3. インセンティブ動的均衡システム (Dynamic Incentive Adjuster)**
+
+目的：急成長によるインセンティブ前借りリスクに対応
+
+メカニズム：
+• 全ネットワークの日次総インセンティブ上限を設定（例：全網放出量の1%）
+• 実参加が速すぎる場合、コントラクトが自動的に放出周期を後ろ倒し
+• 超過分は"緩释プール"へ入り、分割放出してペースを平滑化
+• 短期の吊り上げが生む"インフレ幻想"を防止
+• バイラルの節奏を有効に調整
+
+**4. 出金ペナルティとブラックホール焼却 (Exit Cost Design)**
+
+目的：ユーザーが産出だけして運用コストを負担しないことを防ぐ
+
+メカニズム：
+• 出金のたびにWANTの2%‒5%を焼却
+• WANTの一部はブラックホールアドレスへ永久焼却
+• "流動性が高いほどデフレが強くなる"逆方向フィードバックを形成
+• 産出行動を実コストにバインド
+• 出金自体がシステムデフレの一部となる
+
+**5. インテリジェント監査とAI監視 (AI Sentinel)**
+
+目的：AIアルゴリズムでシステム級リスクと攻撃モデルを識別
+
+• 全ネットワークのアドレス行動グラフを追跡
+• 時間-関係-頻度の3次元グラフでモデリング
+• AIでゾンビネット、循環出金、DID-linkedアービトラージ等を識別
+• AIモデルは継続学習し、DAOガバナンスで段階的に最適化
+• ユーザー資産を直接フリーズできない
+• "リスクアドレス"をマークしインセンティブを遅延させることができる
+
+**リスク制御 = アルゴリズム + 行動 + インセンティブの三位一体**
+
+| モジュール | リスク制御手段 | トリガー方式 | 特徴 |
+|------|---------|---------|------|
+| 行動リスク制御 | 頻度分析 / グラフモデル | 自動検知 | "ボット類似"行動を判定 |
+| インセンティブ制御 | 収益上限/焼傷メカニズム | 算力と連動 | 多段アービトラージを回避 |
+| トークンリスク制御 | 出金焼却/緩释 | 経済行動で駆動 | 引き出すほど希少化 |
+
+**持続可能性設計ロジック：**
+
+WAは"経済持続可能性の3原則"を提示します：
+
+**原則1：システム内のすべての産出は、実燃料から生まれなければならない**
+• "無コスト報酬"は存在しない
+• すべての産出はXANT点火 + WANT維持 + 行動達成が必要
+
+**原則2：システム内のすべての出金は、デフレに影響する**
+• WANT出金時に一部が燃焼
+• "産出→出金→価格崩壊"の無限ループを防止
+
+**原則3：すべての構造にはライフサイクルと"責任バインド"がある**
+• エンジンは維持が必要、エキスパートは安定したチームが必要、各報酬には上限がある
+• 参加 = 責任、永久に楽ができない
+
+**持続可能性：データシミュレーション例**
+
+ある段階で、WA総ユーザー10万人、DAU20%、WANT流通約5,000,000と仮定：
+
+| 指標 | 設計影響 |
+|------|---------|
+| 日次インセンティブ上限 | 50,000 WANT (1%) |
+| 日次焼却量 | 10,000 WANT（出金 + 維持） |
+| 新規ユーザー点火コスト | 約50 USDT（XANT換算） |
+| 流通増加率 | < 産出 × デフレ → 純デフレを実現 |
+| 実買い戻し比率 | 月次USDT収入の約15%が買い戻しへ |
+
+モデルは、成長加速期でも純デフレを維持し、WANTの価格と希少性を支えることを示します。
+
+**小結：WAのリスク制御は"封じ込め"ではなく"システム自己防衛ロジック"**
+
+| リスク制御次元 | 具体手段 | コア目標 |
+|---------|---------|---------|
+| 行動識別 | AI監査/グラフ追跡 | 非実参加行動を遮断 |
+| 報酬制御 | インセンティブ上限/算力バインド | 無限バイラル崩壊を防止 |
+| トークン制御 | 焼却/出金ペナルティ | 流通を抑制しインフレを防止 |
+| インセンティブ平滑 | 緩释 | 短期の爆発的成長に対応 |
+| システム安全 | AI Sentinel監視 | 生態レベルの免疫システムを構築 |
+
+WAは"プロジェクト側の審査"に依存せず、自己整合的な体系で実現します：
+• リスク制御 = プロトコル
+• 監査 = AI
+• 罰則 = デフレ
+
+---
+
+### **ロジック構造まとめ**
+
+AI リアルタイム監査（リスク識別）
+↓
+オンチェーンルール実行（算力バインド/上限/燃焼）
+↓
+ガバナンス基金ヘッジ（資金支え）
+↓
+システム自己均衡（動的パラメータ調整）
+
+それは新しい「ルール自己実行型OS」です。`
+      },
+      {
+        id: 9,
+        title: 'ロードマップと段階的開発計画',
+        icon: 'Map',
+        content: `**WA開発原則：「プロトコル先行、プロダクト後行」**
+
+一般的なWeb3プロジェクトが「まずプロダクトを作り、次にユーザーを探す」のとは異なり、WAは以下の道筋を辿ります：
+プロトコル設計 → コントラクトデプロイ → コミュニティ検証 → エコシステム拡張
+
+**フェーズ1：Foundation（Q1-Q2）**
+• コアコントラクトのデプロイ（Power Engine、Scroll Engine、Tokenコントラクト）
+• 第三者によるセキュリティ監査
+• テストネットローンチとバグバウンティプログラム
+• 初期コミュニティの形成（early builders）
+
+**フェーズ2：Growth（Q3-Q4）**
+• メインネットローンチ
+• 初期ユーザー向けPower Engine活性化
+• Scroll Viralシステムのローンチ
+• ウォレット統合とオン/オフランプ
+
+**フェーズ3：Ecosystem（Q5-Q6）**
+• MiniAppプラットフォームのローンチ
+• サードパーティ開発者のオンボーディング
+• WA決済カードのローンチ
+• 東南アジア・LATAM市場への展開
+
+**フェーズ4：Autonomy（Q7-Q8）**
+• 完全分散型ガバナンスへの移行
+• オンチェーン監視用AI Sentinelのローンチ
+• クロスチェーン統合
+• 「完全自律プロトコル」ステータスの達成
+
+**主要マイルストーン**
+
+| フェーズ | 目標 | 指標 |
+|------|------|------|
+| Foundation | 監査済みコントラクトのデプロイ | 監査レポート + テストネット稼働 |
+| Growth | アクティブユーザー10,000人 | DAU + アクティブエンジン数 |
+| Ecosystem | 50以上のMiniAppデプロイ | 開発者オンボード数 + TVL |
+| Autonomy | 分散型ガバナンス | プロポーザル + 投票活動 |
+
+WAプロトコルは「チームが推進する」のではなく、「プロトコルが適切なタイミングで適切な参加者を引き付ける」ことで発展します。`
+      },
+      {
+        id: 10,
+        title: 'MiniAppエコシステム設計：プライベートドメインのデジタル主権空間',
+        icon: 'Layout',
+        content: `**WAにおけるMiniAppとは？**
+
+MiniAppは単なる「小さなアプリ」ではなく、WAプロトコル上に誰でもデプロイできるオンチェーン機能モジュールであり、ビルダーの「デジタル主権空間」を形成します。
+
+**WA MiniAppの特徴：**
+• WAプロトコルインフラ上で動作
+• Scroll Engineを活用してバイラル可能
+• Power Engineを統合してインセンティブ付与可能
+• ビルダーが完全に所有・管理
+
+**構築可能なMiniAppの種類：**
+
+| カテゴリ | 例 | メリット |
+|------|------|------|
+| コミュニティ | DAOツール、投票、フォーラム | 分散型ガバナンス |
+| コンテンツ | ブログ、動画、コース | オンチェーンコンテンツ収益化 |
+| 取引 | DEX、マーケットプレイス、OTC | エコシステム流動性 |
+| サービス | コンサルティング、フリーランス、SaaS | オンチェーンサービス経済 |
+| ゲーム | Play-to-earn、予測市場 | エンターテイメント + インセンティブ |
+
+**MiniAppビジネスモデル**
+
+1. **サービス料**：ユーザーが機能利用にWANTを支払う
+2. **サブスクリプション**：有料プレミアムアクセス
+3. **レベニューシェア**：WAプロトコルとの収益分配
+4. **コミュニティインセンティブ**：グローバル配当プールからの報酬
+
+**WA MiniApp vs 従来プラットフォーム**
+
+| 側面 | Web2プラットフォーム | WA MiniApp |
+|------|------|------|
+| 所有権 | プラットフォーム | ビルダー |
+| 収益 | プラットフォームが30%以上 | ビルダーが大部分 |
+| ユーザーデータ | プラットフォーム所有 | ユーザー所有（オンチェーン） |
+| 移植性 | プラットフォームにロック | オンチェーンで相互運用可能 |
+| 検閲 | プラットフォームが削除可能 | 検閲不可能 |
+
+MiniAppはWAが「ユーザーのためのインターネット」というビジョンを実現する方法です。`
+      },
+      {
+        id: 11,
+        title: 'チーム構成と背景',
+        icon: 'Users',
+        content: `**WAチームの哲学：「プロトコルはチームより大きい」**
+
+WAプロトコルは特定のチームに依存しないよう設計されています。しかし初期段階では、以下のためにコアチームが必要です：
+• コントラクトの設計と監査
+• 初期インフラの構築
+• ビルダーコミュニティの育成
+• セキュリティと安定性の確保
+
+**コアチーム構成：**
+
+| 部門 | 責任 | 専門性 |
+|------|------|------|
+| Protocol Engineering | スマートコントラクト設計・デプロイ | Solidity、Rust、セキュリティ監査 |
+| Product | UX/UI、ウォレット統合、MiniApp SDK | フロントエンド、モバイル、デザイン |
+| Growth | コミュニティ、パートナーシップ、マーケティング | コミュニティビルディング、BD |
+| Research | トークン経済、ゲーム理論、AI | トークノミクス、データサイエンス |
+| Operations | 法務、コンプライアンス、財務 | 規制、会計 |
+
+**組織原則：**
+
+1. **Progressive decentralization**：コアチームは段階的にコミュニティガバナンスに制御を移譲
+2. **透明性**：すべての重要な決定はフォーラムで公開・議論
+3. **説明責任**：コアチームは長期のベスティングスケジュール
+4. **実力主義**：コミュニティ貢献者がコアコントリビューターに昇格可能
+
+最終目標：WAプロトコルは特定のコアチームへの依存なく完全に運営されること。`
+      },
+      {
+        id: 12,
+        title: '結びに：Web4.0のビジョンと共に築く招待',
+        icon: 'Flag',
+        content: `**WAプロトコルは単なるプロジェクトではなく、デジタル文明の実験です**
+
+私たちは、次世代のインターネットは「誰がデータを所有するか」や「誰がプラットフォームを制御するか」ではなく、以下の問いに答えるものだと信じています：
+
+• システムは人間なしで運営できるか？
+• インセンティブと責任は両立できるか？
+• 搾取なき成長は可能か？
+• 価値は公正に創造・分配できるか？
+
+WAプロトコルは私たちの答えです：**正しいプロトコルを設計すれば、可能です。**
+
+**WAの違い**
+
+| 側面 | 一般的なWeb3プロジェクト | WAプロトコル |
+|------|------|------|
+| 制御 | チーム/DAO | なし（自律プロトコル） |
+| 成長 | マーケティング/エアドロップ | 自動バイラル（scroll） |
+| インセンティブ | トークンインフレ | 実コスト連動の産出 |
+| 持続可能性 | チーム依存 | 自己持続プロトコル |
+| リスク | 手動監査 | AI + プロトコルネイティブ |
+
+**共に築く招待**
+
+WAプロトコルはオープンインフラです。以下の方々を招待します：
+
+1. **ビルダー**：WAプロトコル上にMiniAppを構築
+2. **コミュニティ**：バイラルノードを形成しインセンティブを獲得
+3. **開発者**：オープンソースコードベースに貢献
+4. **研究者**：トークン経済とゲーム理論の研究・発表
+5. **パートナー**：WAエコシステムとサービスを統合
+
+**結びのメッセージ**
+
+Web4.0の時代、私たちはもはや「ユーザーのためのプロダクト」を作るのではなく、「デジタル文明のためのプロトコル」を築いています。
+
+WAプロトコルは、真に自律的で、公正で、持続可能なインターネットへの第一歩です。
+
+私たちと共に。ユーザーとしてではなく、ビルダーとして。
+
+> "The best way to predict the future is to build it." — Alan Kay
+
+WA Protocol: Build the future. Together.`
       }
     ]
   }
 };
-
 
 // 保持原有内容不变，只做视觉效果优化
 // 原文内容保持完整，不做任何修改
