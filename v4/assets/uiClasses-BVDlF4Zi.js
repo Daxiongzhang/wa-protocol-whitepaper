@@ -1,0 +1,1 @@
+const e={pageBase:"min-h-screen bg-[#0a0a0a]",pagePadded:"min-h-screen bg-[#0a0a0a] pt-24 pb-20",container:"container mx-auto px-6",backButton:"group flex items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors duration-200"};export{e as u};
